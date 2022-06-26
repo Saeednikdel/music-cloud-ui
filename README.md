@@ -2,7 +2,7 @@
 
 created with tailwind css, material ui and react js
 
-[Live Demo]()
+[Live Demo](https://music-cloud-ui.vercel.app/)
 
 <br/>
 <p align="center">
