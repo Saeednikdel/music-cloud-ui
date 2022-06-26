@@ -15,7 +15,7 @@ function AppCarousel({ items }) {
         stopAutoPlayOnHover={true}>
         {items.map((item) => (
           <img
-            className=" h-72 w-full object-cover "
+            className=" h-48 md:h-60 xl:h-72 w-full object-cover "
             key={item.title}
             src={item.cover}
           />
