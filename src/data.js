@@ -16,12 +16,6 @@ const data = [
     url: jenny,
   },
   {
-    title: 'feel nice',
-    singer: 'one vibe',
-    cover: cover.c3,
-    url: johnny,
-  },
-  {
     title: 'moon landing',
     singer: 'james blunt',
     cover: cover.c4,
