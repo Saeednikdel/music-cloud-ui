@@ -1,8 +1,9 @@
 import React from 'react';
 import Carousel from 'react-material-ui-carousel';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
+import headers from '../headers';
 
-function AppCarousel({ items }) {
+function AppCarousel() {
   return (
     <div>
       <Carousel
@@ -13,11 +14,11 @@ function AppCarousel({ items }) {
         interval={20000}
         swipe={true}
         stopAutoPlayOnHover={true}>
-        {items.map((item) => (
+        {headers.map((item, i) => (
           <img
             className=" h-48 md:h-60 xl:h-72 w-full object-cover "
-            key={item.title}
-            src={item.cover}
+            key={i}
+            src={item.image}
           />
         ))}
       </Carousel>

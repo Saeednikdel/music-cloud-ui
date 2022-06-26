@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Player from './Player/Player';
 import AppCarousel from './components/AppCarousel';
-import data from './data';
 import Left from './components/LeftMenu';
 import Right from './components/RightMenu';
 import NavBar from './components/NavBar';
@@ -18,7 +17,7 @@ const App = () => {
         </div>
 
         <div className=" col-span-5 md:col-span-3 pt-14 pb-32 h-screen overflow-auto">
-          <AppCarousel items={data} />
+          <AppCarousel />
           <NewsSection />
           <SingerSection />
           <SongSection />
