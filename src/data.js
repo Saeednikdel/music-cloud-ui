@@ -1,4 +1,4 @@
-import * as cover from './cover';
+import * as cover from './assets/cover';
 import dido from './songs/dido.mp3';
 import jenny from './songs/Jenny.mp3';
 import johnny from './songs/johnny.mp3';

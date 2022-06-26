@@ -1,0 +1,12 @@
+export { default as s1 } from './1.jpg';
+export { default as s2 } from './2.jpg';
+export { default as s3 } from './3.jpg';
+export { default as s4 } from './4.jpg';
+export { default as s5 } from './5.jpg';
+export { default as s6 } from './6.jpg';
+export { default as s7 } from './7.jpg';
+export { default as s8 } from './8.jpg';
+export { default as s9 } from './9.jpg';
+export { default as s10 } from './10.jpg';
+export { default as s11 } from './11.jpg';
+export { default as s12 } from './12.jpg';
