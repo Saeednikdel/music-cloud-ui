@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MoonIcon, SunIcon, MenuIcon, XIcon } from '@heroicons/react/solid';
-import logo from '../cover/logo.png';
+import logo from '../assets/cover/logo.png';
 const NavBar = ({ setTheme, checked }) => {
   const menuClass = 'slide-out';
   return (
