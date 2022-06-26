@@ -53,7 +53,7 @@ const PlayerComponent = ({
     }
   };
   return (
-    <div className="py-2 px-4 backdrop-blur-xl backdrop-brightness-50 text-center">
+    <div className="py-2 px-4 md:px-16 xl:px-36 2xl:px-60 backdrop-blur-xl backdrop-brightness-50 text-center">
       <div className="flex space-x-4 items-center">
         <div className="h-20 w-20 flex items-center justify-center">
           <img
