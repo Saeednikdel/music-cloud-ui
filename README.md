@@ -1,8 +1,8 @@
-# Education site Landing Page
+# Music cloud ui
 
-created with tailwind css and react js
+created with tailwind css, material ui and react js
 
-[Live Demo](https://landing-page-tailwind-umber.vercel.app/)
+[Live Demo]()
 
 <br/>
 <p align="center">
