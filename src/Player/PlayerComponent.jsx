@@ -1,14 +1,13 @@
 import React, { useRef } from 'react';
 import {
-  PlayIcon,
-  PauseIcon,
-  FastForwardIcon,
-  RewindIcon,
-  VolumeUpIcon,
-  VolumeOffIcon,
-  PlusIcon,
-  MinusIcon,
-} from '@heroicons/react/solid';
+  PlayArrow,
+  Pause,
+  SkipNext,
+  SkipPrevious,
+  VolumeOff,
+  VolumeUp,
+} from '@mui/icons-material';
+
 const PlayerComponent = ({
   audioElem,
   isplaying,
@@ -17,33 +16,48 @@ const PlayerComponent = ({
   skipBack,
   skiptoNext,
 }) => {
-  const clickRef = useRef();
+  const seekRef = useRef();
+  const volumeRef = useRef();
 
   const PlayPause = () => {
     setisplaying(!isplaying);
   };
 
-  const checkWidth = (e) => {
-    let width = clickRef.current.clientWidth;
+  const seek = (e) => {
+    let width = seekRef.current.clientWidth;
     const offset = e.nativeEvent.offsetX;
     const divprogress = (offset / width) * 100;
     audioElem.current.currentTime = (divprogress / 100) * currentSong.length;
   };
-
-  const volumeUp = () => {
-    if (audioElem.current.volume < 1) audioElem.current.volume += 0.1;
-  };
-  const volumeDown = () => {
-    if (audioElem.current.volume > 0.1) audioElem.current.volume -= 0.1;
+  const volume = (e) => {
+    let width = volumeRef.current.clientWidth;
+    const offset = e.nativeEvent.offsetX;
+    let divvolume = offset / width;
+    if (divvolume > 0.9) {
+      divvolume = 1;
+    }
+    if (divvolume < 0.1) {
+      divvolume = 0;
+      audioElem.current.muted = true;
+    } else if (audioElem.current.muted) {
+      audioElem.current.muted = false;
+    }
+    audioElem.current.volume = divvolume;
   };
   const mute = () => {
-    audioElem.current.muted = !audioElem.current.muted;
+    if (audioElem.current.volume === 0) {
+      audioElem.current.volume = 0.2;
+      audioElem.current.muted = false;
+    } else {
+      audioElem.current.muted = !audioElem.current.muted;
+    }
   };
   return (
-    <div className="py-8 px-6 bg-gradient-to-r from-slate-700 to-slate-800 text-center">
-      <div className="flex space-x-6 items-center">
+    <div className="py-2 px-4 backdrop-blur-xl backdrop-brightness-50 text-center">
+      <div className="flex space-x-4 items-center">
         <div className="h-20 w-20 flex items-center justify-center">
           <img
+            alt="album art"
             onClick={PlayPause}
             src={currentSong.cover}
             className={`rounded shadow-xl transform transition hover:cursor-pointer ${
@@ -52,8 +66,10 @@ const PlayerComponent = ({
           />
         </div>
         <div className="w-full">
-          <p className=" text-lg text-white">{currentSong.title}</p>
-          <p className=" text-base text-gray-400">{currentSong.singer}</p>
+          <p className=" text-base text-white">
+            {currentSong.title + ' - ' + currentSong.singer}
+          </p>
+
           <div className=" flex text-sm text-white justify-between">
             <p>
               {currentSong.ct
@@ -71,68 +87,49 @@ const PlayerComponent = ({
             </p>
           </div>
           <div
-            className=" w-full h-1 flex items-center bg-slate-400 rounded-full hover:cursor-pointer"
-            onClick={checkWidth}
-            ref={clickRef}>
+            className=" w-full h-1 bg-slate-400 rounded-full hover:cursor-pointer"
+            onClick={seek}
+            ref={seekRef}>
             <div
               className="h-full w-0 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full"
               style={{ width: `${currentSong.progress + '%'}` }}></div>
-            <div className="bg-white w-4 h-4 -ml-2 shadow-lg rounded-full"></div>
           </div>
-          <div className="flex justify-between mt-4 text-white">
+          <div className="flex justify-between mt-2 text-white">
             <div className="flex space-x-1">
-              <RewindIcon
-                className="w-10 h-10 hover:cursor-pointer active:text-cyan-400"
+              <SkipPrevious
+                className=" hover:cursor-pointer"
                 onClick={skipBack}
               />
               {isplaying ? (
-                <PauseIcon
-                  className="w-10 h-10 hover:cursor-pointer active:text-cyan-400"
-                  onClick={PlayPause}
-                />
+                <Pause className=" hover:cursor-pointer" onClick={PlayPause} />
               ) : (
-                <PlayIcon
-                  className="w-10 h-10 hover:cursor-pointer active:text-cyan-400"
+                <PlayArrow
+                  className=" hover:cursor-pointer"
                   onClick={PlayPause}
                 />
               )}
-              <FastForwardIcon
-                className="w-10 h-10 hover:cursor-pointer active:text-cyan-400"
+              <SkipNext
+                className=" hover:cursor-pointer"
                 onClick={skiptoNext}
               />
             </div>
-            <div className="flex space-x-1">
-              <p
-                className={`text-2xl ${
-                  audioElem.current && audioElem.current.muted && 'line-through'
-                }`}>
-                {audioElem.current
-                  ? Math.floor(audioElem.current.volume * 100)
-                  : '100'}
-              </p>
-              <PlusIcon
-                className="w-10 h-10 hover:cursor-pointer active:text-cyan-400"
-                onClick={volumeUp}
-              />
-              <MinusIcon
-                className="w-10 h-10 hover:cursor-pointer active:text-cyan-400"
-                onClick={volumeDown}
-              />
-              {audioElem.current && audioElem.current.volume < 0.1 ? (
-                <VolumeOffIcon
-                  className="w-10 h-10 hover:cursor-pointer active:text-cyan-400"
-                  onClick={mute}
-                />
-              ) : audioElem.current && audioElem.current.muted ? (
-                <VolumeOffIcon
-                  className="w-10 h-10 hover:cursor-pointer active:text-cyan-400"
-                  onClick={mute}
-                />
+            <div className="flex space-x-1 justify-center items-center">
+              <div
+                className=" w-24 h-1 bg-slate-400 rounded-full hover:cursor-pointer"
+                onClick={volume}
+                ref={volumeRef}>
+                <div
+                  className="h-full w-0 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full"
+                  style={{
+                    width: `${
+                      audioElem.current && audioElem.current.volume * 100 + '%'
+                    }`,
+                  }}></div>
+              </div>
+              {audioElem.current && audioElem.current.muted ? (
+                <VolumeUp className=" hover:cursor-pointer" onClick={mute} />
               ) : (
-                <VolumeUpIcon
-                  className="w-10 h-10 hover:cursor-pointer active:text-cyan-400"
-                  onClick={mute}
-                />
+                <VolumeOff className=" hover:cursor-pointer" onClick={mute} />
               )}
             </div>
           </div>

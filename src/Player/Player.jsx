@@ -1,6 +1,6 @@
-import { useRef, useState, useEffect } from 'react';
-import PlayerComponent from './PlayerComponent';
-import data from '../data';
+import { useRef, useState, useEffect } from "react";
+import PlayerComponent from "./PlayerComponent";
+import data from "../data";
 
 const Player = () => {
   const [songs, setSongs] = useState(data);
@@ -51,7 +51,7 @@ const Player = () => {
     }
   };
   return (
-    <div className="App">
+    <div className="fixed top-auto bottom-0 z-50 w-full">
       <audio
         autoPlay
         src={currentSong.url}
