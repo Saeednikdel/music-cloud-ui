@@ -98,7 +98,7 @@ const App = () => {
           <Left />
         </div>
 
-        <div className=" col-span-5 md:col-span-3 pt-14 pb-32 h-screen overflow-auto bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200">
+        <div className=" col-span-5 md:col-span-3 pt-14 h-screen overflow-auto bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200">
           {fullPlayer ? (
             <PlayerFull
               songs={songs}
