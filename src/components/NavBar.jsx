@@ -1,7 +1,17 @@
-import { MoonIcon, SunIcon, MenuIcon, XIcon } from '@heroicons/react/solid';
+import React, { useState } from 'react';
+import { Menu, Close, Brightness3, Brightness7 } from '@mui/icons-material';
+
+import LeftSlide from './LeftSlide';
 import logo from '../assets/cover/logo.png';
 const NavBar = ({ setTheme, checked }) => {
-  const menuClass = 'slide-out';
+  const [menuClass, setMenuClass] = useState('hidden');
+  const openMenu = () => {
+    if (menuClass != 'slide-in') {
+      setMenuClass('slide-in');
+    } else {
+      setMenuClass('slide-out');
+    }
+  };
   return (
     <nav className="backdrop-blur-2xl  backdrop-brightness-200 dark:backdrop-brightness-50 shadow-sm border-1 px-2 sm:px-4 py-2.5 fixed top-0 left-0 right-0 bottom-auto z-10 text-gray-800 dark:text-gray-300">
       <div className="container flex flex-wrap flex-row-reverse justify-between items-center mx-auto">
@@ -19,20 +29,15 @@ const NavBar = ({ setTheme, checked }) => {
             type="button"
             className="mx-2 hover:cursor-pointer rounded-xl border p-1 border-gray-600"
             onClick={setTheme}>
-            {checked ? (
-              <SunIcon className="h-6 w-6 active:animate-spin" />
-            ) : (
-              <MoonIcon className="h-6 w-6 active:animate-spin" />
-            )}
+            {checked ? <Brightness7 /> : <Brightness3 />}
           </button>
         </div>
         <div className="flex md:order-2  items-center">
-          <button type="button" className=" md:hidden hover:cursor-pointer">
-            {menuClass === 'slide-in' ? (
-              <XIcon className="h-8 w-8 active:animate-spin" />
-            ) : (
-              <MenuIcon className="h-8 w-8 active:animate-spin" />
-            )}
+          <button
+            onClick={openMenu}
+            type="button"
+            className=" md:hidden hover:cursor-pointer">
+            {menuClass === 'slide-in' ? <Close /> : <Menu />}
           </button>
           <a href="/">
             <img
@@ -43,6 +48,7 @@ const NavBar = ({ setTheme, checked }) => {
           </a>
         </div>
       </div>
+      <LeftSlide menuClass={menuClass} openMenu={openMenu} />
     </nav>
   );
 };
