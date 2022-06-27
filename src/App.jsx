@@ -3,7 +3,7 @@ import AppCarousel from './components/AppCarousel';
 import Left from './components/LeftMenu';
 import Right from './components/RightMenu';
 import NavBar from './components/NavBar';
-import NewsSection from './components/NewsSection';
+import GenreSection from './components/GenreSection';
 import SingerSection from './components/SingerSection';
 import SongSection from './components/SongSection';
 import PlayerComponent from './Player/PlayerComponent';
@@ -115,7 +115,7 @@ const App = () => {
           ) : (
             <>
               <AppCarousel />
-              <NewsSection />
+              <GenreSection />
               <SingerSection />
               <SongSection skip={skip} />
             </>

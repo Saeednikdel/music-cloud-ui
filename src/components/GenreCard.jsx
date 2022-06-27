@@ -1,21 +1,20 @@
 import React from 'react';
 
-const NewCard = ({ item }) => {
+const GenreCard = ({ item }) => {
   return (
-    <div className="inline-block ">
+    <div className="inline-block hover:cursor-pointer">
       <div className="rounded-lg overflow-hidden text-white w-40 h-44 block shadow-lg">
         <img
           alt="album art"
           className=" h-full w-full object-cover"
-          src={item.cover}
+          src={item.image}
         />
-        <div className=" backdrop-blur-md -mt-14 py-1 px-2">
+        <div className=" backdrop-blur-md -mt-10 py-2 px-4 capitalize font-bold">
           <h1>{item.title}</h1>
-          <h1>{item.singer}</h1>
         </div>
       </div>
     </div>
   );
 };
 
-export default NewCard;
+export default GenreCard;
