@@ -10,7 +10,9 @@ const RightMenu = ({}) => {
         Now Playing
       </h1>
       {data.map((item, i) => (
-        <a className="hover:bg-gray-300 dark:hover:bg-gray-700  flex hover:cursor-pointer px-2">
+        <a
+          key={i}
+          className="hover:bg-gray-300 dark:hover:bg-gray-700  flex hover:cursor-pointer px-2">
           <img className="w-10 h-10 object-cover" src={item.cover} />
           <div className={`text-xs px-2 ${i == 1 && 'text-blue-600'}`}>
             <h2>{item.title}</h2>

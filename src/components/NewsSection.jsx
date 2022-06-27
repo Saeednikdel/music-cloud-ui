@@ -4,8 +4,8 @@ import data from '../data';
 const NewsSection = () => {
   return (
     <div className="overflow-auto whitespace-nowrap p-4 space-x-4">
-      {data.map((item) => (
-        <NewCard key={DataTransferItemList.title} item={item} />
+      {data.map((item, i) => (
+        <NewCard key={i} item={item} />
       ))}
     </div>
   );
