@@ -96,27 +96,20 @@ const PlayerComponent = ({
               style={{ width: `${currentSong.progress + '%'}` }}></div>
           </div>
           <div className="flex justify-between mt-2 ">
-            <div className="flex space-x-1">
+            <div className="flex space-x-4">
               <SkipPrevious
-                fontSize="large"
                 className=" hover:cursor-pointer"
                 onClick={skipBack}
               />
               {isplaying ? (
-                <Pause
-                  fontSize="large"
-                  className=" hover:cursor-pointer"
-                  onClick={PlayPause}
-                />
+                <Pause className=" hover:cursor-pointer" onClick={PlayPause} />
               ) : (
                 <PlayArrow
-                  fontSize="large"
                   className=" hover:cursor-pointer"
                   onClick={PlayPause}
                 />
               )}
               <SkipNext
-                fontSize="large"
                 className=" hover:cursor-pointer"
                 onClick={skiptoNext}
               />
@@ -135,17 +128,9 @@ const PlayerComponent = ({
                   }}></div>
               </div>
               {audioElem.current && audioElem.current.muted ? (
-                <VolumeUp
-                  fontSize="large"
-                  className=" hover:cursor-pointer"
-                  onClick={mute}
-                />
+                <VolumeUp className=" hover:cursor-pointer" onClick={mute} />
               ) : (
-                <VolumeOff
-                  fontSize="large"
-                  className=" hover:cursor-pointer"
-                  onClick={mute}
-                />
+                <VolumeOff className=" hover:cursor-pointer" onClick={mute} />
               )}
             </div>
           </div>
