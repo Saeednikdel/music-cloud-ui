@@ -2,8 +2,8 @@ import React from 'react';
 
 const GenreCard = ({ item }) => {
   return (
-    <div className="inline-block hover:cursor-pointer">
-      <div className="rounded-lg overflow-hidden text-white w-40 h-44 block shadow-lg">
+    <div className="inline-block hover:cursor-pointer shadow-lg">
+      <div className="rounded-lg overflow-hidden text-white w-40 h-44 block">
         <img
           alt="album art"
           className=" h-full w-full object-cover"
