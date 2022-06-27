@@ -17,7 +17,7 @@ const NavBar = ({ setTheme, checked }) => {
             <div className="flex space-x-1">
               <input
                 type="text"
-                className="flex-1 rounded-full border border-gray-700 dark:border-gray-300 bg-transparent placeholder:text-gray-600 dark:placeholder:text-gray-400 px-4 focus:outline-none"
+                className="flex-1 rounded-full border border-gray-700 dark:border-gray-300 bg-transparent placeholder:text-gray-600 dark:placeholder:text-gray-400 px-4 focus:outline-none w-36 sm:w-auto"
                 placeholder="Search"
               />
               <SearchIcon className="h-6 w-6 hover:cursor-pointer" />
