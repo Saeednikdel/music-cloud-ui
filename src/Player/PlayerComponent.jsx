@@ -53,7 +53,7 @@ const PlayerComponent = ({
     }
   };
   return (
-    <div className="py-2 px-4 md:px-16 xl:px-36 2xl:px-60 backdrop-blur-xl backdrop-brightness-50 text-center">
+    <div className="py-2 px-4 md:px-16 xl:px-36 2xl:px-60 backdrop-blur-2xl  backdrop-brightness-150 dark:backdrop-brightness-50 shadow-sm border-1 text-center text-gray-900 dark:text-gray-300">
       <div className="flex space-x-4 items-center">
         <div className="h-20 w-20 flex items-center justify-center">
           <img
@@ -66,11 +66,11 @@ const PlayerComponent = ({
           />
         </div>
         <div className="w-full">
-          <p className=" text-base text-white">
+          <p className=" font-bold">
             {currentSong.title + ' - ' + currentSong.singer}
           </p>
 
-          <div className=" flex text-sm text-white justify-between">
+          <div className=" flex text-sm  justify-between">
             <p>
               {currentSong.ct
                 ? Math.floor(currentSong.ct / 60) +
@@ -87,14 +87,14 @@ const PlayerComponent = ({
             </p>
           </div>
           <div
-            className=" w-full h-1 bg-slate-400 rounded-full hover:cursor-pointer"
+            className=" w-full h-1 bg-slate-300 dark:bg-slate-500 rounded-full hover:cursor-pointer"
             onClick={seek}
             ref={seekRef}>
             <div
               className="h-full w-0 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full"
               style={{ width: `${currentSong.progress + '%'}` }}></div>
           </div>
-          <div className="flex justify-between mt-2 text-white">
+          <div className="flex justify-between mt-2 ">
             <div className="flex space-x-1">
               <SkipPrevious
                 className=" hover:cursor-pointer"
@@ -115,7 +115,7 @@ const PlayerComponent = ({
             </div>
             <div className="flex space-x-1 justify-center items-center">
               <div
-                className=" w-24 h-1 bg-slate-400 rounded-full hover:cursor-pointer"
+                className=" w-24 h-1 bg-slate-300 dark:bg-slate-500 rounded-full hover:cursor-pointer"
                 onClick={volume}
                 ref={volumeRef}>
                 <div

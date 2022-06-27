@@ -3,7 +3,7 @@ import React from 'react';
 const NewCard = ({ item }) => {
   return (
     <div className="inline-block ">
-      <div className=" bg-slate-900 rounded-lg overflow-hidden text-white w-40 h-44 block ">
+      <div className="rounded-lg overflow-hidden text-white w-40 h-44 block shadow-lg">
         <img
           alt="album art"
           className=" h-full w-full object-cover"
