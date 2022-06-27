@@ -1,15 +1,35 @@
 import React, { useState } from 'react';
-import { Menu, Close, Brightness3, Brightness7 } from '@mui/icons-material';
-
+import {
+  Menu,
+  Close,
+  Brightness3,
+  Brightness7,
+  QueueMusicOutlined,
+} from '@mui/icons-material';
+import RightSlide from './RightSlide';
 import LeftSlide from './LeftSlide';
 import logo from '../assets/cover/logo.png';
-const NavBar = ({ setTheme, checked }) => {
-  const [menuClass, setMenuClass] = useState('hidden');
-  const openMenu = () => {
-    if (menuClass != 'slide-in') {
-      setMenuClass('slide-in');
+const NavBar = ({ setTheme, checked, index, skip }) => {
+  const [leftClass, setLeftClass] = useState('hidden');
+  const [rightClass, setRightClass] = useState('hidden');
+  const openLeftMenu = () => {
+    if (leftClass !== 'slide-in') {
+      setLeftClass('slide-in');
+      if (rightClass === 'slide-in-right') {
+        setRightClass('slide-out-right');
+      }
     } else {
-      setMenuClass('slide-out');
+      setLeftClass('slide-out');
+    }
+  };
+  const openRightMenu = () => {
+    if (rightClass !== 'slide-in-right') {
+      setRightClass('slide-in-right');
+      if (leftClass === 'slide-in') {
+        setLeftClass('slide-out');
+      }
+    } else {
+      setRightClass('slide-out-right');
     }
   };
   return (
@@ -31,24 +51,40 @@ const NavBar = ({ setTheme, checked }) => {
             onClick={setTheme}>
             {checked ? <Brightness7 /> : <Brightness3 />}
           </button>
+          <button
+            type="button"
+            className=" md:hidden hover:cursor-pointer"
+            onClick={openRightMenu}>
+            {rightClass === 'slide-in-right' ? (
+              <Close />
+            ) : (
+              <QueueMusicOutlined />
+            )}
+          </button>
         </div>
         <div className="flex md:order-2  items-center">
           <button
-            onClick={openMenu}
+            onClick={openLeftMenu}
             type="button"
             className=" md:hidden hover:cursor-pointer">
-            {menuClass === 'slide-in' ? <Close /> : <Menu />}
+            {leftClass === 'slide-in' ? <Close /> : <Menu />}
           </button>
           <a href="/">
             <img
               src={logo}
-              className=" mx-3 h-9 bg-slate-800 rounded-full"
+              className=" mx-3 h-7 bg-slate-800 rounded-full"
               alt="Logo"
             />
           </a>
         </div>
       </div>
-      <LeftSlide menuClass={menuClass} openMenu={openMenu} />
+      <LeftSlide leftClass={leftClass} openLeftMenu={openLeftMenu} />
+      <RightSlide
+        rightClass={rightClass}
+        openRightMenu={openRightMenu}
+        index={index}
+        skip={skip}
+      />
     </nav>
   );
 };

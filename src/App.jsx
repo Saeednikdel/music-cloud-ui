@@ -15,11 +15,13 @@ const App = () => {
   const [songs, setSongs] = useState(data);
   const [fullPlayer, setFullPlayer] = useState(false);
   const [isplaying, setisplaying] = useState(false);
+  const [isplayerOpen, setisplayerOpen] = useState(false);
   const [currentSong, setCurrentSong] = useState(data[0]);
   const audioElem = useRef();
 
   useEffect(() => {
     if (isplaying) {
+      !isplayerOpen && setisplayerOpen(true);
       audioElem.current.play();
     } else {
       audioElem.current.pause();
@@ -65,6 +67,7 @@ const App = () => {
     }
   };
   const skip = (i) => {
+    !isplayerOpen && setisplayerOpen(true);
     if (index === i) {
       setFullPlayer(true);
     } else {
@@ -85,7 +88,12 @@ const App = () => {
   };
   return (
     <div className={`min-h-screen px-auto ${theme}`}>
-      <NavBar setTheme={handleTheme} checked={theme === 'dark'} />
+      <NavBar
+        setTheme={handleTheme}
+        checked={theme === 'dark'}
+        index={index}
+        skip={skip}
+      />
       <audio
         autoPlay
         src={currentSong.url}
@@ -125,7 +133,7 @@ const App = () => {
           <Right index={index} skip={skip} />
         </div>
       </div>
-      {!fullPlayer && (
+      {!fullPlayer && isplayerOpen && (
         <div className="fixed top-auto bottom-0 z-50 w-full">
           <PlayerComponent
             songs={songs}

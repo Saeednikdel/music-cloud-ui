@@ -1,11 +1,11 @@
 import React from 'react';
 import { Album, Person, List, Favorite, MusicNote } from '@mui/icons-material';
 
-const LeftSlide = ({ menuClass, openMenu }) => {
+const LeftSlide = ({ leftClass, openLeftMenu }) => {
   return (
     <div
       id="slider"
-      className={`absolute md:hidden flex flex-col w-2/3 h-screen mt-2 pt-10 space-y-1 text-lg font-semibold left-0 bg-white dark:bg-slate-900 text-gray-800 dark:text-gray-200 ${menuClass}`}>
+      className={`absolute md:hidden flex flex-col w-2/3 h-screen mt-2 pt-10 space-y-1 text-lg font-semibold left-0 bg-white dark:bg-slate-900 text-gray-800 dark:text-gray-200 ${leftClass}`}>
       <a className="hover:bg-gray-300 dark:hover:bg-gray-700 rounded-l-full flex px-1 py-2 hover:cursor-pointer ml-4">
         <Album className="mx-4" />
         Album
