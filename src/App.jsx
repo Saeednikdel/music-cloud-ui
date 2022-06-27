@@ -65,9 +65,13 @@ const App = () => {
     }
   };
   const skip = (i) => {
-    setIndex(i);
-    setCurrentSong(songs[i]);
-    audioElem.current.currentTime = 0;
+    if (index === i) {
+      setFullPlayer(true);
+    } else {
+      setIndex(i);
+      setCurrentSong(songs[i]);
+      audioElem.current.currentTime = 0;
+    }
     if (!isplaying) {
       setisplaying(true);
     }
