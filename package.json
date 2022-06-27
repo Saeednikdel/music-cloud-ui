@@ -3,8 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@headlessui/react": "^1.6.5",
-    "@heroicons/react": "^1.0.6",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.5",
     "@mui/styles": "^5.8.4",
