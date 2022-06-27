@@ -10,7 +10,7 @@ const NavBar = ({ setTheme, checked }) => {
             <div className="flex space-x-1">
               <input
                 type="text"
-                className="flex-1 rounded-full border border-gray-700 dark:border-gray-300 bg-transparent placeholder:text-gray-600 dark:placeholder:text-gray-400 px-4 focus:outline-none w-44 sm:w-auto"
+                className="flex-1 h-8 rounded-full border border-gray-600 dark:border-gray-300 bg-transparent placeholder:text-gray-600 dark:placeholder:text-gray-400 px-4 focus:outline-none w-44 sm:w-auto"
                 placeholder="Search"
               />
             </div>

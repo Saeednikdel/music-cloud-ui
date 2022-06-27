@@ -6,9 +6,10 @@ import {
   SkipPrevious,
   VolumeOff,
   VolumeUp,
+  ArrowBack,
 } from '@mui/icons-material';
 
-const PlayerComponent = ({
+const PlayerFull = ({
   audioElem,
   isplaying,
   setisplaying,
@@ -54,24 +55,29 @@ const PlayerComponent = ({
     }
   };
   return (
-    <div className="py-2 px-4 md:px-16 xl:px-36 2xl:px-60 backdrop-blur-2xl  backdrop-brightness-200 dark:backdrop-brightness-50 shadow-sm border-1 text-center text-gray-900 dark:text-gray-300">
+    <div className="py-2 px-4 md:px-16 xl:px-36 2xl:px-60 space-y-6 text-gray-900 dark:text-gray-300">
+      <ArrowBack
+        fontSize="large"
+        className=" hover:cursor-pointer"
+        onClick={() => setFullPlayer(false)}
+      />
+      <div className="h-60 w-60 md:w-96 md:h-96 flex items-center justify-center mx-auto">
+        <img
+          alt="album art"
+          onClick={PlayPause}
+          src={currentSong.cover}
+          className={`rounded-xl shadow-xl transform transition hover:cursor-pointer ${
+            !isplaying ? 'grayscale scale-90' : 'scale-1'
+          }`}
+        />
+      </div>
       <div className="flex space-x-4 items-center">
-        <div className="h-20 w-20 flex items-center justify-center">
-          <img
-            alt="album art"
-            onClick={() => setFullPlayer(true)}
-            src={currentSong.cover}
-            className={`rounded shadow-xl transform transition hover:cursor-pointer ${
-              !isplaying ? 'grayscale scale-90' : 'scale-1'
-            }`}
-          />
-        </div>
-        <div className="w-full">
-          <p className=" font-bold">
+        <div className="w-full text-center">
+          <p className=" font-bold text-xl">
             {currentSong.title + ' - ' + currentSong.singer}
           </p>
 
-          <div className=" flex text-sm  justify-between">
+          <div className="flex justify-between">
             <p>
               {currentSong.ct
                 ? Math.floor(currentSong.ct / 60) +
@@ -155,4 +161,4 @@ const PlayerComponent = ({
   );
 };
 
-export default PlayerComponent;
+export default PlayerFull;

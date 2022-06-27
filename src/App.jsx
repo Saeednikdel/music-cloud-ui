@@ -7,11 +7,13 @@ import NewsSection from './components/NewsSection';
 import SingerSection from './components/SingerSection';
 import SongSection from './components/SongSection';
 import PlayerComponent from './Player/PlayerComponent';
+import PlayerFull from './Player/PlayerFull';
 import data from './data';
 const App = () => {
   const [theme, setTheme] = useState('dark');
   const [index, setIndex] = useState(0);
   const [songs, setSongs] = useState(data);
+  const [fullPlayer, setFullPlayer] = useState(false);
   const [isplaying, setisplaying] = useState(false);
   const [currentSong, setCurrentSong] = useState(data[0]);
   const audioElem = useRef();
@@ -80,41 +82,61 @@ const App = () => {
   return (
     <div className={`min-h-screen px-auto ${theme}`}>
       <NavBar setTheme={handleTheme} checked={theme === 'dark'} />
+      <audio
+        autoPlay
+        src={currentSong.url}
+        ref={audioElem}
+        onTimeUpdate={onPlaying}
+        onEnded={skiptoNext}
+      />
       <div className="grid grid-cols-5">
         <div className="hidden md:block md:col-span-1">
           <Left />
         </div>
 
         <div className=" col-span-5 md:col-span-3 pt-14 pb-32 h-screen overflow-auto bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200">
-          <AppCarousel />
-          <NewsSection />
-          <SingerSection />
-          <SongSection skip={skip} />
+          {fullPlayer ? (
+            <PlayerFull
+              songs={songs}
+              setSongs={setSongs}
+              skipBack={skipBack}
+              skiptoNext={skiptoNext}
+              isplaying={isplaying}
+              setisplaying={setisplaying}
+              audioElem={audioElem}
+              currentSong={currentSong}
+              setCurrentSong={setCurrentSong}
+              setFullPlayer={setFullPlayer}
+            />
+          ) : (
+            <>
+              <AppCarousel />
+              <NewsSection />
+              <SingerSection />
+              <SongSection skip={skip} />
+            </>
+          )}
         </div>
         <div className="hidden md:block  md:col-span-1">
           <Right index={index} skip={skip} />
         </div>
       </div>
-      <div className="fixed top-auto bottom-0 z-50 w-full">
-        <audio
-          autoPlay
-          src={currentSong.url}
-          ref={audioElem}
-          onTimeUpdate={onPlaying}
-          onEnded={skiptoNext}
-        />
-        <PlayerComponent
-          songs={songs}
-          setSongs={setSongs}
-          skipBack={skipBack}
-          skiptoNext={skiptoNext}
-          isplaying={isplaying}
-          setisplaying={setisplaying}
-          audioElem={audioElem}
-          currentSong={currentSong}
-          setCurrentSong={setCurrentSong}
-        />
-      </div>
+      {!fullPlayer && (
+        <div className="fixed top-auto bottom-0 z-50 w-full">
+          <PlayerComponent
+            songs={songs}
+            setSongs={setSongs}
+            skipBack={skipBack}
+            skiptoNext={skiptoNext}
+            isplaying={isplaying}
+            setisplaying={setisplaying}
+            audioElem={audioElem}
+            currentSong={currentSong}
+            setCurrentSong={setCurrentSong}
+            setFullPlayer={setFullPlayer}
+          />
+        </div>
+      )}
     </div>
   );
 };
