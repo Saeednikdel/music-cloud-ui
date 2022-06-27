@@ -101,61 +101,59 @@ const PlayerFull = ({
               className="h-full w-0 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full"
               style={{ width: `${currentSong.progress + '%'}` }}></div>
           </div>
-          <div className="flex justify-between mt-2 ">
-            <div className="flex space-x-1">
-              <SkipPrevious
-                fontSize="large"
-                className=" hover:cursor-pointer"
-                onClick={skipBack}
-              />
-              {isplaying ? (
-                <Pause
-                  fontSize="large"
-                  className=" hover:cursor-pointer"
-                  onClick={PlayPause}
-                />
-              ) : (
-                <PlayArrow
-                  fontSize="large"
-                  className=" hover:cursor-pointer"
-                  onClick={PlayPause}
-                />
-              )}
-              <SkipNext
-                fontSize="large"
-                className=" hover:cursor-pointer"
-                onClick={skiptoNext}
-              />
-            </div>
-            <div className="flex space-x-1 justify-center items-center">
-              <div
-                className=" w-24 h-1 bg-slate-300 dark:bg-slate-500 rounded-full hover:cursor-pointer"
-                onClick={volume}
-                ref={volumeRef}>
-                <div
-                  className="h-full w-0 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full"
-                  style={{
-                    width: `${
-                      audioElem.current && audioElem.current.volume * 100 + '%'
-                    }`,
-                  }}></div>
-              </div>
-              {audioElem.current && audioElem.current.muted ? (
-                <VolumeUp
-                  fontSize="large"
-                  className=" hover:cursor-pointer"
-                  onClick={mute}
-                />
-              ) : (
-                <VolumeOff
-                  fontSize="large"
-                  className=" hover:cursor-pointer"
-                  onClick={mute}
-                />
-              )}
-            </div>
-          </div>
         </div>
+      </div>
+      <div className="flex justify-center space-x-12">
+        <SkipPrevious
+          fontSize="large"
+          className=" hover:cursor-pointer"
+          onClick={skipBack}
+        />
+        {isplaying ? (
+          <Pause
+            fontSize="large"
+            className=" hover:cursor-pointer"
+            onClick={PlayPause}
+          />
+        ) : (
+          <PlayArrow
+            fontSize="large"
+            className=" hover:cursor-pointer"
+            onClick={PlayPause}
+          />
+        )}
+        <SkipNext
+          fontSize="large"
+          className=" hover:cursor-pointer"
+          onClick={skiptoNext}
+        />
+      </div>
+      <div className="flex space-x-4 justify-end items-center">
+        <div
+          className=" w-28 h-1 bg-slate-300 dark:bg-slate-500 rounded-full hover:cursor-pointer"
+          onClick={volume}
+          ref={volumeRef}>
+          <div
+            className="h-full w-0 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full"
+            style={{
+              width: `${
+                audioElem.current && audioElem.current.volume * 100 + '%'
+              }`,
+            }}></div>
+        </div>
+        {audioElem.current && audioElem.current.muted ? (
+          <VolumeUp
+            fontSize="large"
+            className=" hover:cursor-pointer"
+            onClick={mute}
+          />
+        ) : (
+          <VolumeOff
+            fontSize="large"
+            className=" hover:cursor-pointer"
+            onClick={mute}
+          />
+        )}
       </div>
     </div>
   );
