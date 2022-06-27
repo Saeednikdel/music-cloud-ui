@@ -1,8 +1,8 @@
 import React from 'react';
 
-const SongCard = ({ item }) => {
+const SongCard = ({ item, skip, i }) => {
   return (
-    <div className="inline-block ">
+    <div onClick={() => skip(i)} className="inline-block hover:cursor-pointer">
       <div className=" bg-white dark:bg-slate-900 text-gray-800 dark:text-gray-200 shadow-lg rounded-lg overflow-hidden w-40 block mx-auto">
         <img
           alt="album art"

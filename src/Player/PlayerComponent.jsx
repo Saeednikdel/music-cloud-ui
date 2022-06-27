@@ -53,7 +53,7 @@ const PlayerComponent = ({
     }
   };
   return (
-    <div className="py-2 px-4 md:px-16 xl:px-36 2xl:px-60 backdrop-blur-2xl  backdrop-brightness-150 dark:backdrop-brightness-50 shadow-sm border-1 text-center text-gray-900 dark:text-gray-300">
+    <div className="py-2 px-4 md:px-16 xl:px-36 2xl:px-60 backdrop-blur-2xl  backdrop-brightness-200 dark:backdrop-brightness-50 shadow-sm border-1 text-center text-gray-900 dark:text-gray-300">
       <div className="flex space-x-4 items-center">
         <div className="h-20 w-20 flex items-center justify-center">
           <img
@@ -97,18 +97,25 @@ const PlayerComponent = ({
           <div className="flex justify-between mt-2 ">
             <div className="flex space-x-1">
               <SkipPrevious
+                fontSize="large"
                 className=" hover:cursor-pointer"
                 onClick={skipBack}
               />
               {isplaying ? (
-                <Pause className=" hover:cursor-pointer" onClick={PlayPause} />
+                <Pause
+                  fontSize="large"
+                  className=" hover:cursor-pointer"
+                  onClick={PlayPause}
+                />
               ) : (
                 <PlayArrow
+                  fontSize="large"
                   className=" hover:cursor-pointer"
                   onClick={PlayPause}
                 />
               )}
               <SkipNext
+                fontSize="large"
                 className=" hover:cursor-pointer"
                 onClick={skiptoNext}
               />
@@ -127,9 +134,17 @@ const PlayerComponent = ({
                   }}></div>
               </div>
               {audioElem.current && audioElem.current.muted ? (
-                <VolumeUp className=" hover:cursor-pointer" onClick={mute} />
+                <VolumeUp
+                  fontSize="large"
+                  className=" hover:cursor-pointer"
+                  onClick={mute}
+                />
               ) : (
-                <VolumeOff className=" hover:cursor-pointer" onClick={mute} />
+                <VolumeOff
+                  fontSize="large"
+                  className=" hover:cursor-pointer"
+                  onClick={mute}
+                />
               )}
             </div>
           </div>
