@@ -54,7 +54,7 @@ const NavBar = ({ setTheme, checked, index, skip }) => {
             {checked ? <Brightness7 /> : <Brightness3 />}
           </button>
           <OutsideClickHandler
-            disabled={rightClass === 'slide-out-right'}
+            disabled={rightClass !== 'slide-in-right'}
             onOutsideClick={openRightMenu}>
             <button
               type="button"
@@ -76,7 +76,7 @@ const NavBar = ({ setTheme, checked, index, skip }) => {
         </div>
         <div className="flex md:order-2  items-center">
           <OutsideClickHandler
-            disabled={leftClass === 'slide-out'}
+            disabled={leftClass !== 'slide-in'}
             onOutsideClick={openLeftMenu}>
             <button
               onClick={openLeftMenu}
