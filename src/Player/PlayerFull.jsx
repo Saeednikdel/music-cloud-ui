@@ -7,6 +7,7 @@ import {
   VolumeOff,
   VolumeUp,
   ArrowBack,
+  VolumeDown,
 } from '@mui/icons-material';
 
 const PlayerFull = ({
@@ -21,6 +22,7 @@ const PlayerFull = ({
   const seekRef = useRef();
   const volumeRef = useRef();
   const [flip, setFlip] = useState('');
+  const [showVolume, setShowVolume] = useState(false);
 
   const PlayPause = () => {
     setisplaying(!isplaying);
@@ -72,8 +74,8 @@ const PlayerFull = ({
       <div
         onClick={rotate}
         className="flip-card h-60 w-60 md:w-96 md:h-96 flex hover:cursor-pointer overflow-auto items-center justify-center mx-auto">
-        <div class={`flip-card-inner ${flip}`}>
-          <div class="flip-card-front">
+        <div className={`flip-card-inner ${flip}`}>
+          <div className="flip-card-front">
             <img
               alt="album art"
               src={currentSong.cover}
@@ -82,7 +84,7 @@ const PlayerFull = ({
               }`}
             />
           </div>
-          <div class="flip-card-back text-lg">
+          <div className="flip-card-back text-lg">
             <p dangerouslySetInnerHTML={{ __html: currentSong.lyrics }} />
           </div>
         </div>
@@ -144,32 +146,47 @@ const PlayerFull = ({
           onClick={skiptoNext}
         />
       </div>
-      <div className="flex space-x-4 justify-end items-center">
-        <div
-          className=" w-28 h-1 bg-slate-300 dark:bg-slate-500 rounded-full hover:cursor-pointer"
-          onClick={volume}
-          ref={volumeRef}>
+      <div className=" flex justify-end">
+        <div className=" relative inline-block">
+          <VolumeDown
+            fontSize="large"
+            className=" hover:cursor-pointer"
+            onClick={() => setShowVolume(!showVolume)}
+          />
           <div
-            className="h-full w-0 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full"
-            style={{
-              width: `${
-                audioElem.current && audioElem.current.volume * 100 + '%'
-              }`,
-            }}></div>
+            className={`${
+              showVolume ? 'block' : 'hidden'
+            } absolute bg-white dark:bg-slate-900 border bottom-8 right-0 border-gray-300 dark:border-gray-600 mb-2 p-3 rounded-lg z-10 bo`}>
+            <div className="flex space-x-4 justify-end items-center">
+              <div
+                className=" w-28 h-1 bg-slate-300 dark:bg-slate-500 rounded-full hover:cursor-pointer"
+                onClick={volume}
+                ref={volumeRef}>
+                <div
+                  className="h-full w-0 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full"
+                  style={{
+                    width: `${
+                      audioElem.current && audioElem.current.volume * 100 + '%'
+                    }`,
+                  }}></div>
+              </div>
+
+              {audioElem.current && audioElem.current.muted ? (
+                <VolumeUp
+                  fontSize="large"
+                  className=" hover:cursor-pointer"
+                  onClick={mute}
+                />
+              ) : (
+                <VolumeOff
+                  fontSize="large"
+                  className=" hover:cursor-pointer"
+                  onClick={mute}
+                />
+              )}
+            </div>
+          </div>
         </div>
-        {audioElem.current && audioElem.current.muted ? (
-          <VolumeUp
-            fontSize="large"
-            className=" hover:cursor-pointer"
-            onClick={mute}
-          />
-        ) : (
-          <VolumeOff
-            fontSize="large"
-            className=" hover:cursor-pointer"
-            onClick={mute}
-          />
-        )}
       </div>
     </div>
   );
