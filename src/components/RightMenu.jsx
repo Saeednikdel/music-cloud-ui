@@ -16,10 +16,10 @@ const RightMenu = ({ index, skip }) => {
           className="hover:bg-gray-300 dark:hover:bg-gray-700  flex hover:cursor-pointer px-2">
           <img
             alt={item.title}
-            className="w-10 h-10 object-cover"
+            className="w-16 h-16 object-cover"
             src={item.cover}
           />
-          <div className={`text-xs px-2 ${i === index && 'text-blue-600'}`}>
+          <div className={`text-base px-2 ${i === index && 'text-blue-600'}`}>
             <h2>{item.title}</h2>
             <p>{item.singer}</p>
           </div>
