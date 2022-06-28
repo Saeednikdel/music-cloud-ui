@@ -9,6 +9,7 @@ import {
   ArrowBack,
   VolumeDown,
 } from '@mui/icons-material';
+import OutsideClickHandler from 'react-outside-click-handler';
 
 const PlayerFull = ({
   audioElem,
@@ -148,44 +149,57 @@ const PlayerFull = ({
       </div>
       <div className=" flex justify-end">
         <div className=" relative inline-block">
-          <VolumeDown
-            fontSize="large"
-            className=" hover:cursor-pointer"
-            onClick={() => setShowVolume(!showVolume)}
-          />
-          <div
-            className={`${
-              showVolume ? 'block' : 'hidden'
-            } absolute bg-white dark:bg-slate-900 border bottom-8 right-0 border-gray-300 dark:border-gray-600 mb-2 p-3 rounded-lg z-10 bo`}>
-            <div className="flex space-x-4 justify-end items-center">
-              <div
-                className=" w-28 h-1 bg-slate-300 dark:bg-slate-500 rounded-full hover:cursor-pointer"
-                onClick={volume}
-                ref={volumeRef}>
+          <OutsideClickHandler
+            disabled={!showVolume}
+            onOutsideClick={() => setShowVolume(!showVolume)}>
+            {audioElem.current && audioElem.current.muted ? (
+              <VolumeOff
+                fontSize="large"
+                className=" hover:cursor-pointer"
+                onClick={() => setShowVolume(!showVolume)}
+              />
+            ) : (
+              <VolumeUp
+                fontSize="large"
+                className=" hover:cursor-pointer"
+                onClick={() => setShowVolume(!showVolume)}
+              />
+            )}
+            <div
+              className={`${
+                showVolume ? 'block' : 'hidden'
+              } absolute bg-white dark:bg-slate-900 border bottom-8 right-0 border-gray-300 dark:border-gray-600 mb-2 p-3 rounded-lg z-10 bo`}>
+              <div className="flex space-x-4 justify-end items-center">
                 <div
-                  className="h-full w-0 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full"
-                  style={{
-                    width: `${
-                      audioElem.current && audioElem.current.volume * 100 + '%'
-                    }`,
-                  }}></div>
-              </div>
+                  className=" w-28 h-1 bg-slate-300 dark:bg-slate-500 rounded-full hover:cursor-pointer"
+                  onClick={volume}
+                  ref={volumeRef}>
+                  <div
+                    className="h-full w-0 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full"
+                    style={{
+                      width: `${
+                        audioElem.current &&
+                        audioElem.current.volume * 100 + '%'
+                      }`,
+                    }}></div>
+                </div>
 
-              {audioElem.current && audioElem.current.muted ? (
-                <VolumeUp
-                  fontSize="large"
-                  className=" hover:cursor-pointer"
-                  onClick={mute}
-                />
-              ) : (
-                <VolumeOff
-                  fontSize="large"
-                  className=" hover:cursor-pointer"
-                  onClick={mute}
-                />
-              )}
+                {audioElem.current && audioElem.current.muted ? (
+                  <VolumeOff
+                    fontSize="large"
+                    className=" hover:cursor-pointer"
+                    onClick={mute}
+                  />
+                ) : (
+                  <VolumeUp
+                    fontSize="large"
+                    className=" hover:cursor-pointer"
+                    onClick={mute}
+                  />
+                )}
+              </div>
             </div>
-          </div>
+          </OutsideClickHandler>
         </div>
       </div>
     </div>

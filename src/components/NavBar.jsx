@@ -6,9 +6,11 @@ import {
   Brightness7,
   QueueMusicOutlined,
 } from '@mui/icons-material';
+import OutsideClickHandler from 'react-outside-click-handler';
 import RightSlide from './RightSlide';
 import LeftSlide from './LeftSlide';
 import logo from '../assets/cover/logo.png';
+
 const NavBar = ({ setTheme, checked, index, skip }) => {
   const [leftClass, setLeftClass] = useState('hidden');
   const [rightClass, setRightClass] = useState('hidden');
@@ -51,24 +53,40 @@ const NavBar = ({ setTheme, checked, index, skip }) => {
             onClick={setTheme}>
             {checked ? <Brightness7 /> : <Brightness3 />}
           </button>
-          <button
-            type="button"
-            className=" md:hidden hover:cursor-pointer"
-            onClick={openRightMenu}>
-            {rightClass === 'slide-in-right' ? (
-              <Close />
-            ) : (
-              <QueueMusicOutlined />
-            )}
-          </button>
+          <OutsideClickHandler
+            disabled={rightClass === 'slide-out-right'}
+            onOutsideClick={openRightMenu}>
+            <button
+              type="button"
+              className=" md:hidden hover:cursor-pointer"
+              onClick={openRightMenu}>
+              {rightClass === 'slide-in-right' ? (
+                <Close />
+              ) : (
+                <QueueMusicOutlined />
+              )}
+            </button>
+            <RightSlide
+              rightClass={rightClass}
+              openRightMenu={openRightMenu}
+              index={index}
+              skip={skip}
+            />
+          </OutsideClickHandler>
         </div>
         <div className="flex md:order-2  items-center">
-          <button
-            onClick={openLeftMenu}
-            type="button"
-            className=" md:hidden hover:cursor-pointer">
-            {leftClass === 'slide-in' ? <Close /> : <Menu />}
-          </button>
+          <OutsideClickHandler
+            disabled={leftClass === 'slide-out'}
+            onOutsideClick={openLeftMenu}>
+            <button
+              onClick={openLeftMenu}
+              type="button"
+              className=" md:hidden hover:cursor-pointer">
+              {leftClass === 'slide-in' ? <Close /> : <Menu />}
+            </button>
+            <LeftSlide leftClass={leftClass} openLeftMenu={openLeftMenu} />
+          </OutsideClickHandler>
+
           <a href="/">
             <img
               src={logo}
@@ -78,13 +96,6 @@ const NavBar = ({ setTheme, checked, index, skip }) => {
           </a>
         </div>
       </div>
-      <LeftSlide leftClass={leftClass} openLeftMenu={openLeftMenu} />
-      <RightSlide
-        rightClass={rightClass}
-        openRightMenu={openRightMenu}
-        index={index}
-        skip={skip}
-      />
     </nav>
   );
 };
