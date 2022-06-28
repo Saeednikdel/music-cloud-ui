@@ -122,7 +122,7 @@ const App = () => {
             />
           ) : (
             <>
-              <AppCarousel />
+              {/* <AppCarousel /> */}
               <GenreSection />
               <SingerSection />
               <SongSection skip={skip} />

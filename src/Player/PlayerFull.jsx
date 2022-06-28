@@ -77,12 +77,12 @@ const PlayerFull = ({
             <img
               alt="album art"
               src={currentSong.cover}
-              className={`rounded-xl shadow-xl transform transition ${
+              className={`rounded-xl shadow-xl h-60 w-60 md:w-96 md:h-96 transform transition ${
                 !isplaying ? 'grayscale scale-90' : 'scale-1'
               }`}
             />
           </div>
-          <div class="flip-card-back">
+          <div class="flip-card-back text-lg">
             <p dangerouslySetInnerHTML={{ __html: currentSong.lyrics }} />
           </div>
         </div>
