@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   PlayArrow,
   Pause,
@@ -20,6 +20,7 @@ const PlayerFull = ({
 }) => {
   const seekRef = useRef();
   const volumeRef = useRef();
+  const [flip, setFlip] = useState('');
 
   const PlayPause = () => {
     setisplaying(!isplaying);
@@ -54,6 +55,13 @@ const PlayerFull = ({
       audioElem.current.muted = !audioElem.current.muted;
     }
   };
+  const rotate = () => {
+    if (flip === '') {
+      setFlip('my-rotate');
+    } else {
+      setFlip('');
+    }
+  };
   return (
     <div className="py-2 px-4 md:px-16 xl:px-36 2xl:px-60 space-y-6 text-gray-900 dark:text-gray-300">
       <ArrowBack
@@ -61,15 +69,23 @@ const PlayerFull = ({
         className=" hover:cursor-pointer"
         onClick={() => setFullPlayer(false)}
       />
-      <div className="h-60 w-60 md:w-96 md:h-96 flex items-center justify-center mx-auto">
-        <img
-          alt="album art"
-          onClick={PlayPause}
-          src={currentSong.cover}
-          className={`rounded-xl shadow-xl transform transition hover:cursor-pointer ${
-            !isplaying ? 'grayscale scale-90' : 'scale-1'
-          }`}
-        />
+      <div
+        onClick={rotate}
+        className="flip-card h-60 w-60 md:w-96 md:h-96 flex hover:cursor-pointer overflow-auto items-center justify-center mx-auto">
+        <div class={`flip-card-inner ${flip}`}>
+          <div class="flip-card-front">
+            <img
+              alt="album art"
+              src={currentSong.cover}
+              className={`rounded-xl shadow-xl transform transition ${
+                !isplaying ? 'grayscale scale-90' : 'scale-1'
+              }`}
+            />
+          </div>
+          <div class="flip-card-back">
+            <p dangerouslySetInnerHTML={{ __html: currentSong.lyrics }} />
+          </div>
+        </div>
       </div>
       <div className="flex space-x-4 items-center">
         <div className="w-full text-center">
