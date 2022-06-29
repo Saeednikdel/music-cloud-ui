@@ -59,16 +59,16 @@ const PlayerFull = ({
     }
   };
   return (
-    <div className="py-2 px-4 md:px-16 xl:px-36 2xl:px-60 space-y-6 text-gray-900 dark:text-gray-300">
+    <div className="pt-16 px-4 md:px-16 xl:px-36 2xl:px-60 space-y-8 text-gray-900 dark:text-gray-300">
       <div
         onClick={rotate}
-        className="flip-card h-60 w-60 md:w-96 md:h-96 flex hover:cursor-pointer overflow-auto items-center justify-center mx-auto">
+        className="flip-card h-64 w-64 md:w-96 md:h-96 flex hover:cursor-pointer overflow-auto items-center justify-center mx-auto">
         <div className={`flip-card-inner ${flip}`}>
           <div className="flip-card-front">
             <img
               alt="album art"
               src={currentSong.artwork[0].src}
-              className={`rounded-xl shadow-xl h-60 w-60 md:w-96 md:h-96 transform transition ${
+              className={`rounded-xl shadow-xl h-64 w-64 md:w-96 md:h-96 transform transition ${
                 !isplaying ? 'grayscale scale-90' : 'scale-1'
               }`}
             />

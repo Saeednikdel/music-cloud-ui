@@ -11,12 +11,12 @@ import PlayerFull from './Player/PlayerFull';
 import data from './data';
 const App = () => {
   const [theme, setTheme] = useState('dark');
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState();
   const [songs, setSongs] = useState(data);
   const [fullPlayer, setFullPlayer] = useState(false);
   const [isplaying, setisplaying] = useState(false);
   const [isplayerOpen, setisplayerOpen] = useState(false);
-  const [currentSong, setCurrentSong] = useState(data[0]);
+  const [currentSong, setCurrentSong] = useState();
   const audioElem = useRef();
 
   useEffect(() => {
@@ -133,7 +133,7 @@ const App = () => {
       <audio
         preload="auto"
         autoPlay={isplayerOpen}
-        src={currentSong.url}
+        src={currentSong && currentSong.url}
         ref={audioElem}
         onTimeUpdate={onPlaying}
         onEnded={skiptoNext}

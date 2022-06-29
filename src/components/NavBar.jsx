@@ -10,7 +10,6 @@ import {
 import OutsideClickHandler from 'react-outside-click-handler';
 import RightSlide from './RightSlide';
 import LeftSlide from './LeftSlide';
-import logo from '../assets/cover/logo.png';
 
 const NavBar = ({
   setTheme,
@@ -69,9 +68,9 @@ const NavBar = ({
               className=" md:hidden hover:cursor-pointer"
               onClick={openRightMenu}>
               {rightClass === 'slide-in-right' ? (
-                <Close />
+                <Close style={{ fontSize: 30 }} />
               ) : (
-                <QueueMusicOutlined />
+                <QueueMusicOutlined style={{ fontSize: 30 }} />
               )}
             </button>
             <RightSlide
@@ -90,12 +89,17 @@ const NavBar = ({
               onClick={openLeftMenu}
               type="button"
               className=" md:hidden hover:cursor-pointer">
-              {leftClass === 'slide-in' ? <Close /> : <Menu />}
+              {leftClass === 'slide-in' ? (
+                <Close style={{ fontSize: 30 }} />
+              ) : (
+                <Menu style={{ fontSize: 30 }} />
+              )}
             </button>
             <LeftSlide leftClass={leftClass} openLeftMenu={openLeftMenu} />
           </OutsideClickHandler>
           {fullPlayer && (
             <ArrowBack
+              style={{ fontSize: 30 }}
               className="hover:cursor-pointer mt-1"
               onClick={() => setFullPlayer(false)}
             />
