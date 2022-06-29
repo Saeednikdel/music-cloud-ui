@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import {
   PlayArrow,
   Pause,
@@ -19,37 +19,41 @@ const PlayerComponent = ({
   setFullPlayer,
 }) => {
   const [showVolume, setShowVolume] = useState(false);
-
-  const seekRef = useRef();
-  const volumeRef = useRef();
+  const [isMuted, setIsMuted] = useState(
+    audioElem.current && audioElem.current.muted
+  );
+  const [volume, setVolume] = useState(
+    audioElem.current && audioElem.current.volume * 100
+  );
 
   const seek = (e) => {
-    let width = seekRef.current.clientWidth;
-    const offset = e.nativeEvent.offsetX;
-    const divprogress = (offset / width) * 100;
-    audioElem.current.currentTime = (divprogress / 100) * currentSong.length;
+    audioElem.current.currentTime = (e.target.value / 100) * currentSong.length;
   };
-  const volume = (e) => {
-    let width = volumeRef.current.clientWidth;
-    const offset = e.nativeEvent.offsetX;
-    let divvolume = offset / width;
-    if (divvolume > 0.9) {
-      divvolume = 1;
+  const changeVolume = (e) => {
+    let vol = e.target.value / 100;
+    if (vol > 0.9) {
+      vol = 1;
     }
-    if (divvolume < 0.1) {
-      divvolume = 0;
+    if (vol < 0.1) {
+      vol = 0;
       audioElem.current.muted = true;
+      setIsMuted(true);
     } else if (audioElem.current.muted) {
       audioElem.current.muted = false;
+      setIsMuted(false);
     }
-    audioElem.current.volume = divvolume;
+    setVolume(vol * 100);
+    audioElem.current.volume = vol;
   };
   const mute = () => {
     if (audioElem.current.volume === 0) {
       audioElem.current.volume = 0.2;
+      setVolume(20);
       audioElem.current.muted = false;
+      setIsMuted(false);
     } else {
       audioElem.current.muted = !audioElem.current.muted;
+      setIsMuted(!isMuted);
     }
   };
   return (
@@ -69,7 +73,6 @@ const PlayerComponent = ({
           <p className=" font-bold">
             {currentSong.title + ' - ' + currentSong.artist}
           </p>
-
           <div className=" flex text-sm  justify-between">
             <p>
               {currentSong.ct
@@ -86,14 +89,15 @@ const PlayerComponent = ({
                 : '0:0'}
             </p>
           </div>
-          <div
-            className=" w-full h-1 bg-slate-300 dark:bg-slate-500 rounded-full hover:cursor-pointer"
-            onClick={seek}
-            ref={seekRef}>
-            <div
-              className="h-full w-0 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full"
-              style={{ width: `${currentSong.progress + '%'}` }}></div>
-          </div>
+          <input
+            className="h-1 w-full bg-blue-200 dark:bg-slate-600 appearance-none rounded"
+            min={0}
+            max={100}
+            value={currentSong.progress}
+            type="range"
+            onChange={seek}
+          />
+
           <div className="flex justify-between mt-2 ">
             <div className="flex space-x-4">
               <SkipPrevious
@@ -121,7 +125,7 @@ const PlayerComponent = ({
                 <OutsideClickHandler
                   disabled={!showVolume}
                   onOutsideClick={() => setShowVolume(!showVolume)}>
-                  {audioElem.current && audioElem.current.muted ? (
+                  {isMuted ? (
                     <VolumeOff
                       className=" hover:cursor-pointer"
                       onClick={() => setShowVolume(!showVolume)}
@@ -135,23 +139,18 @@ const PlayerComponent = ({
                   <div
                     className={`${
                       showVolume ? 'block' : 'hidden'
-                    } absolute bg-white dark:bg-slate-900 border bottom-5 right-0 border-gray-300 dark:border-gray-600 mb-2 p-3 rounded-lg z-10 bo`}>
+                    } absolute bg-white dark:bg-slate-900 border bottom-5 right-0 border-gray-300 dark:border-gray-600 mb-2 p-3 rounded-lg z-10 bo shadow-lg`}>
                     <div className="flex space-x-4 justify-end items-center">
-                      <div
-                        className=" w-28 h-1 bg-slate-300 dark:bg-slate-500 rounded-full hover:cursor-pointer"
-                        onClick={volume}
-                        ref={volumeRef}>
-                        <div
-                          className="h-full w-0 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full"
-                          style={{
-                            width: `${
-                              audioElem.current &&
-                              audioElem.current.volume * 100 + '%'
-                            }`,
-                          }}></div>
-                      </div>
+                      <input
+                        className="h-1 w-28 bg-blue-200 dark:bg-slate-600 appearance-none rounded"
+                        min={0}
+                        max={100}
+                        value={volume}
+                        type="range"
+                        onChange={changeVolume}
+                      />
 
-                      {audioElem.current && audioElem.current.muted ? (
+                      {isMuted ? (
                         <VolumeOff
                           className=" hover:cursor-pointer"
                           onClick={mute}
