@@ -7,11 +7,11 @@ const SongCard = ({ item, skip, i }) => {
         <img
           alt="album art"
           className=" h-full w-full object-cover"
-          src={item.cover}
+          src={item.artwork[0].src}
         />
         <div className=" py-1 px-2 h-20">
           <h1>{item.title}</h1>
-          <h1>{item.singer}</h1>
+          <h1>{item.artist}</h1>
         </div>
       </div>
     </div>

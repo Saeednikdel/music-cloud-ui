@@ -17,11 +17,11 @@ const RightMenu = ({ index, skip }) => {
           <img
             alt={item.title}
             className="w-16 h-16 object-cover"
-            src={item.cover}
+            src={item.artwork[0].src}
           />
           <div className={`text-base px-2 ${i === index && 'text-blue-600'}`}>
             <h2>{item.title}</h2>
-            <p>{item.singer}</p>
+            <p>{item.artist}</p>
           </div>
         </div>
       ))}

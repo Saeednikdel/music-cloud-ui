@@ -4,7 +4,7 @@ import Left from './components/LeftMenu';
 import Right from './components/RightMenu';
 import NavBar from './components/NavBar';
 import GenreSection from './components/GenreSection';
-import SingerSection from './components/SingerSection';
+import ArtistSection from './components/ArtistSection';
 import SongSection from './components/SongSection';
 import PlayerComponent from './Player/PlayerComponent';
 import PlayerFull from './Player/PlayerFull';
@@ -23,11 +23,38 @@ const App = () => {
     if (isplaying) {
       !isplayerOpen && setisplayerOpen(true);
       audioElem.current.play();
+      updateNotif();
     } else {
       audioElem.current.pause();
     }
   }, [isplaying]);
+  const updateNotif = () => {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: currentSong.title,
+        artist: currentSong.artist,
+        album: currentSong.album,
+        artwork: currentSong.artwork,
+      });
+    }
+  };
+  navigator.mediaSession.setActionHandler('previoustrack', function () {
+    console.log('> User clicked "Previous Track" icon.');
+    skipBack();
+  });
 
+  navigator.mediaSession.setActionHandler('nexttrack', function () {
+    console.log('> User clicked "Next Track" icon.');
+    skiptoNext();
+  });
+  navigator.mediaSession.setActionHandler('play', async function () {
+    console.log('> User clicked "Play" icon.');
+    setisplaying(!isplaying);
+  });
+  navigator.mediaSession.setActionHandler('pause', function () {
+    console.log('> User clicked "Pause" icon.');
+    setisplaying(!isplaying);
+  });
   const onPlaying = () => {
     const duration = audioElem.current.duration;
     const ct = audioElem.current.currentTime;
@@ -43,9 +70,11 @@ const App = () => {
     if (index === songs.length - 1) {
       setIndex(0);
       setCurrentSong(songs[0]);
+      updateNotif();
     } else {
       setIndex(index + 1);
       setCurrentSong(songs[index + 1]);
+      updateNotif();
     }
     audioElem.current.currentTime = 0;
     if (!isplaying) {
@@ -57,9 +86,11 @@ const App = () => {
     if (index === 0) {
       setIndex(songs.length - 1);
       setCurrentSong(songs[songs.length - 1]);
+      updateNotif();
     } else {
       setIndex(index - 1);
       setCurrentSong(songs[index - 1]);
+      updateNotif();
     }
     audioElem.current.currentTime = 0;
     if (!isplaying) {
@@ -95,6 +126,7 @@ const App = () => {
         skip={skip}
       />
       <audio
+        preload="metadata"
         autoPlay
         src={currentSong.url}
         ref={audioElem}
@@ -124,7 +156,7 @@ const App = () => {
             <>
               {/* <AppCarousel /> */}
               <GenreSection />
-              <SingerSection />
+              <ArtistSection />
               <SongSection skip={skip} />
             </>
           )}

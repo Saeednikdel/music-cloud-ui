@@ -64,7 +64,7 @@ const PlayerComponent = ({
           <img
             alt="album art"
             onClick={() => setFullPlayer(true)}
-            src={currentSong.cover}
+            src={currentSong.artwork[0].src}
             className={`rounded shadow-xl transform transition hover:cursor-pointer ${
               !isplaying ? 'grayscale scale-90' : 'scale-1'
             }`}
@@ -72,7 +72,7 @@ const PlayerComponent = ({
         </div>
         <div className="w-full">
           <p className=" font-bold">
-            {currentSong.title + ' - ' + currentSong.singer}
+            {currentSong.title + ' - ' + currentSong.artist}
           </p>
 
           <div className=" flex text-sm  justify-between">

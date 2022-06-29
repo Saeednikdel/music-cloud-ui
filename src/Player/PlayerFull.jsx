@@ -79,7 +79,7 @@ const PlayerFull = ({
           <div className="flip-card-front">
             <img
               alt="album art"
-              src={currentSong.cover}
+              src={currentSong.artwork[0].src}
               className={`rounded-xl shadow-xl h-60 w-60 md:w-96 md:h-96 transform transition ${
                 !isplaying ? 'grayscale scale-90' : 'scale-1'
               }`}
@@ -93,7 +93,7 @@ const PlayerFull = ({
       <div className="flex space-x-4 items-center">
         <div className="w-full text-center">
           <p className=" font-bold text-xl">
-            {currentSong.title + ' - ' + currentSong.singer}
+            {currentSong.title + ' - ' + currentSong.artist}
           </p>
 
           <div className="flex justify-between">
