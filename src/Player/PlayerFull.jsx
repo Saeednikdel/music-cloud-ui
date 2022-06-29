@@ -6,7 +6,6 @@ import {
   SkipPrevious,
   VolumeOff,
   VolumeUp,
-  ArrowBack,
 } from '@mui/icons-material';
 import OutsideClickHandler from 'react-outside-click-handler';
 
@@ -17,7 +16,6 @@ const PlayerFull = ({
   currentSong,
   skipBack,
   skiptoNext,
-  setFullPlayer,
 }) => {
   const seekRef = useRef();
   const volumeRef = useRef();
@@ -62,11 +60,6 @@ const PlayerFull = ({
   };
   return (
     <div className="py-2 px-4 md:px-16 xl:px-36 2xl:px-60 space-y-6 text-gray-900 dark:text-gray-300">
-      <ArrowBack
-        fontSize="large"
-        className=" hover:cursor-pointer"
-        onClick={() => setFullPlayer(false)}
-      />
       <div
         onClick={rotate}
         className="flip-card h-60 w-60 md:w-96 md:h-96 flex hover:cursor-pointer overflow-auto items-center justify-center mx-auto">

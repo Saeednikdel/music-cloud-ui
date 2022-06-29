@@ -5,13 +5,21 @@ import {
   Brightness3,
   Brightness7,
   QueueMusicOutlined,
+  ArrowBack,
 } from '@mui/icons-material';
 import OutsideClickHandler from 'react-outside-click-handler';
 import RightSlide from './RightSlide';
 import LeftSlide from './LeftSlide';
 import logo from '../assets/cover/logo.png';
 
-const NavBar = ({ setTheme, checked, index, skip }) => {
+const NavBar = ({
+  setTheme,
+  checked,
+  index,
+  skip,
+  fullPlayer,
+  setFullPlayer,
+}) => {
   const [leftClass, setLeftClass] = useState('hidden');
   const [rightClass, setRightClass] = useState('hidden');
   const openLeftMenu = () => {
@@ -36,13 +44,13 @@ const NavBar = ({ setTheme, checked, index, skip }) => {
   };
   return (
     <nav className="backdrop-blur-2xl  backdrop-brightness-200 dark:backdrop-brightness-50 shadow-sm border-1 px-2 sm:px-4 py-2.5 fixed top-0 left-0 right-0 bottom-auto z-10 text-gray-800 dark:text-gray-300">
-      <div className="container flex flex-wrap flex-row-reverse justify-between items-center mx-auto">
-        <div className="flex items-center">
+      <div className="container flex flex-wrap flex-row-reverse justify-between items-center mx-auto md:px-8 xl:px-16">
+        <div className="flex items-center space-x-3">
           <form>
             <div className="flex space-x-1">
               <input
                 type="text"
-                className="flex-1 h-8 rounded-full border border-gray-600 dark:border-gray-300 bg-transparent placeholder:text-gray-600 dark:placeholder:text-gray-400 px-4 focus:outline-none w-44 sm:w-auto"
+                className="flex-1 h-8 rounded-full border border-gray-600 dark:border-gray-300 bg-transparent placeholder:text-gray-600 dark:placeholder:text-gray-400 px-4 focus:outline-none w-44 md:w-auto"
                 placeholder="Search"
               />
             </div>
@@ -74,7 +82,7 @@ const NavBar = ({ setTheme, checked, index, skip }) => {
             />
           </OutsideClickHandler>
         </div>
-        <div className="flex md:order-2  items-center">
+        <div className="flex items-center space-x-3">
           <OutsideClickHandler
             disabled={leftClass !== 'slide-in'}
             onOutsideClick={openLeftMenu}>
@@ -86,14 +94,12 @@ const NavBar = ({ setTheme, checked, index, skip }) => {
             </button>
             <LeftSlide leftClass={leftClass} openLeftMenu={openLeftMenu} />
           </OutsideClickHandler>
-
-          <a href="/">
-            <img
-              src={logo}
-              className=" mx-3 h-7 bg-slate-800 rounded-full"
-              alt="Logo"
+          {fullPlayer && (
+            <ArrowBack
+              className="hover:cursor-pointer mt-1"
+              onClick={() => setFullPlayer(false)}
             />
-          </a>
+          )}
         </div>
       </div>
     </nav>

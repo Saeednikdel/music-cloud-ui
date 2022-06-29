@@ -123,6 +123,8 @@ const App = () => {
   return (
     <div className={`min-h-screen px-auto ${theme}`}>
       <NavBar
+        setFullPlayer={setFullPlayer}
+        fullPlayer={fullPlayer}
         setTheme={handleTheme}
         checked={theme === 'dark'}
         index={index}
@@ -153,7 +155,6 @@ const App = () => {
               audioElem={audioElem}
               currentSong={currentSong}
               setCurrentSong={setCurrentSong}
-              setFullPlayer={setFullPlayer}
             />
           ) : (
             <>
