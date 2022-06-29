@@ -13,7 +13,7 @@ import OutsideClickHandler from 'react-outside-click-handler';
 const PlayerComponent = ({
   audioElem,
   isplaying,
-  setisplaying,
+  playPause,
   currentSong,
   skipBack,
   skiptoNext,
@@ -23,10 +23,6 @@ const PlayerComponent = ({
 
   const seekRef = useRef();
   const volumeRef = useRef();
-
-  const PlayPause = () => {
-    setisplaying(!isplaying);
-  };
 
   const seek = (e) => {
     let width = seekRef.current.clientWidth;
@@ -106,11 +102,11 @@ const PlayerComponent = ({
                 onClick={skipBack}
               />
               {isplaying ? (
-                <Pause className=" hover:cursor-pointer" onClick={PlayPause} />
+                <Pause className=" hover:cursor-pointer" onClick={playPause} />
               ) : (
                 <PlayArrow
                   className=" hover:cursor-pointer"
-                  onClick={PlayPause}
+                  onClick={playPause}
                 />
               )}
               <SkipNext

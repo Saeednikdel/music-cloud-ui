@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import AppCarousel from './components/AppCarousel';
 import Left from './components/LeftMenu';
 import Right from './components/RightMenu';
@@ -19,22 +19,13 @@ const App = () => {
   const [currentSong, setCurrentSong] = useState(data[0]);
   const audioElem = useRef();
 
-  useEffect(() => {
-    if (isplaying) {
-      !isplayerOpen && setisplayerOpen(true);
-      audioElem.current.play();
-      updateNotif();
-    } else {
-      audioElem.current.pause();
-    }
-  }, [isplaying]);
-  const updateNotif = () => {
+  const updateNotif = (i) => {
     if ('mediaSession' in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({
-        title: currentSong.title,
-        artist: currentSong.artist,
-        album: currentSong.album,
-        artwork: currentSong.artwork,
+        title: data[i].title,
+        artist: data[i].artist,
+        album: data[i].album,
+        artwork: data[i].artwork,
       });
     }
   };
@@ -46,11 +37,25 @@ const App = () => {
     skiptoNext();
   });
   navigator.mediaSession.setActionHandler('play', async function () {
-    setisplaying(!isplaying);
+    playPause();
   });
   navigator.mediaSession.setActionHandler('pause', function () {
-    setisplaying(!isplaying);
+    playPause();
   });
+  navigator.mediaSession.setActionHandler('stop', function () {
+    audioElem.current.pause();
+    audioElem.current.currentTime = 0;
+    setisplaying(false);
+  });
+  const playPause = () => {
+    if (!isplaying) {
+      audioElem.current.play();
+      updateNotif(index);
+    } else {
+      audioElem.current.pause();
+    }
+    setisplaying(!isplaying);
+  };
   const onPlaying = () => {
     const duration = audioElem.current.duration;
     const ct = audioElem.current.currentTime;
@@ -66,15 +71,15 @@ const App = () => {
     if (index === songs.length - 1) {
       setIndex(0);
       setCurrentSong(songs[0]);
-      updateNotif();
+      updateNotif(0);
     } else {
       setIndex(index + 1);
       setCurrentSong(songs[index + 1]);
-      updateNotif();
+      updateNotif(index + 1);
     }
     audioElem.current.currentTime = 0;
     if (!isplaying) {
-      setisplaying(true);
+      playPause();
     }
   };
   const skipBack = () => {
@@ -82,15 +87,15 @@ const App = () => {
     if (index === 0) {
       setIndex(songs.length - 1);
       setCurrentSong(songs[songs.length - 1]);
-      updateNotif();
+      updateNotif(songs.length - 1);
     } else {
       setIndex(index - 1);
       setCurrentSong(songs[index - 1]);
-      updateNotif();
+      updateNotif(index - 1);
     }
     audioElem.current.currentTime = 0;
     if (!isplaying) {
-      setisplaying(true);
+      playPause();
     }
   };
   const skip = (i) => {
@@ -103,7 +108,7 @@ const App = () => {
       audioElem.current.currentTime = 0;
     }
     if (!isplaying) {
-      setisplaying(true);
+      playPause();
     }
   };
   const handleTheme = () => {
@@ -141,8 +146,8 @@ const App = () => {
               setSongs={setSongs}
               skipBack={skipBack}
               skiptoNext={skiptoNext}
+              playPause={playPause}
               isplaying={isplaying}
-              setisplaying={setisplaying}
               audioElem={audioElem}
               currentSong={currentSong}
               setCurrentSong={setCurrentSong}
@@ -169,7 +174,7 @@ const App = () => {
             skipBack={skipBack}
             skiptoNext={skiptoNext}
             isplaying={isplaying}
-            setisplaying={setisplaying}
+            playPause={playPause}
             audioElem={audioElem}
             currentSong={currentSong}
             setCurrentSong={setCurrentSong}
