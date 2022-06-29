@@ -39,20 +39,16 @@ const App = () => {
     }
   };
   navigator.mediaSession.setActionHandler('previoustrack', function () {
-    console.log('> User clicked "Previous Track" icon.');
     skipBack();
   });
 
   navigator.mediaSession.setActionHandler('nexttrack', function () {
-    console.log('> User clicked "Next Track" icon.');
     skiptoNext();
   });
   navigator.mediaSession.setActionHandler('play', async function () {
-    console.log('> User clicked "Play" icon.');
     setisplaying(!isplaying);
   });
   navigator.mediaSession.setActionHandler('pause', function () {
-    console.log('> User clicked "Pause" icon.');
     setisplaying(!isplaying);
   });
   const onPlaying = () => {
