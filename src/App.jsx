@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import AppCarousel from './components/AppCarousel';
 import Left from './components/LeftMenu';
 import Right from './components/RightMenu';
@@ -19,8 +19,17 @@ const App = () => {
   const [currentSong, setCurrentSong] = useState(data[0]);
   const audioElem = useRef();
 
-  const updateNotif = (i) => {
-    if ('mediaSession' in navigator) {
+  useEffect(() => {
+    if (isplaying) {
+      audioElem.current.play();
+      updateNotif();
+    } else {
+      audioElem.current.pause();
+    }
+  }, [isplaying]);
+
+  const updateNotif = (i = index) => {
+    if ('mediaSession' in navigator && isplaying) {
       navigator.mediaSession.metadata = new MediaMetadata({
         title: data[i].title,
         artist: data[i].artist,
@@ -37,25 +46,17 @@ const App = () => {
     skiptoNext();
   });
   navigator.mediaSession.setActionHandler('play', async function () {
-    playPause();
+    setisplaying(true);
   });
   navigator.mediaSession.setActionHandler('pause', function () {
-    playPause();
+    setisplaying(false);
   });
   navigator.mediaSession.setActionHandler('stop', function () {
     audioElem.current.pause();
     audioElem.current.currentTime = 0;
     setisplaying(false);
   });
-  const playPause = () => {
-    if (!isplaying) {
-      audioElem.current.play();
-      updateNotif(index);
-    } else {
-      audioElem.current.pause();
-    }
-    setisplaying(!isplaying);
-  };
+
   const onPlaying = () => {
     const duration = audioElem.current.duration;
     const ct = audioElem.current.currentTime;
@@ -79,7 +80,7 @@ const App = () => {
     }
     audioElem.current.currentTime = 0;
     if (!isplaying) {
-      playPause();
+      setisplaying(true);
     }
   };
   const skipBack = () => {
@@ -95,7 +96,7 @@ const App = () => {
     }
     audioElem.current.currentTime = 0;
     if (!isplaying) {
-      playPause();
+      setisplaying(true);
     }
   };
   const skip = (i) => {
@@ -106,9 +107,10 @@ const App = () => {
       setIndex(i);
       setCurrentSong(songs[i]);
       audioElem.current.currentTime = 0;
+      updateNotif(i);
     }
     if (!isplaying) {
-      playPause();
+      setisplaying(true);
     }
   };
   const handleTheme = () => {
@@ -127,8 +129,8 @@ const App = () => {
         skip={skip}
       />
       <audio
-        preload="metadata"
-        autoPlay
+        preload="auto"
+        autoPlay={isplayerOpen}
         src={currentSong.url}
         ref={audioElem}
         onTimeUpdate={onPlaying}
@@ -146,7 +148,7 @@ const App = () => {
               setSongs={setSongs}
               skipBack={skipBack}
               skiptoNext={skiptoNext}
-              playPause={playPause}
+              setisplaying={setisplaying}
               isplaying={isplaying}
               audioElem={audioElem}
               currentSong={currentSong}
@@ -174,7 +176,7 @@ const App = () => {
             skipBack={skipBack}
             skiptoNext={skiptoNext}
             isplaying={isplaying}
-            playPause={playPause}
+            setisplaying={setisplaying}
             audioElem={audioElem}
             currentSong={currentSong}
             setCurrentSong={setCurrentSong}

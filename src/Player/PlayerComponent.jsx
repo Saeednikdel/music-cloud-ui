@@ -6,14 +6,13 @@ import {
   SkipPrevious,
   VolumeOff,
   VolumeUp,
-  VolumeDown,
 } from '@mui/icons-material';
 import OutsideClickHandler from 'react-outside-click-handler';
 
 const PlayerComponent = ({
   audioElem,
   isplaying,
-  playPause,
+  setisplaying,
   currentSong,
   skipBack,
   skiptoNext,
@@ -102,11 +101,14 @@ const PlayerComponent = ({
                 onClick={skipBack}
               />
               {isplaying ? (
-                <Pause className=" hover:cursor-pointer" onClick={playPause} />
+                <Pause
+                  className=" hover:cursor-pointer"
+                  onClick={() => setisplaying(false)}
+                />
               ) : (
                 <PlayArrow
                   className=" hover:cursor-pointer"
-                  onClick={playPause}
+                  onClick={() => setisplaying(true)}
                 />
               )}
               <SkipNext
