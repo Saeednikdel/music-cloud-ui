@@ -31,11 +31,7 @@ const PlayerFull = ({
   };
   const changeVolume = (e) => {
     let vol = e.target.value / 100;
-    if (vol > 0.9) {
-      vol = 1;
-    }
-    if (vol < 0.1) {
-      vol = 0;
+    if (vol === 0) {
       audioElem.current.muted = true;
       setIsMuted(true);
     } else if (audioElem.current.muted) {
@@ -89,7 +85,7 @@ const PlayerFull = ({
             {currentSong.title + ' - ' + currentSong.artist}
           </p>
 
-          <div className="flex justify-between">
+          <div className="flex justify-between -mb-2">
             <p>
               {currentSong.ct
                 ? Math.floor(currentSong.ct / 60) +
@@ -161,7 +157,7 @@ const PlayerFull = ({
             <div
               className={`${
                 showVolume ? 'block' : 'hidden'
-              } absolute bg-white dark:bg-slate-900 border bottom-8 right-0 border-gray-300 dark:border-gray-600 mb-2 p-3 rounded-lg z-10 shadow-lg`}>
+              } absolute bg-white dark:bg-slate-900 border bottom-8 right-0 border-gray-300 dark:border-gray-600 mb-2 p-2 rounded-lg z-10 shadow-lg`}>
               <div className="flex space-x-4 justify-end items-center">
                 <input
                   className="seekbar h-1 w-32 bg-blue-200 dark:bg-slate-600 appearance-none rounded"
@@ -171,7 +167,7 @@ const PlayerFull = ({
                   type="range"
                   onChange={changeVolume}
                 />
-
+                <p className="w-6">{Math.floor(volume)}</p>
                 {isMuted ? (
                   <VolumeOff
                     fontSize="large"
