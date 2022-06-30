@@ -6,6 +6,11 @@ import {
   SkipPrevious,
   VolumeOff,
   VolumeUp,
+  Share,
+  MoreVert,
+  Report,
+  FavoriteBorder,
+  Add,
 } from '@mui/icons-material';
 import OutsideClickHandler from 'react-outside-click-handler';
 
@@ -19,6 +24,7 @@ const PlayerFull = ({
 }) => {
   const [flip, setFlip] = useState('');
   const [showVolume, setShowVolume] = useState(false);
+  const [showMore, setShowMore] = useState(false);
   const [isMuted, setIsMuted] = useState(
     audioElem.current && audioElem.current.muted
   );
@@ -136,7 +142,7 @@ const PlayerFull = ({
           onClick={skiptoNext}
         />
       </div>
-      <div className=" flex justify-end">
+      <div className=" flex space-x-2 justify-end">
         <div className=" relative inline-block">
           <OutsideClickHandler
             disabled={!showVolume}
@@ -181,6 +187,47 @@ const PlayerFull = ({
                     onClick={mute}
                   />
                 )}
+              </div>
+            </div>
+          </OutsideClickHandler>
+        </div>
+        <div className=" relative inline-block">
+          <OutsideClickHandler
+            disabled={!showMore}
+            onOutsideClick={() => setShowMore(!showMore)}>
+            <MoreVert
+              fontSize="large"
+              className=" hover:cursor-pointer"
+              onClick={() => setShowMore(!showMore)}
+            />
+
+            <div
+              className={`${
+                showMore ? 'block' : 'hidden'
+              } absolute bg-white dark:bg-slate-900 border bottom-8 right-0 border-gray-300 dark:border-gray-600 mb-2 p-2 rounded-lg z-10 shadow-lg w-60`}>
+              <div
+                onClick={() =>
+                  navigator.share({
+                    title: 'Music Cloud',
+                    text: 'Music Cloud',
+                    url: 'https://music-cloud-ui.vercel.app/',
+                  })
+                }
+                className="flex px-2 py-1 space-x-6 justify-between items-center hover:cursor-pointer">
+                <h1 className="font-semibold text-xl">Share</h1>
+                <Share />
+              </div>
+              <div className="flex px-2 py-1 space-x-6 justify-between items-center hover:cursor-pointer">
+                <h1 className="font-semibold text-xl">Report</h1>
+                <Report />
+              </div>
+              <div className="flex px-2 py-1 space-x-6 justify-between items-center hover:cursor-pointer">
+                <h1 className="font-semibold text-xl">Favorite</h1>
+                <FavoriteBorder />
+              </div>
+              <div className="flex px-2 py-1 space-x-6 justify-between items-center hover:cursor-pointer">
+                <h1 className="font-semibold text-xl">Add to playlist</h1>
+                <Add />
               </div>
             </div>
           </OutsideClickHandler>
