@@ -90,7 +90,7 @@ const PlayerComponent = ({
             </p>
           </div>
           <input
-            className="h-1 w-full bg-blue-200 dark:bg-slate-600 appearance-none rounded"
+            className="seekbar h-1 w-full bg-blue-200 dark:bg-slate-600 appearance-none rounded"
             min={0}
             max={100}
             value={currentSong.progress}
@@ -142,7 +142,7 @@ const PlayerComponent = ({
                     } absolute bg-white dark:bg-slate-900 border bottom-5 right-0 border-gray-300 dark:border-gray-600 mb-2 p-3 rounded-lg z-10 bo shadow-lg`}>
                     <div className="flex space-x-4 justify-end items-center">
                       <input
-                        className="h-1 w-28 bg-blue-200 dark:bg-slate-600 appearance-none rounded"
+                        className="seekbar h-1 w-28 bg-blue-200 dark:bg-slate-600 appearance-none rounded"
                         min={0}
                         max={100}
                         value={volume}

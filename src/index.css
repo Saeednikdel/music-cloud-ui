@@ -141,3 +141,13 @@
 .flip-card-back {
   transform: rotateX(180deg);
 }
+
+.seekbar::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  border-radius: 50%;
+  background-color: #fff;
+  height: 1rem;
+  width: 1rem;
+  box-shadow: 0 0 3px #404040;
+}

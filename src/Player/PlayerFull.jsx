@@ -106,7 +106,7 @@ const PlayerFull = ({
             </p>
           </div>
           <input
-            className="w-full h-1 bg-blue-200 dark:bg-slate-600 appearance-none rounded"
+            className="seekbar w-full h-1 bg-blue-200 dark:bg-slate-600 appearance-none rounded"
             min={0}
             max={100}
             value={currentSong.progress}
@@ -164,7 +164,7 @@ const PlayerFull = ({
               } absolute bg-white dark:bg-slate-900 border bottom-8 right-0 border-gray-300 dark:border-gray-600 mb-2 p-3 rounded-lg z-10 shadow-lg`}>
               <div className="flex space-x-4 justify-end items-center">
                 <input
-                  className="h-1 w-32 bg-blue-200 dark:bg-slate-600 appearance-none rounded"
+                  className="seekbar h-1 w-32 bg-blue-200 dark:bg-slate-600 appearance-none rounded"
                   min={0}
                   max={100}
                   value={volume}
