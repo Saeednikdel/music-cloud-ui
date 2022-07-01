@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   PlayArrow,
   Pause,
@@ -7,10 +7,10 @@ import {
   VolumeOff,
   VolumeUp,
   MoreVert,
-} from '@mui/icons-material';
-import OutsideClickHandler from 'react-outside-click-handler';
-import VolumePopUp from '../components/VolumePopUp';
-import MoreMenu from '../components/MoreMenu';
+} from "@mui/icons-material";
+import OutsideClickHandler from "react-outside-click-handler";
+import VolumePopUp from "../components/VolumePopUp";
+import MoreMenu from "../components/MoreMenu";
 
 const PlayerFull = ({
   audioElem,
@@ -20,7 +20,7 @@ const PlayerFull = ({
   skipBack,
   skiptoNext,
 }) => {
-  const [flip, setFlip] = useState('');
+  const [flip, setFlip] = useState("");
   const [showVolume, setShowVolume] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const [isMuted, setIsMuted] = useState(
@@ -57,28 +57,29 @@ const PlayerFull = ({
     }
   };
   const rotate = () => {
-    if (flip === '') {
-      setFlip('my-rotate');
+    if (flip === "") {
+      setFlip("my-rotate");
     } else {
-      setFlip('');
+      setFlip("");
     }
   };
   return (
     <div className="pt-16 px-4 md:px-16 xl:px-36 2xl:px-60 space-y-8 text-gray-900 dark:text-gray-300">
       <div
         onClick={rotate}
-        className="flip-card h-64 w-64 md:w-96 md:h-96 flex hover:cursor-pointer overflow-auto items-center justify-center mx-auto">
+        className="flip-card h-64 w-64 md:w-96 md:h-96 flex hover:cursor-pointer items-center justify-center mx-auto"
+      >
         <div className={`flip-card-inner ${flip}`}>
           <div className="flip-card-front">
             <img
               alt="album art"
               src={currentSong.artwork[0].src}
               className={`rounded-xl shadow-xl h-64 w-64 md:w-96 md:h-96 transform transition ${
-                !isplaying ? 'grayscale scale-90' : 'scale-1'
+                !isplaying ? "grayscale scale-90" : "scale-1"
               }`}
             />
           </div>
-          <div className="flip-card-back text-lg">
+          <div className="flip-card-back text-lg overflow-auto">
             <p dangerouslySetInnerHTML={{ __html: currentSong.lyrics }} />
           </div>
         </div>
@@ -92,16 +93,16 @@ const PlayerFull = ({
             <p>
               {currentSong.ct
                 ? Math.floor(currentSong.ct / 60) +
-                  ':' +
+                  ":" +
                   Math.floor(currentSong.ct % 60)
-                : '0:0'}
+                : "0:0"}
             </p>
             <p>
               {currentSong.length
                 ? Math.floor(currentSong.length / 60) +
-                  ':' +
+                  ":" +
                   Math.floor(currentSong.length % 60)
-                : '0:0'}
+                : "0:0"}
             </p>
           </div>
           <input
@@ -143,7 +144,8 @@ const PlayerFull = ({
         <div className=" relative inline-block">
           <OutsideClickHandler
             disabled={!showVolume}
-            onOutsideClick={() => setShowVolume(!showVolume)}>
+            onOutsideClick={() => setShowVolume(!showVolume)}
+          >
             {isMuted ? (
               <VolumeOff
                 fontSize="large"
@@ -169,7 +171,8 @@ const PlayerFull = ({
         <div className=" relative inline-block">
           <OutsideClickHandler
             disabled={!showMore}
-            onOutsideClick={() => setShowMore(!showMore)}>
+            onOutsideClick={() => setShowMore(!showMore)}
+          >
             <MoreVert
               fontSize="large"
               className=" hover:cursor-pointer"
