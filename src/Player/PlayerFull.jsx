@@ -6,13 +6,11 @@ import {
   SkipPrevious,
   VolumeOff,
   VolumeUp,
-  Share,
   MoreVert,
-  Report,
-  FavoriteBorder,
-  Add,
 } from '@mui/icons-material';
 import OutsideClickHandler from 'react-outside-click-handler';
+import VolumePopUp from '../components/VolumePopUp';
+import MoreMenu from '../components/MoreMenu';
 
 const PlayerFull = ({
   audioElem,
@@ -87,10 +85,9 @@ const PlayerFull = ({
       </div>
       <div className="flex space-x-4 items-center">
         <div className="w-full text-center">
-          <p className=" font-bold text-xl">
-            {currentSong.title + ' - ' + currentSong.artist}
-          </p>
-
+          <p className=" font-bold text-xl">{currentSong.title}</p>
+          <p className="text-xl">{currentSong.artist}</p>
+          <p className="text-xl">{currentSong.album}</p>
           <div className="flex justify-between -mb-2">
             <p>
               {currentSong.ct
@@ -160,35 +157,13 @@ const PlayerFull = ({
                 onClick={() => setShowVolume(!showVolume)}
               />
             )}
-            <div
-              className={`${
-                showVolume ? 'block' : 'hidden'
-              } absolute bg-white dark:bg-slate-900 border bottom-8 right-0 border-gray-300 dark:border-gray-600 mb-2 p-2 rounded-lg z-10 shadow-lg`}>
-              <div className="flex space-x-4 justify-end items-center">
-                <input
-                  className="seekbar h-1 w-32 bg-blue-200 dark:bg-slate-600 appearance-none rounded"
-                  min={0}
-                  max={100}
-                  value={volume}
-                  type="range"
-                  onChange={changeVolume}
-                />
-                <p className="w-6">{Math.floor(volume)}</p>
-                {isMuted ? (
-                  <VolumeOff
-                    fontSize="large"
-                    className=" hover:cursor-pointer"
-                    onClick={mute}
-                  />
-                ) : (
-                  <VolumeUp
-                    fontSize="large"
-                    className=" hover:cursor-pointer"
-                    onClick={mute}
-                  />
-                )}
-              </div>
-            </div>
+            <VolumePopUp
+              mute={mute}
+              isMuted={isMuted}
+              volume={volume}
+              showVolume={showVolume}
+              changeVolume={changeVolume}
+            />
           </OutsideClickHandler>
         </div>
         <div className=" relative inline-block">
@@ -201,35 +176,7 @@ const PlayerFull = ({
               onClick={() => setShowMore(!showMore)}
             />
 
-            <div
-              className={`${
-                showMore ? 'block' : 'hidden'
-              } absolute bg-white dark:bg-slate-900 border bottom-8 right-0 border-gray-300 dark:border-gray-600 mb-2 p-2 rounded-lg z-10 shadow-lg w-60`}>
-              <div
-                onClick={() =>
-                  navigator.share({
-                    title: 'Music Cloud',
-                    text: 'Music Cloud',
-                    url: 'https://music-cloud-ui.vercel.app/',
-                  })
-                }
-                className="flex px-2 py-1 space-x-6 justify-between items-center hover:cursor-pointer">
-                <h1 className="font-semibold text-xl">Share</h1>
-                <Share />
-              </div>
-              <div className="flex px-2 py-1 space-x-6 justify-between items-center hover:cursor-pointer">
-                <h1 className="font-semibold text-xl">Report</h1>
-                <Report />
-              </div>
-              <div className="flex px-2 py-1 space-x-6 justify-between items-center hover:cursor-pointer">
-                <h1 className="font-semibold text-xl">Favorite</h1>
-                <FavoriteBorder />
-              </div>
-              <div className="flex px-2 py-1 space-x-6 justify-between items-center hover:cursor-pointer">
-                <h1 className="font-semibold text-xl">Add to playlist</h1>
-                <Add />
-              </div>
-            </div>
+            <MoreMenu showMore={showMore} />
           </OutsideClickHandler>
         </div>
       </div>

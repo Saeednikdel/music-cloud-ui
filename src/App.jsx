@@ -7,6 +7,7 @@ import GenreSection from './components/GenreSection';
 import ArtistSection from './components/ArtistSection';
 import SongSection from './components/SongSection';
 import PlayerComponent from './Player/PlayerComponent';
+import PlayerSimple from './Player/PlayerSimple';
 import PlayerFull from './Player/PlayerFull';
 import data from './data';
 const App = () => {
@@ -171,7 +172,7 @@ const App = () => {
       </div>
       {!fullPlayer && isplayerOpen && (
         <div className="fixed top-auto bottom-0 z-50 w-full">
-          <PlayerComponent
+          <PlayerSimple
             songs={songs}
             setSongs={setSongs}
             skipBack={skipBack}
