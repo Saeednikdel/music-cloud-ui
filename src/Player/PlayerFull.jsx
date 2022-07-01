@@ -64,7 +64,7 @@ const PlayerFull = ({
     }
   };
   return (
-    <div className="pt-16 px-4 md:px-16 xl:px-36 2xl:px-60 space-y-8 text-gray-900 dark:text-gray-300">
+    <div className="py-16 px-4 md:px-16 xl:px-36 2xl:px-60 space-y-8 text-gray-900 dark:text-gray-300">
       <div
         onClick={rotate}
         className="flip-card h-64 w-64 md:w-96 md:h-96 flex hover:cursor-pointer items-center justify-center mx-auto"
@@ -179,7 +179,7 @@ const PlayerFull = ({
               onClick={() => setShowMore(!showMore)}
             />
 
-            <MoreMenu showMore={showMore} />
+            <MoreMenu showMore={showMore} currentSong={currentSong} />
           </OutsideClickHandler>
         </div>
       </div>
