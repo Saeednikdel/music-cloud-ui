@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LeftMenu from './components/LeftMenu';
-import NowPlaying from './components/NowPlaying';
+import NowPlaying from './container/NowPlaying';
 import NavBar from './components/NavBar';
 import Home from './container/Home';
 import PlayLists from './container/PlayLists';

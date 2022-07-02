@@ -13,7 +13,7 @@ const data = [
   {
     title: 'Fairytale',
     artist: 'Alexander Rybak',
-    album: 'album name',
+    album: 'euro vision',
     artwork: [
       { src: cover.alexander, sizes: '96x96', type: 'image/png' },
       {
@@ -49,7 +49,7 @@ const data = [
   {
     title: 'für elise',
     artist: 'beethoven',
-    album: 'album name',
+    album: 'classic',
     artwork: [
       { src: cover.bethowen, sizes: '96x96', type: 'image/png' },
       {
@@ -84,7 +84,7 @@ const data = [
   {
     title: 'Hello',
     artist: 'Adele',
-    album: 'album name',
+    album: '25',
     artwork: [
       { src: cover.adele, sizes: '96x96', type: 'image/png' },
       {
@@ -121,7 +121,7 @@ const data = [
   {
     title: 'New Day',
     artist: 'alicia keys',
-    album: 'album name',
+    album: 'Girl on Fire',
     artwork: [
       { src: cover.alicia, sizes: '96x96', type: 'image/png' },
       {
@@ -157,7 +157,7 @@ const data = [
   {
     title: 'NYC',
     artist: 'Dido',
-    album: 'album name',
+    album: 'Greatest Hits',
     artwork: [
       { src: cover.dido, sizes: '96x96', type: 'image/png' },
       {
@@ -193,7 +193,7 @@ const data = [
   {
     title: 'Million years ago',
     artist: 'Adele',
-    album: 'album name',
+    album: '25',
     artwork: [
       { src: cover.adele2, sizes: '96x96', type: 'image/png' },
       {
@@ -229,7 +229,7 @@ const data = [
   {
     title: 'Shape of you',
     artist: 'Ed Sheeran',
-    album: 'album name',
+    album: 'Divide',
     artwork: [
       { src: cover.ed, sizes: '96x96', type: 'image/png' },
       {
@@ -265,7 +265,7 @@ const data = [
   {
     title: 'you are my sunshine',
     artist: 'johnny cash',
-    album: 'album name',
+    album: 'Unearthed',
     artwork: [
       { src: cover.Johnny, sizes: '96x96', type: 'image/png' },
       {
@@ -301,7 +301,7 @@ const data = [
   {
     title: 'Day Before We Went to War',
     artist: 'Dido',
-    album: 'album name',
+    album: 'Girl Who Got Away',
     artwork: [
       { src: cover.dido2, sizes: '96x96', type: 'image/png' },
       {
