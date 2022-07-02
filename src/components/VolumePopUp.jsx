@@ -19,13 +19,13 @@ const VolumePopUp = ({ showVolume, volume, isMuted, mute, changeVolume }) => {
         {isMuted ? (
           <VolumeOff
             fontSize="large"
-            className=" hover:cursor-pointer"
+            className=" hover:cursor-pointer active:text-blue-600"
             onClick={mute}
           />
         ) : (
           <VolumeUp
             fontSize="large"
-            className=" hover:cursor-pointer"
+            className=" hover:cursor-pointer active:text-blue-600"
             onClick={mute}
           />
         )}

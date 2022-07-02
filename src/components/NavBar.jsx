@@ -19,26 +19,18 @@ const NavBar = ({
   fullPlayer,
   setFullPlayer,
 }) => {
-  const [leftClass, setLeftClass] = useState('hidden');
-  const [rightClass, setRightClass] = useState('hidden');
-  const openLeftMenu = () => {
-    if (leftClass !== 'slide-in') {
-      setLeftClass('slide-in');
-      if (rightClass === 'slide-in-right') {
-        setRightClass('slide-out-right');
-      }
-    } else {
-      setLeftClass('slide-out');
+  const [openLeftMenu, setOpenLeftMenu] = useState(false);
+  const [openRightMenu, setOpenRightMenu] = useState(false);
+  const handleRightMenu = () => {
+    setOpenRightMenu(!openRightMenu);
+    if (openLeftMenu) {
+      setOpenLeftMenu(false);
     }
   };
-  const openRightMenu = () => {
-    if (rightClass !== 'slide-in-right') {
-      setRightClass('slide-in-right');
-      if (leftClass === 'slide-in') {
-        setLeftClass('slide-out');
-      }
-    } else {
-      setRightClass('slide-out-right');
+  const handleLeftMenu = () => {
+    setOpenLeftMenu(!openLeftMenu);
+    if (openRightMenu) {
+      setOpenRightMenu(false);
     }
   };
   return (
@@ -56,25 +48,24 @@ const NavBar = ({
           </form>
           <button
             type="button"
-            className="mx-2 hover:cursor-pointer rounded-xl border p-1 border-gray-600"
+            className="mx-2 hover:cursor-pointer rounded-xl border p-1 border-gray-600 active:text-blue-600"
             onClick={setTheme}>
             {checked ? <Brightness7 /> : <Brightness3 />}
           </button>
           <OutsideClickHandler
-            disabled={rightClass !== 'slide-in-right'}
-            onOutsideClick={openRightMenu}>
+            disabled={!openRightMenu}
+            onOutsideClick={handleRightMenu}>
             <button
               type="button"
-              className=" md:hidden hover:cursor-pointer"
-              onClick={openRightMenu}>
-              {rightClass === 'slide-in-right' ? (
+              className=" md:hidden hover:cursor-pointer active:text-blue-600"
+              onClick={handleRightMenu}>
+              {openRightMenu ? (
                 <Close style={{ fontSize: 30 }} />
               ) : (
                 <QueueMusicOutlined style={{ fontSize: 30 }} />
               )}
             </button>
             <RightSlide
-              rightClass={rightClass}
               openRightMenu={openRightMenu}
               index={index}
               skip={skip}
@@ -83,24 +74,28 @@ const NavBar = ({
         </div>
         <div className="flex items-center space-x-3">
           <OutsideClickHandler
-            disabled={leftClass !== 'slide-in'}
-            onOutsideClick={openLeftMenu}>
+            disabled={!openLeftMenu}
+            onOutsideClick={handleLeftMenu}>
             <button
-              onClick={openLeftMenu}
+              onClick={handleLeftMenu}
               type="button"
-              className=" md:hidden hover:cursor-pointer">
-              {leftClass === 'slide-in' ? (
+              className=" md:hidden hover:cursor-pointer active:text-blue-600">
+              {openLeftMenu ? (
                 <Close style={{ fontSize: 30 }} />
               ) : (
                 <Menu style={{ fontSize: 30 }} />
               )}
             </button>
-            <LeftSlide leftClass={leftClass} openLeftMenu={openLeftMenu} />
+            <LeftSlide
+              openLeftMenu={openLeftMenu}
+              handleLeftMenu={handleLeftMenu}
+              setFullPlayer={setFullPlayer}
+            />
           </OutsideClickHandler>
           {fullPlayer && (
             <ArrowBack
               style={{ fontSize: 30 }}
-              className="hover:cursor-pointer mt-1"
+              className="hover:cursor-pointer mt-1 active:text-blue-600"
               onClick={() => setFullPlayer(false)}
             />
           )}

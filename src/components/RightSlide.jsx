@@ -1,11 +1,12 @@
 import React from 'react';
 import data from '../data';
 import { QueueMusicOutlined } from '@mui/icons-material';
-const RightSlide = ({ rightClass, openRightMenu, index, skip }) => {
+const RightSlide = ({ openRightMenu, index, skip }) => {
   return (
     <div
-      id="slider-right"
-      className={`absolute md:hidden flex flex-col w-2/3 h-screen overflow-auto pb-40 mt-2 space-y-1 text-lg font-semibold right-0 bg-white dark:bg-slate-900 text-gray-800 dark:text-gray-200 ${rightClass}`}>
+      className={`absolute md:hidden flex flex-col w-2/3 h-screen overflow-auto pb-40 space-y-1 text-lg font-semibold top-14 right-0 bg-white dark:bg-slate-900 text-gray-800 dark:text-gray-200 transition ease-in-out duration-500 ${
+        openRightMenu ? '' : 'translate-x-full'
+      }`}>
       <h1 className=" sticky pt-4 pb-4 px-2 bg-white dark:bg-slate-900 text-gray-800 dark:text-gray-200">
         <QueueMusicOutlined className="mx-4" />
         Now Playing

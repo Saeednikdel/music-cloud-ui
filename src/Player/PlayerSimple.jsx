@@ -127,13 +127,13 @@ const PlayerSimple = ({
                     {isMuted ? (
                       <VolumeOff
                         fontSize="large"
-                        className=" hover:cursor-pointer"
+                        className=" hover:cursor-pointer active:text-blue-600"
                         onClick={() => setShowVolume(!showVolume)}
                       />
                     ) : (
                       <VolumeUp
                         fontSize="large"
-                        className=" hover:cursor-pointer"
+                        className=" hover:cursor-pointer active:text-blue-600"
                         onClick={() => setShowVolume(!showVolume)}
                       />
                     )}
@@ -154,7 +154,7 @@ const PlayerSimple = ({
             className="seekbar h-1 w-full bg-blue-200 dark:bg-slate-600 appearance-none rounded"
             min={0}
             max={100}
-            value={currentSong.progress}
+            value={currentSong.progress ? currentSong.progress : 0}
             type="range"
             onChange={seek}
           />

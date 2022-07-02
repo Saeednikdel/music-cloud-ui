@@ -67,15 +67,14 @@ const PlayerFull = ({
     <div className="py-16 px-4 md:px-16 xl:px-36 2xl:px-60 space-y-8 text-gray-900 dark:text-gray-300">
       <div
         onClick={rotate}
-        className="flip-card h-64 w-64 md:w-96 md:h-96 flex hover:cursor-pointer items-center justify-center mx-auto"
-      >
+        className="flip-card h-64 w-64 md:w-96 md:h-96 flex hover:cursor-pointer items-center justify-center mx-auto overflow-auto">
         <div className={`flip-card-inner ${flip}`}>
           <div className="flip-card-front">
             <img
               alt="album art"
               src={currentSong.artwork[0].src}
               className={`rounded-xl shadow-xl h-64 w-64 md:w-96 md:h-96 transform transition ${
-                flip === '' && !isplaying ? 'grayscale scale-90' : 'scale-1'
+                !isplaying ? 'grayscale scale-90' : 'scale-1'
               }`}
             />
           </div>
@@ -109,7 +108,7 @@ const PlayerFull = ({
             className="seekbar w-full h-1 bg-blue-200 dark:bg-slate-600 appearance-none rounded"
             min={0}
             max={100}
-            value={currentSong.progress}
+            value={currentSong.progress ? currentSong.progress : 0}
             type="range"
             onChange={seek}
           />
@@ -118,25 +117,25 @@ const PlayerFull = ({
       <div className="flex justify-center space-x-12">
         <SkipPrevious
           fontSize="large"
-          className=" hover:cursor-pointer"
+          className=" hover:cursor-pointer active:text-blue-600"
           onClick={skipBack}
         />
         {isplaying ? (
           <Pause
             fontSize="large"
-            className=" hover:cursor-pointer"
+            className=" hover:cursor-pointer active:text-blue-600"
             onClick={() => setisplaying(false)}
           />
         ) : (
           <PlayArrow
             fontSize="large"
-            className=" hover:cursor-pointer"
+            className=" hover:cursor-pointer active:text-blue-600"
             onClick={() => setisplaying(true)}
           />
         )}
         <SkipNext
           fontSize="large"
-          className=" hover:cursor-pointer"
+          className=" hover:cursor-pointer active:text-blue-600"
           onClick={skiptoNext}
         />
       </div>
@@ -144,18 +143,17 @@ const PlayerFull = ({
         <div className=" relative inline-block">
           <OutsideClickHandler
             disabled={!showVolume}
-            onOutsideClick={() => setShowVolume(!showVolume)}
-          >
+            onOutsideClick={() => setShowVolume(!showVolume)}>
             {isMuted ? (
               <VolumeOff
                 fontSize="large"
-                className=" hover:cursor-pointer"
+                className=" hover:cursor-pointer active:text-blue-600"
                 onClick={() => setShowVolume(!showVolume)}
               />
             ) : (
               <VolumeUp
                 fontSize="large"
-                className=" hover:cursor-pointer"
+                className=" hover:cursor-pointer active:text-blue-600"
                 onClick={() => setShowVolume(!showVolume)}
               />
             )}
@@ -171,11 +169,10 @@ const PlayerFull = ({
         <div className=" relative inline-block">
           <OutsideClickHandler
             disabled={!showMore}
-            onOutsideClick={() => setShowMore(!showMore)}
-          >
+            onOutsideClick={() => setShowMore(!showMore)}>
             <MoreVert
               fontSize="large"
-              className=" hover:cursor-pointer"
+              className=" hover:cursor-pointer active:text-blue-600"
               onClick={() => setShowMore(!showMore)}
             />
 
