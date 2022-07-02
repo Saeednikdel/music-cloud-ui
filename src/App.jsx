@@ -7,7 +7,7 @@ import Home from './container/Home';
 import PlayLists from './container/PlayLists';
 import Artists from './container/Artists';
 import Albums from './container/Albums';
-import Favprites from './container/Favprites';
+import Favorites from './container/Favorites';
 import Genres from './container/Genres';
 import PlayerSimple from './Player/PlayerSimple';
 import PlayerFull from './Player/PlayerFull';
@@ -168,7 +168,7 @@ const App = () => {
                 <Route exact path="/albums" element={<Albums />} />
                 <Route exact path="/artists" element={<Artists />} />
                 <Route exact path="/playlists" element={<PlayLists />} />
-                <Route exact path="/favorites" element={<Favprites />} />
+                <Route exact path="/favorites" element={<Favorites />} />
                 <Route exact path="/genres" element={<Genres />} />
               </Routes>
             )}
