@@ -2,10 +2,11 @@ import React from 'react';
 import {
   Album,
   Person,
-  List,
+  PlaylistPlay,
   Favorite,
   MusicNote,
   Home,
+  QueueMusicOutlined,
 } from '@mui/icons-material';
 import { Link, useLocation } from 'react-router-dom';
 const LeftMenu = ({ setFullPlayer }) => {
@@ -25,6 +26,15 @@ const LeftMenu = ({ setFullPlayer }) => {
         }`}>
         <Home className="mx-4" />
         Home
+      </Link>
+      <Link
+        onClick={click}
+        to="/nowplaying"
+        className={`hover:bg-gray-300 dark:hover:bg-gray-700 rounded-l-full flex px-1 py-2 hover:cursor-pointer ml-4 ${
+          location === 'nowplaying' && activeClass
+        }`}>
+        <QueueMusicOutlined className="mx-4" />
+        Now playing
       </Link>
       <Link
         onClick={click}
@@ -50,7 +60,7 @@ const LeftMenu = ({ setFullPlayer }) => {
         className={`hover:bg-gray-300 dark:hover:bg-gray-700 rounded-l-full flex px-1 py-2 hover:cursor-pointer ml-4 ${
           location === 'playlists' && activeClass
         }`}>
-        <List className=" mx-4" />
+        <PlaylistPlay className=" mx-4" />
         Playlists
       </Link>
       <Link

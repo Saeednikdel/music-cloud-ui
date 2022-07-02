@@ -1,10 +1,10 @@
 import React from 'react';
 import data from '../data';
 
-const Favorites = ({ index, skip }) => {
+const NowPlaying = ({ index, skip }) => {
   return (
     <div className="mb-24">
-      {data.slice(0, 4).map((item, i) => (
+      {data.map((item, i) => (
         <div
           onClick={() => skip(i)}
           key={i}
@@ -24,4 +24,4 @@ const Favorites = ({ index, skip }) => {
   );
 };
 
-export default Favorites;
+export default NowPlaying;

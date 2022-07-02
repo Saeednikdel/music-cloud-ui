@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LeftMenu from './components/LeftMenu';
-import RightMenu from './components/RightMenu';
+import NowPlaying from './components/NowPlaying';
 import NavBar from './components/NavBar';
 import Home from './container/Home';
 import PlayLists from './container/PlayLists';
@@ -144,12 +144,12 @@ const App = () => {
           onTimeUpdate={onPlaying}
           onEnded={skiptoNext}
         />
-        <div className="grid grid-cols-5">
+        <div className="grid grid-cols-4">
           <div className="hidden md:block md:col-span-1">
             <LeftMenu setFullPlayer={setFullPlayer} />
           </div>
 
-          <div className=" col-span-5 md:col-span-3 pt-14 h-screen overflow-auto bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200">
+          <div className=" col-span-4 md:col-span-3 pt-14 h-screen overflow-auto bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200">
             {fullPlayer ? (
               <PlayerFull
                 songs={songs}
@@ -165,16 +165,22 @@ const App = () => {
             ) : (
               <Routes>
                 <Route exact path="/" element={<Home skip={skip} />} />
+                <Route
+                  exact
+                  path="/nowplaying"
+                  element={<NowPlaying index={index} skip={skip} />}
+                />
                 <Route exact path="/albums" element={<Albums />} />
                 <Route exact path="/artists" element={<Artists />} />
                 <Route exact path="/playlists" element={<PlayLists />} />
-                <Route exact path="/favorites" element={<Favorites />} />
+                <Route
+                  exact
+                  path="/favorites"
+                  element={<Favorites index={index} skip={skip} />}
+                />
                 <Route exact path="/genres" element={<Genres />} />
               </Routes>
             )}
-          </div>
-          <div className="hidden md:block  md:col-span-1">
-            <RightMenu index={index} skip={skip} />
           </div>
         </div>
         {!fullPlayer && isplayerOpen && (

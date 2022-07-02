@@ -4,35 +4,13 @@ import {
   Close,
   Brightness3,
   Brightness7,
-  QueueMusicOutlined,
   ArrowBack,
 } from '@mui/icons-material';
 import OutsideClickHandler from 'react-outside-click-handler';
-import RightSlide from './RightSlide';
 import LeftSlide from './LeftSlide';
 
-const NavBar = ({
-  setTheme,
-  checked,
-  index,
-  skip,
-  fullPlayer,
-  setFullPlayer,
-}) => {
+const NavBar = ({ setTheme, checked, fullPlayer, setFullPlayer }) => {
   const [openLeftMenu, setOpenLeftMenu] = useState(false);
-  const [openRightMenu, setOpenRightMenu] = useState(false);
-  const handleRightMenu = () => {
-    setOpenRightMenu(!openRightMenu);
-    if (openLeftMenu) {
-      setOpenLeftMenu(false);
-    }
-  };
-  const handleLeftMenu = () => {
-    setOpenLeftMenu(!openLeftMenu);
-    if (openRightMenu) {
-      setOpenRightMenu(false);
-    }
-  };
   return (
     <nav className="backdrop-blur-2xl  backdrop-brightness-200 dark:backdrop-brightness-50 shadow-sm border-1 px-2 sm:px-4 py-2.5 fixed top-0 left-0 right-0 bottom-auto z-10 text-gray-800 dark:text-gray-300">
       <div className="container flex flex-wrap flex-row-reverse justify-between items-center mx-auto md:px-8 xl:px-16">
@@ -52,32 +30,13 @@ const NavBar = ({
             onClick={setTheme}>
             {checked ? <Brightness7 /> : <Brightness3 />}
           </button>
-          <OutsideClickHandler
-            disabled={!openRightMenu}
-            onOutsideClick={handleRightMenu}>
-            <button
-              type="button"
-              className=" md:hidden hover:cursor-pointer active:text-blue-600"
-              onClick={handleRightMenu}>
-              {openRightMenu ? (
-                <Close style={{ fontSize: 30 }} />
-              ) : (
-                <QueueMusicOutlined style={{ fontSize: 30 }} />
-              )}
-            </button>
-            <RightSlide
-              openRightMenu={openRightMenu}
-              index={index}
-              skip={skip}
-            />
-          </OutsideClickHandler>
         </div>
         <div className="flex items-center space-x-3">
           <OutsideClickHandler
             disabled={!openLeftMenu}
-            onOutsideClick={handleLeftMenu}>
+            onOutsideClick={() => setOpenLeftMenu(!openLeftMenu)}>
             <button
-              onClick={handleLeftMenu}
+              onClick={() => setOpenLeftMenu(!openLeftMenu)}
               type="button"
               className=" md:hidden hover:cursor-pointer active:text-blue-600">
               {openLeftMenu ? (
@@ -88,7 +47,7 @@ const NavBar = ({
             </button>
             <LeftSlide
               openLeftMenu={openLeftMenu}
-              handleLeftMenu={handleLeftMenu}
+              setOpenLeftMenu={setOpenLeftMenu}
               setFullPlayer={setFullPlayer}
             />
           </OutsideClickHandler>

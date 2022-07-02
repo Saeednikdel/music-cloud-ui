@@ -2,18 +2,19 @@ import React from 'react';
 import {
   Album,
   Person,
-  List,
+  PlaylistPlay,
   Favorite,
   MusicNote,
   Home,
+  QueueMusicOutlined,
 } from '@mui/icons-material';
 import { Link, useLocation } from 'react-router-dom';
-const LeftSlide = ({ openLeftMenu, handleLeftMenu, setFullPlayer }) => {
+const LeftSlide = ({ openLeftMenu, setOpenLeftMenu, setFullPlayer }) => {
   const location = useLocation().pathname.split('/')[1];
   const activeClass = 'text-blue-600 bg-slate-300 dark:bg-gray-700';
   const click = () => {
     setFullPlayer(false);
-    handleLeftMenu();
+    setOpenLeftMenu(false);
   };
   return (
     <div
@@ -28,6 +29,15 @@ const LeftSlide = ({ openLeftMenu, handleLeftMenu, setFullPlayer }) => {
         }`}>
         <Home className="mx-4" />
         Home
+      </Link>
+      <Link
+        onClick={click}
+        to="/nowplaying"
+        className={`hover:bg-gray-300 dark:hover:bg-gray-700 rounded-l-full flex px-1 py-2 hover:cursor-pointer ml-4 ${
+          location === 'nowplaying' && activeClass
+        }`}>
+        <QueueMusicOutlined className="mx-4" />
+        Now playing
       </Link>
       <Link
         onClick={click}
@@ -53,7 +63,7 @@ const LeftSlide = ({ openLeftMenu, handleLeftMenu, setFullPlayer }) => {
         className={`hover:bg-gray-300 dark:hover:bg-gray-700 rounded-l-full flex px-1 py-2 hover:cursor-pointer ml-4 ${
           location === 'playlists' && activeClass
         }`}>
-        <List className=" mx-4" />
+        <PlaylistPlay className=" mx-4" />
         Playlists
       </Link>
       <Link

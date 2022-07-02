@@ -61,3 +61,7 @@
   width: 1rem;
   box-shadow: 0 0 3px #404040;
 }
+.seekbar::-webkit-slider-thumb:active {
+  height: 1.4rem;
+  width: 1.4rem;
+}
