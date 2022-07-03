@@ -5,13 +5,15 @@ created with tailwind css, material ui and react js
 [Live Demo](https://music-cloud-ui.vercel.app/)
 
 <br/>
+desktop view
 <p align="center">
-<img src="./Screenshot.png" width="500" alt="music cloud">
+<img src="./ScreenShot1.png" width="500" alt="music cloud">
 </p>
-<br/>
-<br/>
+mobile view
 <p align="center">
-<img src="./Screenshot2.jpg" width="500" alt="music cloud">
+<img src="./ScreenShot2.png" width="100" alt="music cloud">
+<img src="./ScreenShot3.png" width="100" alt="music cloud">
+<img src="./ScreenShot4.png" width="100" alt="music cloud">
 </p>
 <br/>
 <br/>
