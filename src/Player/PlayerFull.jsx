@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   PlayArrow,
   Pause,
@@ -11,7 +11,7 @@ import {
 import OutsideClickHandler from 'react-outside-click-handler';
 import VolumePopUp from '../components/VolumePopUp';
 import MoreMenu from '../components/MoreMenu';
-
+import { useParams, useNavigate } from 'react-router-dom';
 const PlayerFull = ({
   audioElem,
   isplaying,
@@ -19,7 +19,11 @@ const PlayerFull = ({
   currentSong,
   skipBack,
   skiptoNext,
+  index,
+  selectDontPlay,
+  setfull,
 }) => {
+  const { id } = useParams();
   const [flip, setFlip] = useState('');
   const [showVolume, setShowVolume] = useState(false);
   const [showMore, setShowMore] = useState(false);
@@ -27,9 +31,18 @@ const PlayerFull = ({
     audioElem.current && audioElem.current.muted
   );
   const [volume, setVolume] = useState(
-    audioElem.current && audioElem.current.volume * 100
+    audioElem.current ? audioElem.current.volume * 100 : 100
   );
-
+  const navigate = useNavigate();
+  useEffect(() => {
+    setfull(true);
+    currentSong === undefined && selectDontPlay(id);
+    index && id !== index && navigate(`/player/${index}`);
+    return () => {
+      setfull(false);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index]);
   const seek = (e) => {
     audioElem.current.currentTime = (e.target.value / 100) * currentSong.length;
   };
@@ -64,123 +77,133 @@ const PlayerFull = ({
     }
   };
   return (
-    <div className="py-16 px-4 md:px-16 xl:px-36 2xl:px-60 space-y-8 text-gray-900 dark:text-gray-300">
-      <div
-        onClick={rotate}
-        className="flip-card h-64 w-64 md:w-96 md:h-96 flex hover:cursor-pointer items-center justify-center mx-auto overflow-auto">
-        <div className={`flip-card-inner ${flip}`}>
-          <div className="flip-card-front">
-            <img
-              alt="album art"
-              src={currentSong.artwork[0].src}
-              className={`rounded-xl shadow-xl h-64 w-64 md:w-96 md:h-96 transform transition ${
-                !isplaying ? 'grayscale scale-90' : 'scale-1'
-              }`}
-            />
+    <>
+      {currentSong && (
+        <div
+          dir="ltr"
+          className="py-16 px-4 md:px-16 xl:px-36 2xl:px-60 space-y-8 text-gray-900 dark:text-gray-300">
+          <div
+            onClick={rotate}
+            className="flip-card h-64 w-64 md:w-96 md:h-96 flex hover:cursor-pointer items-center justify-center mx-auto overflow-auto">
+            <div className={`flip-card-inner ${flip}`}>
+              <div className="flip-card-front">
+                <img
+                  alt="album art"
+                  src={currentSong.artwork[0].src}
+                  className={`rounded-xl shadow-xl h-64 w-64 md:w-96 md:h-96 transform transition ${
+                    !isplaying ? 'grayscale scale-90' : 'scale-1'
+                  }`}
+                />
+              </div>
+              <div className="flip-card-back text-lg overflow-auto">
+                <p dangerouslySetInnerHTML={{ __html: currentSong.lyrics }} />
+              </div>
+            </div>
           </div>
-          <div className="flip-card-back text-lg overflow-auto">
-            <p dangerouslySetInnerHTML={{ __html: currentSong.lyrics }} />
-          </div>
-        </div>
-      </div>
-      <div className="flex space-x-4 items-center">
-        <div className="w-full text-center">
-          <p className=" font-bold text-xl">{currentSong.title}</p>
-          <p className="text-xl">{currentSong.artist}</p>
-          <p className="text-xl">{currentSong.album}</p>
-          <div className="flex justify-between -mb-2">
-            <p>
-              {currentSong.ct
-                ? Math.floor(currentSong.ct / 60) +
-                  ':' +
-                  Math.floor(currentSong.ct % 60)
-                : '0:0'}
-            </p>
-            <p>
-              {currentSong.length
-                ? Math.floor(currentSong.length / 60) +
-                  ':' +
-                  Math.floor(currentSong.length % 60)
-                : '0:0'}
-            </p>
-          </div>
-          <input
-            className="seekbar w-full h-1 bg-blue-200 dark:bg-slate-600 appearance-none rounded"
-            min={0}
-            max={100}
-            value={currentSong.progress ? currentSong.progress : 0}
-            type="range"
-            onChange={seek}
-          />
-        </div>
-      </div>
-      <div className="flex justify-center space-x-12">
-        <SkipPrevious
-          fontSize="large"
-          className=" hover:cursor-pointer active:text-blue-600"
-          onClick={skipBack}
-        />
-        {isplaying ? (
-          <Pause
-            fontSize="large"
-            className=" hover:cursor-pointer active:text-blue-600"
-            onClick={() => setisplaying(false)}
-          />
-        ) : (
-          <PlayArrow
-            fontSize="large"
-            className=" hover:cursor-pointer active:text-blue-600"
-            onClick={() => setisplaying(true)}
-          />
-        )}
-        <SkipNext
-          fontSize="large"
-          className=" hover:cursor-pointer active:text-blue-600"
-          onClick={skiptoNext}
-        />
-      </div>
-      <div className=" flex space-x-2 justify-end">
-        <div className=" relative inline-block">
-          <OutsideClickHandler
-            disabled={!showVolume}
-            onOutsideClick={() => setShowVolume(!showVolume)}>
-            {isMuted ? (
-              <VolumeOff
-                fontSize="large"
-                className=" hover:cursor-pointer active:text-blue-600"
-                onClick={() => setShowVolume(!showVolume)}
+          <div className="flex space-x-4 items-center">
+            <div className="w-full text-center">
+              <p className=" font-bold text-xl">{currentSong.title}</p>
+              <p className="text-xl">{currentSong.artist}</p>
+              <p className="text-xl">{currentSong.album}</p>
+              <div className="flex justify-between -mb-2">
+                <p>
+                  {currentSong.ct
+                    ? Math.floor(currentSong.ct / 60) +
+                      ':' +
+                      Math.floor(currentSong.ct % 60)
+                    : '0:0'}
+                </p>
+                <p>
+                  {currentSong.length
+                    ? Math.floor(currentSong.length / 60) +
+                      ':' +
+                      Math.floor(currentSong.length % 60)
+                    : '0:0'}
+                </p>
+              </div>
+              <input
+                className="seekbar w-full h-1 bg-blue-200 dark:bg-slate-600 appearance-none rounded"
+                min={0}
+                max={100}
+                value={currentSong.progress ? currentSong.progress : 0}
+                type="range"
+                onChange={seek}
               />
-            ) : (
-              <VolumeUp
-                fontSize="large"
-                className=" hover:cursor-pointer active:text-blue-600"
-                onClick={() => setShowVolume(!showVolume)}
-              />
-            )}
-            <VolumePopUp
-              mute={mute}
-              isMuted={isMuted}
-              volume={volume}
-              showVolume={showVolume}
-              changeVolume={changeVolume}
-            />
-          </OutsideClickHandler>
-        </div>
-        <div className=" relative inline-block">
-          <OutsideClickHandler
-            disabled={!showMore}
-            onOutsideClick={() => setShowMore(!showMore)}>
-            <MoreVert
+            </div>
+          </div>
+          <div className="flex justify-center">
+            <SkipPrevious
               fontSize="large"
               className=" hover:cursor-pointer active:text-blue-600"
-              onClick={() => setShowMore(!showMore)}
+              onClick={skipBack}
             />
+            {isplaying ? (
+              <Pause
+                fontSize="large"
+                className=" hover:cursor-pointer active:text-blue-600 mx-8"
+                onClick={() => setisplaying(false)}
+              />
+            ) : (
+              <PlayArrow
+                fontSize="large"
+                className=" hover:cursor-pointer active:text-blue-600 mx-8"
+                onClick={() => setisplaying(true)}
+              />
+            )}
+            <SkipNext
+              fontSize="large"
+              className=" hover:cursor-pointer active:text-blue-600"
+              onClick={skiptoNext}
+            />
+          </div>
+          <div className=" flex space-x-2 justify-end">
+            <div className=" relative inline-block">
+              <OutsideClickHandler
+                disabled={!showVolume}
+                onOutsideClick={() => setShowVolume(!showVolume)}>
+                {isMuted ? (
+                  <VolumeOff
+                    fontSize="large"
+                    className=" hover:cursor-pointer active:text-blue-600"
+                    onClick={() => setShowVolume(!showVolume)}
+                  />
+                ) : (
+                  <VolumeUp
+                    fontSize="large"
+                    className=" hover:cursor-pointer active:text-blue-600"
+                    onClick={() => setShowVolume(!showVolume)}
+                  />
+                )}
+                <VolumePopUp
+                  mute={mute}
+                  isMuted={isMuted}
+                  volume={volume}
+                  showVolume={showVolume}
+                  changeVolume={changeVolume}
+                />
+              </OutsideClickHandler>
+            </div>
+            <div className=" relative inline-block">
+              <OutsideClickHandler
+                disabled={!showMore}
+                onOutsideClick={() => setShowMore(!showMore)}>
+                <MoreVert
+                  fontSize="large"
+                  className=" hover:cursor-pointer active:text-blue-600"
+                  onClick={() => setShowMore(!showMore)}
+                />
 
-            <MoreMenu showMore={showMore} currentSong={currentSong} />
-          </OutsideClickHandler>
+                <MoreMenu
+                  showMore={showMore}
+                  currentSong={currentSong}
+                  index={index}
+                />
+              </OutsideClickHandler>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

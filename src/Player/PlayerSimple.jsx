@@ -9,7 +9,7 @@ import {
 } from '@mui/icons-material';
 import OutsideClickHandler from 'react-outside-click-handler';
 import VolumePopUp from '../components/VolumePopUp';
-
+import { Link } from 'react-router-dom';
 const PlayerSimple = ({
   audioElem,
   isplaying,
@@ -17,7 +17,7 @@ const PlayerSimple = ({
   currentSong,
   skipBack,
   skiptoNext,
-  setFullPlayer,
+  index,
 }) => {
   const [showVolume, setShowVolume] = useState(false);
   const [isMuted, setIsMuted] = useState(
@@ -54,17 +54,20 @@ const PlayerSimple = ({
     }
   };
   return (
-    <div className="pt-1 pb-2 px-4 md:px-16 xl:px-36 2xl:px-60 backdrop-blur-2xl  backdrop-brightness-200 dark:backdrop-brightness-50 shadow-sm border-1 text-gray-900 dark:text-gray-300">
+    <div
+      dir="ltr"
+      className="pt-1 pb-2 px-4 md:px-16 xl:px-36 2xl:px-60 backdrop-blur-2xl  backdrop-brightness-200 dark:backdrop-brightness-50 shadow-sm border-1 text-gray-900 dark:text-gray-300">
       <div className="flex space-x-4 items-center">
         <div className="h-20 w-20 flex items-center justify-center">
-          <img
-            alt="album art"
-            onClick={() => setFullPlayer(true)}
-            src={currentSong.artwork[0].src}
-            className={`rounded shadow-xl transform transition hover:cursor-pointer ${
-              !isplaying ? 'grayscale scale-90' : 'scale-1'
-            }`}
-          />
+          <Link to={`/player/${index}`}>
+            <img
+              alt="album art"
+              src={currentSong.artwork[0].src}
+              className={`rounded shadow-xl transform transition hover:cursor-pointer ${
+                !isplaying ? 'grayscale scale-90' : 'scale-1'
+              }`}
+            />
+          </Link>
         </div>
         <div className="w-full">
           <div className="flex justify-between items-center -mb-2">

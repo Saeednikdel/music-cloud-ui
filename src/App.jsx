@@ -11,15 +11,15 @@ import Favorites from './container/Favorites';
 import Genres from './container/Genres';
 import PlayerSimple from './Player/PlayerSimple';
 import PlayerFull from './Player/PlayerFull';
-
+import New from './container/New';
+import CreateCard from './container/CreateCard';
 import data from './data';
 const App = () => {
   const [theme, setTheme] = useState('dark');
   const [index, setIndex] = useState();
-  const [songs, setSongs] = useState(data);
-  const [fullPlayer, setFullPlayer] = useState(false);
   const [isplaying, setisplaying] = useState(false);
   const [isplayerOpen, setisplayerOpen] = useState(false);
+  const [full, setfull] = useState(false);
   const [currentSong, setCurrentSong] = useState();
   const audioElem = useRef();
 
@@ -32,7 +32,6 @@ const App = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isplaying]);
-
   const updateNotif = (i = index) => {
     if ('mediaSession' in navigator && isplaying) {
       navigator.mediaSession.metadata = new MediaMetadata({
@@ -73,14 +72,14 @@ const App = () => {
     });
   };
   const skiptoNext = () => {
-    const index = songs.findIndex((x) => x.title === currentSong.title);
-    if (index === songs.length - 1) {
+    const index = data.findIndex((x) => x.title === currentSong.title);
+    if (index === data.length - 1) {
       setIndex(0);
-      setCurrentSong(songs[0]);
+      setCurrentSong(data[0]);
       updateNotif(0);
     } else {
       setIndex(index + 1);
-      setCurrentSong(songs[index + 1]);
+      setCurrentSong(data[index + 1]);
       updateNotif(index + 1);
     }
     audioElem.current.currentTime = 0;
@@ -89,14 +88,14 @@ const App = () => {
     }
   };
   const skipBack = () => {
-    const index = songs.findIndex((x) => x.title === currentSong.title);
+    const index = data.findIndex((x) => x.title === currentSong.title);
     if (index === 0) {
-      setIndex(songs.length - 1);
-      setCurrentSong(songs[songs.length - 1]);
-      updateNotif(songs.length - 1);
+      setIndex(data.length - 1);
+      setCurrentSong(data[data.length - 1]);
+      updateNotif(data.length - 1);
     } else {
       setIndex(index - 1);
-      setCurrentSong(songs[index - 1]);
+      setCurrentSong(data[index - 1]);
       updateNotif(index - 1);
     }
     audioElem.current.currentTime = 0;
@@ -107,16 +106,20 @@ const App = () => {
   const skip = (i) => {
     !isplayerOpen && setisplayerOpen(true);
     if (index === i) {
-      setFullPlayer(true);
     } else {
       setIndex(i);
-      setCurrentSong(songs[i]);
+      setCurrentSong(data[i]);
       audioElem.current.currentTime = 0;
       updateNotif(i);
     }
     if (!isplaying) {
       setisplaying(true);
     }
+  };
+  const selectDontPlay = (i) => {
+    !isplayerOpen && setisplayerOpen(true);
+    setIndex(i);
+    setCurrentSong(data[i]);
   };
   const handleTheme = () => {
     if (theme === '') {
@@ -129,8 +132,6 @@ const App = () => {
     <BrowserRouter>
       <div className={`min-h-screen px-auto ${theme}`}>
         <NavBar
-          setFullPlayer={setFullPlayer}
-          fullPlayer={fullPlayer}
           setTheme={handleTheme}
           checked={theme === 'dark'}
           index={index}
@@ -138,7 +139,7 @@ const App = () => {
         />
         <audio
           preload="auto"
-          autoPlay={isplayerOpen}
+          autoPlay={isplayerOpen && isplaying}
           src={currentSong && currentSong.url}
           ref={audioElem}
           onTimeUpdate={onPlaying}
@@ -146,48 +147,52 @@ const App = () => {
         />
         <div className="grid grid-cols-4">
           <div className="hidden md:block md:col-span-1">
-            <LeftMenu setFullPlayer={setFullPlayer} />
+            <LeftMenu />
           </div>
 
           <div className=" col-span-4 md:col-span-3 pt-14 h-screen overflow-auto bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200">
-            {fullPlayer ? (
-              <PlayerFull
-                songs={songs}
-                setSongs={setSongs}
-                skipBack={skipBack}
-                skiptoNext={skiptoNext}
-                setisplaying={setisplaying}
-                isplaying={isplaying}
-                audioElem={audioElem}
-                currentSong={currentSong}
-                setCurrentSong={setCurrentSong}
+            <Routes>
+              <Route exact path="/" element={<Home skip={skip} />} />
+              <Route
+                exact
+                path="/nowplaying"
+                element={<NowPlaying index={index} skip={skip} />}
               />
-            ) : (
-              <Routes>
-                <Route exact path="/" element={<Home skip={skip} />} />
-                <Route
-                  exact
-                  path="/nowplaying"
-                  element={<NowPlaying index={index} skip={skip} />}
-                />
-                <Route exact path="/albums" element={<Albums />} />
-                <Route exact path="/artists" element={<Artists />} />
-                <Route exact path="/playlists" element={<PlayLists />} />
-                <Route
-                  exact
-                  path="/favorites"
-                  element={<Favorites index={index} skip={skip} />}
-                />
-                <Route exact path="/genres" element={<Genres />} />
-              </Routes>
-            )}
+              <Route exact path="/albums" element={<Albums />} />
+              <Route exact path="/createcard/:id" element={<CreateCard />} />
+              <Route exact path="/new" element={<New />} />
+              <Route exact path="/artists" element={<Artists />} />
+              <Route exact path="/playlists" element={<PlayLists />} />
+              <Route
+                exact
+                path="/favorites"
+                element={<Favorites index={index} skip={skip} />}
+              />
+              <Route exact path="/genres" element={<Genres />} />
+              <Route
+                exact
+                path="/player/:id"
+                element={
+                  <PlayerFull
+                    selectDontPlay={selectDontPlay}
+                    index={index}
+                    skipBack={skipBack}
+                    skiptoNext={skiptoNext}
+                    setisplaying={setisplaying}
+                    isplaying={isplaying}
+                    audioElem={audioElem}
+                    currentSong={currentSong}
+                    setfull={setfull}
+                  />
+                }
+              />
+            </Routes>
           </div>
         </div>
-        {!fullPlayer && isplayerOpen && (
+        {!full && isplayerOpen && (
           <div className="fixed top-auto bottom-0 z-50 w-full">
             <PlayerSimple
-              songs={songs}
-              setSongs={setSongs}
+              index={index}
               skipBack={skipBack}
               skiptoNext={skiptoNext}
               isplaying={isplaying}
@@ -195,7 +200,6 @@ const App = () => {
               audioElem={audioElem}
               currentSong={currentSong}
               setCurrentSong={setCurrentSong}
-              setFullPlayer={setFullPlayer}
             />
           </div>
         )}
