@@ -5,8 +5,10 @@ import {
   FavoriteBorder,
   Add,
   Download,
+  LibraryMusic,
 } from '@mui/icons-material';
-const MoreMenu = ({ showMore, currentSong }) => {
+import { Link } from 'react-router-dom';
+const MoreMenu = ({ showMore, currentSong, index }) => {
   return (
     <div
       className={`${
@@ -24,6 +26,12 @@ const MoreMenu = ({ showMore, currentSong }) => {
         <Share />
         <h1 className="text-xl">Share</h1>
       </div>
+      <Link to={`/createcard/${index}/`}>
+        <div className="flex px-2 py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
+          <LibraryMusic />
+          <h1 className="text-xl">Lyrics card</h1>
+        </div>
+      </Link>
       <a href={currentSong.url} download={currentSong.title + '[Music Cloud]'}>
         <div className="flex px-2 py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
           <Download />
