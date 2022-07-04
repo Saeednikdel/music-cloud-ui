@@ -9,11 +9,10 @@ import {
   QueueMusicOutlined,
 } from '@mui/icons-material';
 import { Link, useLocation } from 'react-router-dom';
-const LeftSlide = ({ openLeftMenu, setOpenLeftMenu, setFullPlayer }) => {
+const LeftSlide = ({ openLeftMenu, setOpenLeftMenu }) => {
   const location = useLocation().pathname.split('/')[1];
   const activeClass = 'text-blue-600 bg-slate-300 dark:bg-gray-700';
   const click = () => {
-    setFullPlayer(false);
     setOpenLeftMenu(false);
   };
   return (

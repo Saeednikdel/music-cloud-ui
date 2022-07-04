@@ -9,7 +9,7 @@ import {
 import OutsideClickHandler from 'react-outside-click-handler';
 import LeftSlide from './LeftSlide';
 
-const NavBar = ({ setTheme, checked, fullPlayer, setFullPlayer }) => {
+const NavBar = ({ setTheme, checked }) => {
   const [openLeftMenu, setOpenLeftMenu] = useState(false);
   return (
     <nav className="backdrop-blur-2xl  backdrop-brightness-200 dark:backdrop-brightness-50 shadow-sm border-1 px-2 sm:px-4 py-2.5 fixed top-0 left-0 right-0 bottom-auto z-10 text-gray-800 dark:text-gray-300">
@@ -48,16 +48,8 @@ const NavBar = ({ setTheme, checked, fullPlayer, setFullPlayer }) => {
             <LeftSlide
               openLeftMenu={openLeftMenu}
               setOpenLeftMenu={setOpenLeftMenu}
-              setFullPlayer={setFullPlayer}
             />
           </OutsideClickHandler>
-          {fullPlayer && (
-            <ArrowBack
-              style={{ fontSize: 30 }}
-              className="hover:cursor-pointer mt-1 active:text-blue-600"
-              onClick={() => setFullPlayer(false)}
-            />
-          )}
         </div>
       </div>
     </nav>
