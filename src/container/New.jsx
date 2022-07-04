@@ -8,7 +8,12 @@ const New = () => {
     const meta = await parseAudioMetadata(e.target.files[0]);
     setFile(meta);
   }
-
+  const newimage = (e) => {
+    setFile({ ...file, picture: e.target.files[0] });
+  };
+  const textChange = (e) => {
+    setFile({ ...file, [e.target.name]: e.target.value });
+  };
   return (
     <div className="p-4 pb-20 tex flex flex-col items-center space-y-4">
       <label htmlFor="file-input">
@@ -29,7 +34,7 @@ const New = () => {
             <input
               accept="image/*"
               id="image-input"
-              // multiple
+              onChange={newimage}
               style={{ display: 'none' }}
               type="file"
             />
@@ -46,19 +51,25 @@ const New = () => {
 
           <input
             type="text"
-            defaultValue={file.title}
+            value={file.title}
+            name="title"
+            onChange={textChange}
             className="h-8 rounded-full border border-gray-600 dark:border-gray-300 bg-transparent placeholder:text-gray-600 dark:placeholder:text-gray-400 px-4 focus:outline-none w-auto"
             placeholder="title"
           />
           <input
             type="text"
-            defaultValue={file.artist}
+            value={file.artist}
+            name="artist"
+            onChange={textChange}
             className="h-8 rounded-full border border-gray-600 dark:border-gray-300 bg-transparent placeholder:text-gray-600 dark:placeholder:text-gray-400 px-4 focus:outline-none w-auto"
             placeholder="artist"
           />
           <input
             type="text"
-            defaultValue={file.album}
+            onChange={textChange}
+            value={file.album}
+            name="album"
             className="h-8 rounded-full border border-gray-600 dark:border-gray-300 bg-transparent placeholder:text-gray-600 dark:placeholder:text-gray-400 px-4 focus:outline-none w-auto"
             placeholder="album"
           />
