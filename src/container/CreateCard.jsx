@@ -13,7 +13,7 @@ import {
   ShortText,
 } from '@mui/icons-material';
 import data from '../data';
-
+import logo from '../assets/cover/logo.png';
 const CreateCard = () => {
   const div = useRef();
   let { id } = useParams();
@@ -38,9 +38,11 @@ const CreateCard = () => {
     setImage(URL.createObjectURL(e.target.files[0]));
   }
   return (
-    <div dir="ltr" className="pb-20">
+    <div dir="ltr" className="pb-32">
       <div className="flex justify-center items-center md:mt-8">
-        <div ref={div} className="relative overflow-hidden text-white">
+        <div
+          ref={div}
+          className="w-80 h-80 md:w-96 md:h-96 relative overflow-hidden text-white">
           <img
             alt="album"
             className="w-80 h-80 md:w-96 md:h-96 object-cover"
@@ -66,8 +68,8 @@ const CreateCard = () => {
             }}>
             {selected}
           </div>
-          <div className="absolute bottom-4 right-4 bg-gray-900/50 py-1 px-3 rounded-md w-28">
-            Music Cloud
+          <div className="absolute bottom-4 right-4 bg-gray-900/50 p-1 rounded-md w-12">
+            <img alt="Music Cloud" src={logo} />
           </div>
         </div>
       </div>
