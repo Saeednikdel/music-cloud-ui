@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Menu,
-  Close,
-  Brightness3,
-  Brightness7,
-  ArrowBack,
-} from '@mui/icons-material';
+import { Menu, Close, Brightness3, Brightness7 } from '@mui/icons-material';
 import OutsideClickHandler from 'react-outside-click-handler';
 import LeftSlide from './LeftSlide';
 

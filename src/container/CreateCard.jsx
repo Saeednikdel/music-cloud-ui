@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { saveAsPng } from 'save-html-as-image';
+import domtoimage from 'dom-to-image';
 import {
   Download,
   FormatAlignLeft,
@@ -32,7 +32,12 @@ const CreateCard = () => {
   const [selected, setSelected] = useState(lyric[1]);
   const [image, setImage] = useState(song.artwork[0].src);
   const shot = () => {
-    saveAsPng(div.current, { filename: 'Music Cloud', printDate: true });
+    domtoimage.toJpeg(div.current).then(function (dataUrl) {
+      var link = document.createElement('a');
+      link.download = `${song.title + ' - ' + song.artist}.jpeg`;
+      link.href = dataUrl;
+      link.click();
+    });
   };
   async function change(e) {
     setImage(URL.createObjectURL(e.target.files[0]));
@@ -42,10 +47,10 @@ const CreateCard = () => {
       <div className="flex justify-center items-center md:mt-8">
         <div
           ref={div}
-          className="w-80 h-80 md:w-96 md:h-96 relative overflow-hidden text-white">
+          className="w-96 h-96 relative overflow-hidden text-white">
           <img
             alt="album"
-            className="w-80 h-80 md:w-96 md:h-96 object-cover"
+            className="w-full h-full object-cover"
             style={{ filter: `brightness(${brightness}%)` }}
             src={image}
           />
