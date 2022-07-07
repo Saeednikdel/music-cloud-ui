@@ -51,6 +51,7 @@ const ResetPassword = ({
             value={email}
             onChange={onChange}
             placeholder="email"
+            required
           />
         </div>
         <div className="text-center">

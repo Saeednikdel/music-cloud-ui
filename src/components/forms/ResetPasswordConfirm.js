@@ -58,6 +58,7 @@ const ResetPasswordConfirm = ({
             placeholder="8 character"
             value={new_password}
             onChange={onChange}
+            required
           />
         </div>
         <div>
@@ -70,6 +71,7 @@ const ResetPasswordConfirm = ({
             placeholder="8 character"
             value={re_new_password}
             onChange={onChange}
+            required
           />
         </div>
         <div className="text-center">

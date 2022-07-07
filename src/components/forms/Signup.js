@@ -59,6 +59,7 @@ const Signup = ({
             value={name}
             onChange={onChange}
             placeholder="user name"
+            required
             error={signup_error && signup_error.name && true}
             helperText={
               signup_error && signup_error.name && signup_error.name[0]
@@ -74,6 +75,7 @@ const Signup = ({
             value={email}
             onChange={onChange}
             placeholder="email"
+            required
             error={signup_error && signup_error.email && true}
             helperText={signup_error && signup_error.email}
           />
@@ -88,6 +90,7 @@ const Signup = ({
             value={password}
             onChange={onChange}
             placeholder="8 character"
+            required
             error={signup_error && signup_error.password && true}
             helperText={
               signup_error && signup_error.password && signup_error.password[0]
@@ -102,6 +105,7 @@ const Signup = ({
             id="re_password"
             placeholder="8 character"
             minLength="8"
+            required
             value={re_password}
             onChange={onChange}
             error={signup_error && signup_error.non_field_errors && true}

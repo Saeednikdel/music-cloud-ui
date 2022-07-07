@@ -11,6 +11,7 @@ const TextField = ({
   error,
   label,
   minLength,
+  required,
 }) => {
   return (
     <>
@@ -32,7 +33,7 @@ const TextField = ({
         } text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400 `}
         placeholder={placeholder}
         minLength={minLength}
-        required
+        required={required}
       />
       <p className="text-xs text-red-600 dark:text-red-500">{helperText}</p>
     </>

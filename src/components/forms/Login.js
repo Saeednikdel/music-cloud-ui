@@ -56,6 +56,7 @@ const Login = ({
               "password or email doesn't match"
             }
             placeholder="email"
+            required
           />
         </div>
         <div>
@@ -68,6 +69,7 @@ const Login = ({
             value={password}
             onChange={onChange}
             minLength="8"
+            required
           />
         </div>
         <div className="flex justify-between">
