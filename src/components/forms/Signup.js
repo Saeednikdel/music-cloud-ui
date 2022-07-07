@@ -89,7 +89,7 @@ const Signup = ({
             minLength="8"
             value={password}
             onChange={onChange}
-            placeholder="8 character"
+            placeholder="at least 8 character"
             required
             error={signup_error && signup_error.password && true}
             helperText={
@@ -103,7 +103,7 @@ const Signup = ({
             type="password"
             name="re_password"
             id="re_password"
-            placeholder="8 character"
+            placeholder="at least 8 character"
             minLength="8"
             required
             value={re_password}

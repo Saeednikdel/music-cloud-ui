@@ -55,7 +55,7 @@ const ResetPasswordConfirm = ({
             name="new_password"
             id="new_password"
             minLength="8"
-            placeholder="8 character"
+            placeholder="at least 8 character"
             value={new_password}
             onChange={onChange}
             required
@@ -68,7 +68,7 @@ const ResetPasswordConfirm = ({
             name="re_new_password"
             minLength="8"
             id="re_new_password"
-            placeholder="8 character"
+            placeholder="at least 8 character"
             value={re_new_password}
             onChange={onChange}
             required
