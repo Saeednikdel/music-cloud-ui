@@ -1,10 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu, Close, Brightness3, Brightness7 } from '@mui/icons-material';
 import OutsideClickHandler from 'react-outside-click-handler';
 import LeftSlide from './LeftSlide';
+import { connect } from 'react-redux';
+import { checkAuthenticated, load_user } from '../actions/auth';
 
 const NavBar = ({ setTheme, checked }) => {
   const [openLeftMenu, setOpenLeftMenu] = useState(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        checkAuthenticated();
+        load_user();
+      } catch (err) {}
+    };
+    fetchData();
+  }, []);
   return (
     <nav className="backdrop-blur-2xl  backdrop-brightness-200 dark:backdrop-brightness-50 shadow-sm border-1 px-2 sm:px-4 py-2.5 fixed top-0 left-0 right-0 bottom-auto z-10 text-gray-800 dark:text-gray-300">
       <div className="container flex flex-wrap flex-row-reverse justify-between items-center mx-auto md:px-8 xl:px-16">
@@ -49,5 +60,4 @@ const NavBar = ({ setTheme, checked }) => {
     </nav>
   );
 };
-
-export default NavBar;
+export default connect(null, { checkAuthenticated, load_user })(NavBar);
