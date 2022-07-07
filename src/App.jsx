@@ -171,6 +171,15 @@ const App = () => {
               <Route exact path="/genres" element={<Genres />} />
               <Route
                 exact
+                path="*"
+                element={
+                  <h1 className=" text-center mt-20 text-3xl">
+                    Page Not Found. 404
+                  </h1>
+                }
+              />
+              <Route
+                exact
                 path="/player/:id"
                 element={
                   <PlayerFull
