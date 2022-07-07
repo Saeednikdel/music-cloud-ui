@@ -13,9 +13,19 @@ import PlayerSimple from './Player/PlayerSimple';
 import PlayerFull from './Player/PlayerFull';
 import New from './container/New';
 import CreateCard from './container/CreateCard';
+import { Provider } from 'react-redux';
+import store from './store';
 import data from './data';
+import Login from './components/forms/Login';
+import Signup from './components/forms/Signup';
+import ResetPassword from './components/forms/ResetPassword';
+import ResetPasswordConfirm from './components/forms/ResetPasswordConfirm';
+import Activate from './components/forms/Activate';
+
 const App = () => {
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState(
+    localStorage.getItem('theme') ? localStorage.getItem('theme') : ''
+  );
   const [index, setIndex] = useState();
   const [isplaying, setisplaying] = useState(false);
   const [isplayerOpen, setisplayerOpen] = useState(false);
@@ -124,96 +134,117 @@ const App = () => {
   const handleTheme = () => {
     if (theme === '') {
       setTheme('dark');
+      localStorage.setItem('theme', 'dark');
     } else {
       setTheme('');
+      localStorage.setItem('theme', '');
     }
   };
   return (
-    <BrowserRouter>
-      <div className={`min-h-screen px-auto ${theme}`}>
-        <NavBar
-          setTheme={handleTheme}
-          checked={theme === 'dark'}
-          index={index}
-          skip={skip}
-        />
-        <audio
-          preload="auto"
-          autoPlay={isplayerOpen && isplaying}
-          src={currentSong && currentSong.url}
-          ref={audioElem}
-          onTimeUpdate={onPlaying}
-          onEnded={skiptoNext}
-        />
-        <div className="grid grid-cols-4">
-          <div className="hidden md:block md:col-span-1">
-            <LeftMenu />
-          </div>
+    <Provider store={store}>
+      <BrowserRouter>
+        <div className={`min-h-screen px-auto ${theme}`}>
+          <NavBar
+            setTheme={handleTheme}
+            checked={theme === 'dark'}
+            index={index}
+            skip={skip}
+          />
+          <audio
+            preload="auto"
+            autoPlay={isplayerOpen && isplaying}
+            src={currentSong && currentSong.url}
+            ref={audioElem}
+            onTimeUpdate={onPlaying}
+            onEnded={skiptoNext}
+          />
+          <div className="grid grid-cols-4">
+            <div className="hidden md:block md:col-span-1">
+              <LeftMenu />
+            </div>
 
-          <div className=" col-span-4 md:col-span-3 pt-14 h-screen overflow-auto bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200">
-            <Routes>
-              <Route exact path="/" element={<Home skip={skip} />} />
-              <Route
-                exact
-                path="/nowplaying"
-                element={<NowPlaying index={index} skip={skip} />}
-              />
-              <Route exact path="/albums" element={<Albums />} />
-              <Route exact path="/createcard/:id" element={<CreateCard />} />
-              <Route exact path="/new" element={<New />} />
-              <Route exact path="/artists" element={<Artists />} />
-              <Route exact path="/playlists" element={<PlayLists />} />
-              <Route
-                exact
-                path="/favorites"
-                element={<Favorites index={index} skip={skip} />}
-              />
-              <Route exact path="/genres" element={<Genres />} />
-              <Route
-                exact
-                path="*"
-                element={
-                  <h1 className=" text-center mt-20 text-3xl">
-                    Page Not Found. 404
-                  </h1>
-                }
-              />
-              <Route
-                exact
-                path="/player/:id"
-                element={
-                  <PlayerFull
-                    selectDontPlay={selectDontPlay}
-                    index={index}
-                    skipBack={skipBack}
-                    skiptoNext={skiptoNext}
-                    setisplaying={setisplaying}
-                    isplaying={isplaying}
-                    audioElem={audioElem}
-                    currentSong={currentSong}
-                    setfull={setfull}
-                  />
-                }
-              />
-            </Routes>
+            <div className=" col-span-4 md:col-span-3 pt-14 h-screen overflow-auto bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200">
+              <Routes>
+                <Route exact path="/" element={<Home skip={skip} />} />
+                <Route exact path="/login" element={<Login />} />
+                <Route exact path="/signup" element={<Signup />} />
+                <Route
+                  exact
+                  path="/reset_password"
+                  element={<ResetPassword />}
+                />
+                <Route
+                  exact
+                  path="/password/reset/confirm/:uid/:token"
+                  element={<ResetPasswordConfirm />}
+                />
+                <Route
+                  exact
+                  path="/activate/:uid/:token"
+                  element={<Activate />}
+                />
+                <Route
+                  exact
+                  path="/nowplaying"
+                  element={<NowPlaying index={index} skip={skip} />}
+                />
+                <Route exact path="/albums" element={<Albums />} />
+                <Route exact path="/createcard/:id" element={<CreateCard />} />
+                <Route exact path="/new" element={<New />} />
+                <Route exact path="/artists" element={<Artists />} />
+                <Route exact path="/playlists" element={<PlayLists />} />
+                <Route
+                  exact
+                  path="/favorites"
+                  element={<Favorites index={index} skip={skip} />}
+                />
+                <Route exact path="/genres" element={<Genres />} />
+                <Route
+                  exact
+                  path="*"
+                  element={
+                    <h1 className=" text-center mt-20 text-3xl">
+                      Page Not Found. 404
+                    </h1>
+                  }
+                />
+                <Route
+                  exact
+                  path="/player/:id"
+                  element={
+                    <PlayerFull
+                      selectDontPlay={selectDontPlay}
+                      index={index}
+                      skipBack={skipBack}
+                      skiptoNext={skiptoNext}
+                      setisplaying={setisplaying}
+                      isplaying={isplaying}
+                      audioElem={audioElem}
+                      currentSong={currentSong}
+                      setfull={setfull}
+                    />
+                  }
+                />
+              </Routes>
+            </div>
           </div>
+          {!full && isplayerOpen && (
+            <div className="fixed top-auto bottom-0 z-50 w-full">
+              <PlayerSimple
+                index={index}
+                skipBack={skipBack}
+                skiptoNext={skiptoNext}
+                isplaying={isplaying}
+                setisplaying={setisplaying}
+                audioElem={audioElem}
+                currentSong={currentSong}
+                setCurrentSong={setCurrentSong}
+              />
+            </div>
+          )}
         </div>
-        {!full && isplayerOpen && (
-          <div className="fixed top-auto bottom-0 z-50 w-full">
-            <PlayerSimple
-              index={index}
-              skipBack={skipBack}
-              skiptoNext={skiptoNext}
-              isplaying={isplaying}
-              setisplaying={setisplaying}
-              audioElem={audioElem}
-              currentSong={currentSong}
-              setCurrentSong={setCurrentSong}
-            />
-          </div>
-        )}
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </Provider>
   );
 };
 
