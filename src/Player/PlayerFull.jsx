@@ -11,7 +11,7 @@ import {
 import OutsideClickHandler from 'react-outside-click-handler';
 import VolumePopUp from '../components/VolumePopUp';
 import MoreMenu from '../components/MoreMenu';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 const PlayerFull = ({
   audioElem,
   isplaying,
@@ -33,11 +33,9 @@ const PlayerFull = ({
   const [volume, setVolume] = useState(
     audioElem.current ? audioElem.current.volume * 100 : 100
   );
-  const navigate = useNavigate();
   useEffect(() => {
     setfull(true);
     currentSong === undefined && selectDontPlay(id);
-    index && id !== index && navigate(`/player/${index}`);
     return () => {
       setfull(false);
     };
