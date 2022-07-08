@@ -11,7 +11,7 @@ import Favorites from './container/Favorites';
 import Genres from './container/Genres';
 import PlayerSimple from './Player/PlayerSimple';
 import PlayerFull from './Player/PlayerFull';
-import New from './container/New';
+import NewPost from './components/forms/NewPost';
 import CreateCard from './container/CreateCard';
 import { Provider } from 'react-redux';
 import store from './store';
@@ -190,7 +190,7 @@ const App = () => {
                 />
                 <Route exact path="/albums" element={<Albums />} />
                 <Route exact path="/createcard/:id" element={<CreateCard />} />
-                <Route exact path="/new" element={<New />} />
+                <Route exact path="/new" element={<NewPost />} />
                 <Route exact path="/artists" element={<Artists />} />
                 <Route exact path="/playlists" element={<PlayLists />} />
                 <Route
