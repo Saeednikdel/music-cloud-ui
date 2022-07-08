@@ -24,9 +24,11 @@ const NewPost = ({ isAuthenticated, user }) => {
   );
   const [file, setFile] = useState();
   async function handleFile(e) {
-    const meta = await parseAudioMetadata(e.target.files[0]);
-    const fileName = e.target.files[0].name.split('.').slice(0, -1).join('.');
-    meta.title ? setFile(meta) : setFile({ title: fileName, ...meta });
+    if (e.target.files[0]) {
+      const meta = await parseAudioMetadata(e.target.files[0]);
+      const fileName = e.target.files[0].name.split('.').slice(0, -1).join('.');
+      meta.title ? setFile(meta) : setFile({ title: fileName, ...meta });
+    }
   }
   const resizeFile = (file, format) =>
     new Promise((resolve) => {
@@ -44,9 +46,11 @@ const NewPost = ({ isAuthenticated, user }) => {
       );
     });
   const newimage = async (e) => {
-    const format = e.target.files[0].type.split('/').pop();
-    const image = await resizeFile(e.target.files[0], format);
-    setFile({ ...file, picture: image });
+    if (e.target.files[0]) {
+      const format = e.target.files[0].type.split('/').pop();
+      const image = await resizeFile(e.target.files[0], format);
+      setFile({ ...file, picture: image });
+    }
   };
   const textChange = (e) => {
     setFile({ ...file, [e.target.name]: e.target.value });
@@ -87,6 +91,7 @@ const NewPost = ({ isAuthenticated, user }) => {
             id="file-input"
             className="hidden"
             type="file"
+            accept="audio/mp3"
             onChange={handleFile}
           />
           <p className="bg-blue-600 dark:bg-blue-500 text-white text-sm px-4 py-2 w-fit rounded-full shadow hover:cursor-pointer hover:bg-blue-700 dark:hover:bg-blue-600">
@@ -109,7 +114,7 @@ const NewPost = ({ isAuthenticated, user }) => {
           <div className="flex justify-center">
             <label htmlFor="image-input">
               <input
-                accept="image/*"
+                accept="image/jpeg,image/png"
                 id="image-input"
                 onChange={newimage}
                 style={{ display: 'none' }}
