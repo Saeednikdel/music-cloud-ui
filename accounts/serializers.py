@@ -37,7 +37,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserAccount
         fields = ('id', 'profile_name', 'followers', 'followings', 'header', 'email', 'name',
-                  'image', 'header', 'birth_date', 'join_date', 'is_entity', 'is_staff', 'bio')
+                  'image', 'header', 'birth_date', 'join_date', 'is_staff', 'bio')
 
 
 class UserSetSerializer(serializers.ModelSerializer):
