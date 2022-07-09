@@ -1,14 +1,84 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import SongCard from './SongCard';
 import data from '../data';
-const SongSection = ({ skip }) => {
+import { connect } from 'react-redux';
+import { load_posts } from '../actions/cloud';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import CircularProgress from '../components/CircularProgress';
+const SongSection = ({ skip, posts, load_posts, count, history }) => {
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState(getQueryVariable('keyword'));
+  useEffect(() => {
+    load_posts(1, getQueryVariable('keyword'));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const submit = (e) => {
+    e.preventDefault();
+    const currentUrlParams = new URLSearchParams();
+    currentUrlParams.set('keyword', search);
+    if (window.location.pathname === '/') {
+      history.push(
+        window.location.pathname + '?' + currentUrlParams.toString()
+      );
+    } else {
+      window.location.replace('/?keyword=' + search);
+    }
+    load_posts(1, search);
+    setPage(2);
+  };
+  const fetchData = async () => {
+    await load_posts(page, search);
+    setPage(page + 1);
+  };
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4 pb-28">
-      {data.map((item, i) => (
-        <SongCard key={i} i={i} item={item} skip={skip} />
-      ))}
-    </div>
+    <>
+      {posts && (
+        <InfiniteScroll
+          dataLength={posts.length}
+          next={fetchData}
+          hasMore={count > posts.length}
+          loader={
+            <div className="text-center">
+              <CircularProgress />
+            </div>
+          }
+          endMessage={
+            <div className="text-center">
+              <p>...</p>
+            </div>
+          }>
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4 pb-28">
+            {posts.map((post, i) => (
+              <SongCard key={i} post={post} skip={skip} />
+            ))}
+          </div>
+        </InfiniteScroll>
+      )}
+    </>
   );
+  function getQueryVariable(variable) {
+    var query = decodeURI(window.location.search.substring(1)).replace(
+      /\+/g,
+      ' '
+    );
+    //console.log(query); //"app=article&act=news_content&aid=160990"
+    var vars = query.split('&');
+    //console.log(vars); //[ 'app=article', 'act=news_content', 'aid=160990' ]
+    for (var i = 0; i < vars.length; i++) {
+      var pair = vars[i].split('=');
+      //console.log(pair); //[ 'app', 'article' ][ 'act', 'news_content' ][ 'aid', '160990' ]
+      if (pair[0] == variable) {
+        return pair[1];
+      }
+    }
+    return false;
+  }
 };
 
-export default SongSection;
+const mapStateToProps = (state) => ({
+  posts: state.cloud.posts,
+  count: state.cloud.count,
+});
+export default connect(mapStateToProps, {
+  load_posts,
+})(SongSection);
