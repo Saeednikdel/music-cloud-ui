@@ -13,7 +13,6 @@ import BtnPrimary from '../BtnPrimary';
 import TextField from '../TextField';
 import parseAudioMetadata from 'parse-audio-metadata';
 import { AddPhotoAlternate } from '@mui/icons-material';
-import placeholder from '../../assets/placeholder-image.png';
 import Resizer from 'react-image-file-resizer';
 
 const NewPost = ({ isAuthenticated, user }) => {
@@ -127,7 +126,7 @@ const NewPost = ({ isAuthenticated, user }) => {
                   src={
                     file.picture
                       ? URL.createObjectURL(file.picture)
-                      : placeholder
+                      : `${process.env.REACT_APP_API_URL}/media/placeholder-image.png`
                   }
                 />
                 <AddPhotoAlternate
@@ -163,7 +162,7 @@ const NewPost = ({ isAuthenticated, user }) => {
             placeholder="album"
           />
           <h1>lyrics :</h1>
-          <div className="bg-gray-50 dark:bg-gray-700 border border-gray-300 rounded-xl dark:border-gray-500 p-3 h-60 ">
+          <div className="bg-gray-50 dark:bg-gray-700 border border-gray-300 rounded-xl dark:border-gray-500 p-3 min-h-screen">
             <InlineStyleControls
               editorState={editorState}
               onToggle={toggleInlineStyle}
