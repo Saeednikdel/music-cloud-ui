@@ -7,7 +7,7 @@ NOTIF_CHOICES = (
 )
 
 
-class Song(models.Model):
+class Post(models.Model):
     title = models.CharField(max_length=100)
     artist = models.CharField(max_length=100)
     album = models.CharField(max_length=100)
@@ -25,7 +25,7 @@ class Song(models.Model):
 
 class Favorite(models.Model):
     user = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
-    song = models.ForeignKey(Song, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user.email
@@ -35,13 +35,13 @@ class PlayList(models.Model):
     title = models.CharField(max_length=100)
     date = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
-    songs = models.ManyToManyField(Song, blank=True)
+    posts = models.ManyToManyField(Post, blank=True)
 
     def __str__(self):
         return self.user.email
 
-    def songs_count(self):
-        return self.songs.all().count()
+    def posts_count(self):
+        return self.posts.all().count()
 
 
 class Notification(models.Model):
@@ -52,8 +52,8 @@ class Notification(models.Model):
         UserAccount, related_name="receiver", on_delete=models.CASCADE)
     seen = models.BooleanField(default=False)
     kind = models.CharField(choices=NOTIF_CHOICES, max_length=15)
-    song = models.ForeignKey(
-        Song, blank=True, null=True, on_delete=models.CASCADE)
+    post = models.ForeignKey(
+        Post, blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.receiver.email

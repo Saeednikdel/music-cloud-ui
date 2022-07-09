@@ -2,13 +2,13 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('song/<str:id>/', views.song, name="song"),
-    path('newsong/', views.newSong, name="new_song"),
-    path('removesong/', views.removeSong, name="remove_song"),
-    path('editsong/', views.editSong, name="edit_song"),
-    path('songlist/<str:page>/', views.songList, name="song_list"),
-    path('usersonglist/<str:user>/<str:page>/',
-         views.userSongList, name="user_song_list"),
+    path('post/<str:id>/', views.post, name="post"),
+    path('newpost/', views.newPost, name="new_post"),
+    path('removepost/', views.removePost, name="remove_post"),
+    path('editpost/', views.editPost, name="edit_post"),
+    path('postlist/<str:page>/', views.postList, name="post_list"),
+    path('userpostlist/<str:user>/<str:page>/',
+         views.userPostList, name="user_post_list"),
 
     path('playlist/<str:id>/<str:page>/', views.playList, name="play_list"),
     path('userplaylists/<str:user>/<str:page>/',
