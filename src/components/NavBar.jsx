@@ -5,7 +5,7 @@ import LeftSlide from './LeftSlide';
 import { connect } from 'react-redux';
 import { checkAuthenticated, load_user } from '../actions/auth';
 
-const NavBar = ({ setTheme, checked }) => {
+const NavBar = ({ setTheme, checked, checkAuthenticated, load_user }) => {
   const [openLeftMenu, setOpenLeftMenu] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
