@@ -1,9 +1,0 @@
-export { default as dido } from './dido.jpg';
-export { default as adele } from './adele.jpg';
-export { default as dido2 } from './dido2.jpg';
-export { default as adele2 } from './adele2.jpg';
-export { default as alexander } from './alexander.jpg';
-export { default as bethowen } from './bethowen.jpg';
-export { default as Johnny } from './Johnny.jpg';
-export { default as alicia } from './alicia.jpg';
-export { default as ed } from './ed.jpg';
