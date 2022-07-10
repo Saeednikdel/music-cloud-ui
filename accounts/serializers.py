@@ -43,8 +43,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
 class UserSetSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserAccount
-        fields = ('id', 'name', 'show_resume',
-                  'address', 'profile_name', 'bio', 'birth_date')
+        fields = ('id', 'name', 'profile_name', 'bio')
 
 
 class FollowerSerializer(serializers.ModelSerializer):
