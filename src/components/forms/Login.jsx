@@ -68,7 +68,7 @@ const Login = ({
             placeholder="at least 8 character"
             value={password}
             onChange={onChange}
-            minLength="8"
+            // minLength="8"
             required
           />
         </div>
