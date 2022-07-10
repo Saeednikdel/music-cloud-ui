@@ -3,8 +3,8 @@ import {
   LOAD_POSTS_FAIL,
   LOAD_POST_SUCCESS,
   LOAD_POST_FAIL,
-  LOAD_LIKE_SUCCESS,
-  LOAD_LIKE_FAIL,
+  LOAD_FAVE_SUCCESS,
+  LOAD_FAVE_FAIL,
   LOAD_PROFILE_SUCCESS,
   LOAD_PROFILE_FAIL,
   LOAD_USER_POSTS_SUCCESS,
@@ -15,6 +15,10 @@ import {
   LOAD_FOLLOWING_FAIL,
   LOAD_USERS_SUCCESS,
   LOAD_USERS_FAIL,
+  LOAD_USER_FAVS_SUCCESS,
+  LOAD_USER_FAVS_FAIL,
+  FAVE_SUCCESS,
+  FAVE_FAIL,
 } from '../actions/types';
 const initialState = {
   posts: [],
@@ -22,6 +26,8 @@ const initialState = {
   likes: [],
   follower: [],
   following: [],
+  post: null,
+  nowplaying: [],
 };
 
 export default function (state = initialState, action) {
@@ -70,17 +76,37 @@ export default function (state = initialState, action) {
           profile_count: payload.count,
         };
       }
+
+    case LOAD_USER_FAVS_SUCCESS:
+      if (page === 1) {
+        return {
+          ...state,
+          userfavs: payload.favorites,
+          fav_count: payload.count,
+        };
+      } else {
+        return {
+          ...state,
+          userfavs: state.userfavs.concat(payload.favorites),
+          fav_count: payload.count,
+        };
+      }
     case LOAD_POST_SUCCESS:
       return {
         ...state,
         post: payload,
+      };
+    case FAVE_SUCCESS:
+      return {
+        ...state,
+        post: { ...state.post, favorite: !state.post.favorite },
       };
     case LOAD_PROFILE_SUCCESS:
       return {
         ...state,
         profile: payload,
       };
-    case LOAD_LIKE_SUCCESS:
+    case LOAD_FAVE_SUCCESS:
       if (page === 1) {
         return {
           ...state,
@@ -125,11 +151,12 @@ export default function (state = initialState, action) {
     case LOAD_POSTS_FAIL:
     case LOAD_USERS_FAIL:
     case LOAD_POST_FAIL:
-    case LOAD_LIKE_FAIL:
+    case LOAD_FAVE_FAIL:
     case LOAD_FOLLOWER_FAIL:
     case LOAD_FOLLOWING_FAIL:
     case LOAD_PROFILE_FAIL:
     case LOAD_USER_POSTS_FAIL:
+    case LOAD_USER_FAVS_FAIL:
     default:
       return state;
   }
