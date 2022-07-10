@@ -162,7 +162,7 @@ const NewPost = ({ isAuthenticated, user }) => {
             placeholder="album"
           />
           <h1>lyrics :</h1>
-          <div className="bg-gray-50 dark:bg-gray-700 border border-gray-300 rounded-xl dark:border-gray-500 p-3 min-h-screen">
+          <div className="bg-gray-50 dark:bg-gray-700 border border-gray-300 rounded-xl dark:border-gray-500 p-3 h-80 overflow-auto">
             <InlineStyleControls
               editorState={editorState}
               onToggle={toggleInlineStyle}
