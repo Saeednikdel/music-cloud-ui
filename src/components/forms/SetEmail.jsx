@@ -43,7 +43,6 @@ const SetEmail = ({
     );
     setRequestSent(true);
   };
-
   return (
     <div className="py-6 px-6 lg:px-8 flex flex-col justify-center items-center">
       <form className="space-y-4" onSubmit={onSubmit}>
@@ -87,7 +86,11 @@ const SetEmail = ({
             minLength="8"
             required
             error={set_email_error && set_email_error.current_password && true}
-            helperText={set_email_error && set_email_error.current_password[0]}
+            helperText={
+              set_email_error &&
+              set_email_error.current_password &&
+              set_email_error.current_password[0]
+            }
           />
         </div>
 

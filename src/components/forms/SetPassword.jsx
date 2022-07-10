@@ -86,7 +86,11 @@ const SetPassword = ({
             minLength="8"
             required
             error={set_pass_error && set_pass_error.current_password && true}
-            helperText={set_pass_error && set_pass_error.current_password[0]}
+            helperText={
+              set_pass_error &&
+              set_pass_error.current_password &&
+              set_pass_error.current_password[0]
+            }
           />
         </div>
         <div className="text-center">
