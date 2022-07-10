@@ -191,7 +191,7 @@ export const set_resume_detail =
     }
   };
 export const set_user_detail =
-  (id, name, profile_name, bio, phone_no, birth_date) => async (dispatch) => {
+  (id, name, profile_name, bio) => async (dispatch) => {
     if (localStorage.getItem('access')) {
       const config = {
         headers: {
@@ -205,8 +205,6 @@ export const set_user_detail =
         name,
         profile_name,
         bio,
-        phone_no,
-        birth_date,
       });
 
       try {
@@ -340,7 +338,6 @@ export const login = (email, password) => async (dispatch) => {
 
     dispatch(load_user());
   } catch (error) {
-    console.log(error.request.response);
     if (error.request.status === 401) {
       dispatch({
         type: LOGIN_FAIL,
