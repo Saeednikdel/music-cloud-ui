@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .models import Favorite, Post, PlayList, Notification
+from accounts.models import UserAccount
 
 
 class PostsSerializer(serializers.ModelSerializer):
@@ -43,14 +44,14 @@ class NewPlayListSerializer(serializers.ModelSerializer):
 
 
 class FavoriteSerializer(serializers.ModelSerializer):
-    post_id = serializers.IntegerField(source="post.id")
+    id = serializers.IntegerField(source="post.id")
     title = serializers.CharField(source="post.title")
     artist = serializers.CharField(source="post.artist")
     artwork = serializers.ImageField(source="post.artwork")
 
     class Meta:
         model = Favorite
-        fields = ('id', 'post_id', 'title', 'artist', 'artwork')
+        fields = ('id', 'title', 'artist', 'artwork')
 
 
 class NotificationSerializer(serializers.ModelSerializer):
@@ -64,3 +65,13 @@ class NotificationSerializer(serializers.ModelSerializer):
         model = Notification
         fields = ('name', 'profile_name', 'image',
                   'is_verified',  'id', 'date', 'seen', 'kind', 'post')
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    followers = serializers.IntegerField(source='follower_count')
+    followings = serializers.IntegerField(source='following_count')
+
+    class Meta:
+        model = UserAccount
+        fields = ('id', 'profile_name', 'followers', 'header', 'is_verified',
+                  'followings', 'email', 'name', 'image', 'join_date', 'bio')

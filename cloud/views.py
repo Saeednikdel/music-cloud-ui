@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from .models import Favorite, Post, PlayList, Notification
-from .serializers import PostsSerializer, PlayListSerializer, FavoriteSerializer, NotificationSerializer, NewPostSerializer, EditPostSerializer, NewPlayListSerializer
+from .serializers import PostsSerializer, PlayListSerializer, FavoriteSerializer, NotificationSerializer, NewPostSerializer, EditPostSerializer, NewPlayListSerializer, UserDetailSerializer
 from rest_framework import status
 
 
@@ -85,8 +85,8 @@ def postList(request, page):
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
-def userPostList(request, user, page):
-    user = get_object_or_404(UserAccount, id=user)
+def userPostList(request, name, page):
+    user = get_object_or_404(UserAccount, name=name)
     posts = Post.objects.filter(user=user).order_by('-date')
     itemperpage = 10
     paginator = Paginator(posts, itemperpage)
@@ -177,7 +177,7 @@ def addToPlayList(request):
 @permission_classes([AllowAny])
 def userFavorites(request, user, page):
     user = get_object_or_404(UserAccount, id=user)
-    favorites = Favorite.objects.filter(user=user).order_by('-date')
+    favorites = Favorite.objects.filter(user=user)
     itemperpage = 10
     paginator = Paginator(favorites, itemperpage)
     count = len(favorites)
@@ -188,11 +188,11 @@ def userFavorites(request, user, page):
     return Response(new_dict)
 
 
-@api_view(['Get'])
+@api_view(['POST'])
 @permission_classes([AllowAny])
-def favorite(request, user, id):
-    user = get_object_or_404(UserAccount, id=user)
-    post = get_object_or_404(Post, id=id)
+def favorite(request):
+    user = get_object_or_404(UserAccount, id=request.data.get('user'))
+    post = get_object_or_404(Post, id=request.data.get('id'))
     query = Favorite.objects.filter(user=user, post=post)
     if query.exists():
         fave = Favorite.objects.get(user=user, post=post)
@@ -227,4 +227,19 @@ def notification(request, user, page):
     serializer = NotificationSerializer(notif, many=True)
     new_dict = {"count": count}
     new_dict.update({"notification": serializer.data})
+    return Response(new_dict)
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def profileDetail(request):
+    followed = False
+    target = get_object_or_404(UserAccount, name=request.data.get('name'))
+    if request.data.get('user'):
+        user = get_object_or_404(UserAccount, id=request.data.get('user'))
+        if target in user.following.all():
+            followed = True
+    serializer = UserDetailSerializer(target, many=False)
+    new_dict = {"followed": followed}
+    new_dict.update(serializer.data)
     return Response(new_dict)

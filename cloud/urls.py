@@ -7,7 +7,7 @@ urlpatterns = [
     path('removepost/', views.removePost, name="remove_post"),
     path('editpost/', views.editPost, name="edit_post"),
     path('postlist/<str:page>/', views.postList, name="post_list"),
-    path('userpostlist/<str:user>/<str:page>/',
+    path('userpostlist/<str:name>/<str:page>/',
          views.userPostList, name="user_post_list"),
 
     path('playlist/<str:id>/<str:page>/', views.playList, name="play_list"),
@@ -20,8 +20,10 @@ urlpatterns = [
 
     path('userfavorites/<str:user>/<str:page>/',
          views.userFavorites, name="user_favorites"),
-    path('favorite/<str:user>/<str:id>/', views.favorite, name="favorite"),
+    path('favorite/', views.favorite, name="favorite"),
 
     path('notification/<str:user>/<str:page>/',
          views.notification, name="notification"),
+
+    path('profile-detail/', views.profileDetail, name="profile-detail"),
 ]
