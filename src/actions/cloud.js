@@ -5,10 +5,10 @@ import {
   LOAD_POST_SUCCESS,
   LOAD_POST_FAIL,
   LOGOUT,
-  LIKE_SUCCESS,
-  LIKE_FAIL,
-  LOAD_LIKE_SUCCESS,
-  LOAD_LIKE_FAIL,
+  FAVE_SUCCESS,
+  FAVE_FAIL,
+  LOAD_FAVE_SUCCESS,
+  LOAD_FAVE_FAIL,
   LOAD_PROFILE_SUCCESS,
   LOAD_PROFILE_FAIL,
   LOAD_USER_POSTS_SUCCESS,
@@ -19,6 +19,8 @@ import {
   LOAD_FOLLOWING_FAIL,
   LOAD_USERS_SUCCESS,
   LOAD_USERS_FAIL,
+  LOAD_USER_FAVS_SUCCESS,
+  LOAD_USER_FAVS_FAIL,
 } from './types';
 
 export const load_users = (page, keyword) => async (dispatch) => {
@@ -66,7 +68,7 @@ export const load_posts = (page, keyword) => async (dispatch) => {
   });
   try {
     const res = await axios.post(
-      `${process.env.REACT_APP_API_URL}/api/blog/post-list/${page}/`,
+      `${process.env.REACT_APP_API_URL}/api/cloud/postlist/${page}/`,
       body,
       config
     );
@@ -82,6 +84,32 @@ export const load_posts = (page, keyword) => async (dispatch) => {
     });
   }
 };
+
+export const load_user_favorites = (page) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  };
+  const user = localStorage.getItem('id');
+  try {
+    const res = await axios.get(
+      `${process.env.REACT_APP_API_URL}/api/cloud/userfavorites/${user}/${page}/`,
+      config
+    );
+    dispatch({
+      type: LOAD_USER_FAVS_SUCCESS,
+      payload: res.data,
+      page: page,
+    });
+  } catch (err) {
+    dispatch({
+      type: LOAD_USER_FAVS_FAIL,
+    });
+  }
+};
+
 export const load_user_posts = (name, page) => async (dispatch) => {
   const config = {
     headers: {
@@ -91,7 +119,7 @@ export const load_user_posts = (name, page) => async (dispatch) => {
   };
   try {
     const res = await axios.get(
-      `${process.env.REACT_APP_API_URL}/api/blog/user-post-list/${name}/${page}/`,
+      `${process.env.REACT_APP_API_URL}/api/cloud/userpostlist/${name}/${page}/`,
       config
     );
     dispatch({
@@ -117,7 +145,7 @@ export const load_post = (postId) => async (dispatch) => {
   const body = JSON.stringify({ user });
   try {
     const res = await axios.post(
-      `${process.env.REACT_APP_API_URL}/api/blog/post-detail/${postId}/`,
+      `${process.env.REACT_APP_API_URL}/api/cloud/post/${postId}/`,
       body,
       config
     );
@@ -144,7 +172,7 @@ export const load_profile = (name) => async (dispatch) => {
   const body = JSON.stringify({ user, name });
   try {
     const res = await axios.post(
-      `${process.env.REACT_APP_API_URL}/api/blog/profile-detail/`,
+      `${process.env.REACT_APP_API_URL}/api/cloud/profile-detail/`,
       body,
       config
     );
@@ -171,17 +199,17 @@ export const load_likes =
     };
     try {
       const res = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/blog/like-list/${postId}/${page}/`,
+        `${process.env.REACT_APP_API_URL}/api/cloud/like-list/${postId}/${page}/`,
         config
       );
       dispatch({
-        type: LOAD_LIKE_SUCCESS,
+        type: LOAD_FAVE_SUCCESS,
         payload: res.data,
         page: page,
       });
     } catch (err) {
       dispatch({
-        type: LOAD_LIKE_FAIL,
+        type: LOAD_FAVE_FAIL,
       });
     }
   };
@@ -197,7 +225,7 @@ export const load_follower =
     };
     try {
       const res = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/blog/follower-list/${postId}/${page}/`,
+        `${process.env.REACT_APP_API_URL}/api/cloud/follower-list/${postId}/${page}/`,
         config
       );
       dispatch({
@@ -223,7 +251,7 @@ export const load_following =
     };
     try {
       const res = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/blog/following-list/${postId}/${page}/`,
+        `${process.env.REACT_APP_API_URL}/api/cloud/following-list/${postId}/${page}/`,
         config
       );
       dispatch({
@@ -237,7 +265,7 @@ export const load_following =
       });
     }
   };
-export const like = (id) => async (dispatch) => {
+export const favorite = (id) => async (dispatch) => {
   if (localStorage.getItem('access')) {
     const config = {
       headers: {
@@ -251,24 +279,24 @@ export const like = (id) => async (dispatch) => {
 
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/blog/like/`,
+        `${process.env.REACT_APP_API_URL}/api/cloud/favorite/`,
         body,
         config
       );
       dispatch({
-        type: LIKE_SUCCESS,
+        type: FAVE_SUCCESS,
         payload: res.data,
       });
-      dispatch(load_post(id));
-      dispatch(load_likes(id));
+      // dispatch(load_post(id));
+      // dispatch(load_likes(id));
     } catch (err) {
       dispatch({
-        type: LIKE_FAIL,
+        type: FAVE_FAIL,
       });
     }
   } else {
     dispatch({
-      type: LIKE_FAIL,
+      type: FAVE_FAIL,
     });
   }
 };
