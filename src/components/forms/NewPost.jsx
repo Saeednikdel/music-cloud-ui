@@ -25,8 +25,21 @@ const NewPost = ({ isAuthenticated, user }) => {
   async function handleFile(e) {
     if (e.target.files[0]) {
       const meta = await parseAudioMetadata(e.target.files[0]);
+      const format = meta.picture && meta.picture.type.split('/').pop();
+      const image = meta.picture
+        ? new File([meta.picture], `artwork.${format}`, {
+            type: `image/${format}`,
+          })
+        : null;
       const fileName = e.target.files[0].name.split('.').slice(0, -1).join('.');
-      meta.title ? setFile(meta) : setFile({ title: fileName, ...meta });
+      meta.title
+        ? setFile({ audio: e.target.files[0], image: image, ...meta })
+        : setFile({
+            title: fileName,
+            audio: e.target.files[0],
+            image: image,
+            ...meta,
+          });
     }
   }
   const resizeFile = (file, format) =>
@@ -48,14 +61,14 @@ const NewPost = ({ isAuthenticated, user }) => {
     if (e.target.files[0]) {
       const format = e.target.files[0].type.split('/').pop();
       const image = await resizeFile(e.target.files[0], format);
-      setFile({ ...file, picture: image });
+      setFile({ ...file, image: image });
     }
   };
   const textChange = (e) => {
     setFile({ ...file, [e.target.name]: e.target.value });
   };
   const onSubmit = () => {
-    console.log(stateToHTML(editorState.getCurrentContent()));
+    new_post();
     setRequestSent(true);
   };
   const toggleInlineStyle = (inlineStyle) => {
@@ -124,8 +137,8 @@ const NewPost = ({ isAuthenticated, user }) => {
                   className="h-32 w-32 object-cover"
                   alt="album-art"
                   src={
-                    file.picture
-                      ? URL.createObjectURL(file.picture)
+                    file.image
+                      ? URL.createObjectURL(file.image)
                       : `${process.env.REACT_APP_API_URL}/media/placeholder-image.png`
                   }
                 />
@@ -182,32 +195,32 @@ const NewPost = ({ isAuthenticated, user }) => {
     </div>
   );
 
-  async function new_job() {
-    if (localStorage.getItem('access')) {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `JWT ${localStorage.getItem('access')}`,
-          Accept: 'application/json',
-        },
-      };
-      const user = localStorage.getItem('id');
-      const body = JSON.stringify({
-        user,
-        content: stateToHTML(editorState.getCurrentContent()),
-      });
-
-      try {
-        const res = await axios.post(
-          `${process.env.REACT_APP_API_URL}/api/jobs/job-create/`,
-          body,
-          config
-        );
-        setRequestSent(false);
-        navigate('/');
-      } catch (err) {
-        setRequestSent(false);
-      }
+  async function new_post() {
+    let formData = new FormData();
+    const user = localStorage.getItem('id');
+    file.image && formData.append('artwork', file.image);
+    formData.append('url', file.audio && file.audio);
+    formData.append('user', user);
+    formData.append('title', file.title);
+    formData.append('artist', file.artist && file.artist);
+    formData.append('album', file.album && file.album);
+    formData.append('lyrics', stateToHTML(editorState.getCurrentContent()));
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `JWT ${localStorage.getItem('access')}`,
+        Accept: 'application/json',
+      },
+    };
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/cloud/newpost/`,
+        formData,
+        config
+      );
+      res.data.id && navigate('/');
+    } catch (err) {
+      console.log(err);
     }
   }
 };
