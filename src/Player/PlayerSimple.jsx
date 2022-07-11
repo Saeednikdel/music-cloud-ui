@@ -17,7 +17,6 @@ const PlayerSimple = ({
   currentSong,
   skipBack,
   skiptoNext,
-  index,
 }) => {
   const [showVolume, setShowVolume] = useState(false);
   const [isMuted, setIsMuted] = useState(
@@ -26,7 +25,6 @@ const PlayerSimple = ({
   const [volume, setVolume] = useState(
     audioElem.current && audioElem.current.volume * 100
   );
-
   const seek = (e) => {
     audioElem.current.currentTime = (e.target.value / 100) * currentSong.length;
   };
@@ -59,10 +57,10 @@ const PlayerSimple = ({
       className="pt-1 pb-2 px-4 md:px-16 xl:px-36 2xl:px-60 backdrop-blur-2xl  backdrop-brightness-200 dark:backdrop-brightness-50 shadow-sm border-1 text-gray-900 dark:text-gray-300">
       <div className="flex space-x-4 items-center">
         <div className="h-20 w-20 flex items-center justify-center">
-          <Link to={`/player/${index}`}>
+          <Link to={`/p/${currentSong.id}`}>
             <img
               alt="album art"
-              src={currentSong.artwork[0].src}
+              src={currentSong.artwork}
               className={`rounded shadow-xl transform transition hover:cursor-pointer ${
                 !isplaying ? 'grayscale scale-90' : 'scale-1'
               }`}
