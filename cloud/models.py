@@ -13,7 +13,7 @@ class Post(models.Model):
     artist = models.CharField(max_length=100, blank=True)
     album = models.CharField(max_length=100, blank=True)
     lyrics = models.CharField(max_length=2500, blank=True)
-    date = models.DateTimeField(auto_now=True)
+    date = models.DateTimeField(auto_now_add=True)
     artwork = models.ImageField(
         blank=True, null=True, upload_to='artwork/%Y/%m/%d/', default='placeholder-image.png')
     user = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
