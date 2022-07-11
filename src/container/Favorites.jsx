@@ -1,27 +1,72 @@
-import React from 'react';
-import data from '../data';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { load_user_favorites } from '../actions/cloud';
+import SongCard from '../components/SongCard';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import CircularProgress from '../components/CircularProgress';
+import { useNavigate } from 'react-router-dom';
 
-const Favorites = ({ index, skip }) => {
+const Favorite = ({
+  userfavs,
+  load_user_favorites,
+  count,
+  skip,
+  isAuthenticated,
+}) => {
+  const navigate = useNavigate();
+
+  const [page, setPage] = useState(2);
+
+  useEffect(() => {
+    load_user_favorites(1);
+    setPage(2);
+  }, []);
+
+  const fetchData = async () => {
+    await load_user_favorites(page);
+    setPage(page + 1);
+  };
+  if (!isAuthenticated) navigate('/login');
+
   return (
-    <div className="mb-24">
-      {data.slice(0, 4).map((item, i) => (
-        <div
-          onClick={() => skip(i)}
-          key={i}
-          className="flex py-2 px-6 text-xl font-semibold space-x-4 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700">
-          <img
-            alt={item.title}
-            className="w-20 h-20 object-cover rounded-lg"
-            src={item.artwork[0].src}
-          />
-          <div className={`${i === index && 'text-blue-600'}`}>
-            <h2>{item.title}</h2>
-            <p>{item.artist}</p>
-          </div>
-        </div>
-      ))}
-    </div>
+    <>
+      {userfavs && (
+        <InfiniteScroll
+          className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4 pb-28"
+          dataLength={userfavs.length}
+          next={fetchData}
+          hasMore={count > userfavs.length}
+          loader={
+            <div className="text-center">
+              <CircularProgress color="secondary" />
+            </div>
+          }
+          endMessage={
+            <div className="text-center">
+              <p>...</p>
+            </div>
+          }>
+          {userfavs.map((post, i) => (
+            <SongCard
+              key={i}
+              post={post}
+              skip={skip}
+              index={i}
+              source="userfavorites"
+              page={page}
+            />
+          ))}
+        </InfiniteScroll>
+      )}
+    </>
   );
 };
 
-export default Favorites;
+const mapStateToProps = (state) => ({
+  userfavs: state.cloud.userfavs,
+  count: state.cloud.fav_count,
+  isAuthenticated: state.auth.isAuthenticated,
+});
+export default connect(mapStateToProps, {
+  load_user_favorites,
+})(Favorite);
