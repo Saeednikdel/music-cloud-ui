@@ -13,6 +13,18 @@ class PostsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('id', 'title', 'artist', 'album',
+                  'date', 'artwork', 'url', 'user_name', 'profile_name', 'user_image', 'user_verified', 'view', 'like')
+
+
+class PostSerializer(serializers.ModelSerializer):
+    user_name = serializers.ReadOnlyField(source='user.name')
+    profile_name = serializers.ReadOnlyField(source='user.profile_name')
+    user_image = serializers.ImageField(source='user.image')
+    user_verified = serializers.BooleanField(source='user.is_verified')
+
+    class Meta:
+        model = Post
+        fields = ('id', 'title', 'artist', 'album',
                   'lyrics', 'date', 'artwork', 'url', 'user_name', 'profile_name', 'user_image', 'user_verified', 'view', 'like')
 
 
@@ -48,10 +60,11 @@ class FavoriteSerializer(serializers.ModelSerializer):
     title = serializers.CharField(source="post.title")
     artist = serializers.CharField(source="post.artist")
     artwork = serializers.ImageField(source="post.artwork")
+    user_name = serializers.ReadOnlyField(source='post.user.name')
 
     class Meta:
         model = Favorite
-        fields = ('id', 'title', 'artist', 'artwork')
+        fields = ('id', 'user_name', 'title', 'artist', 'artwork')
 
 
 class NotificationSerializer(serializers.ModelSerializer):

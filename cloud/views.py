@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from .models import Favorite, Post, PlayList, Notification
-from .serializers import PostsSerializer, PlayListSerializer, FavoriteSerializer, NotificationSerializer, NewPostSerializer, EditPostSerializer, NewPlayListSerializer, UserDetailSerializer
+from .serializers import PostsSerializer, PlayListSerializer, FavoriteSerializer, NotificationSerializer, NewPostSerializer, EditPostSerializer, NewPlayListSerializer, UserDetailSerializer, PostSerializer
 from rest_framework import status
 
 
@@ -46,7 +46,7 @@ def editPost(request):
 @permission_classes([AllowAny])
 def post(request, id):
     post = get_object_or_404(Post, id=id)
-    serializer = PostsSerializer(post, many=False)
+    serializer = PostSerializer(post, many=False)
     favorite = False
     if request.data.get('user'):
         user = UserAccount.objects.get(id=request.data.get('user'))
@@ -184,7 +184,7 @@ def userFavorites(request, user, page):
     favorites = paginator.get_page(page)
     serializer = FavoriteSerializer(favorites, many=True)
     new_dict = {"count": count}
-    new_dict.update({"favorites": serializer.data})
+    new_dict.update({"posts": serializer.data})
     return Response(new_dict)
 
 
