@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 from accounts.models import UserAccount
 
@@ -9,11 +10,12 @@ NOTIF_CHOICES = (
 
 class Post(models.Model):
     title = models.CharField(max_length=100)
-    artist = models.CharField(max_length=100)
-    album = models.CharField(max_length=100)
+    artist = models.CharField(max_length=100, blank=True)
+    album = models.CharField(max_length=100, blank=True)
     lyrics = models.CharField(max_length=2500, blank=True)
     date = models.DateTimeField(auto_now=True)
-    artwork = models.ImageField(blank=True)
+    artwork = models.ImageField(
+        blank=True, null=True, upload_to='artwork/%Y/%m/%d/', default='placeholder-image.png')
     user = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     url = models.FileField(upload_to='uploads/%Y/%m/%d/')
     like = models.IntegerField(default=0)

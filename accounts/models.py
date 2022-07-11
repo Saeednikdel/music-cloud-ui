@@ -39,7 +39,8 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     is_verified = models.BooleanField(default=False)
     join_date = models.DateTimeField(auto_now_add=True)
     birth_date = models.DateField(blank=True, null=True)
-    image = models.ImageField(blank=True, null=True)
+    image = models.ImageField(
+        upload_to='avatar/%Y/%m/%d/', blank=True, null=True)
     header = models.ImageField(blank=True, null=True)
     follower = models.ManyToManyField(
         'self', symmetrical=False, related_name='user_follower')
