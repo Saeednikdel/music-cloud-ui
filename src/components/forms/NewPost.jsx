@@ -175,12 +175,12 @@ const NewPost = ({ isAuthenticated, user }) => {
             placeholder="album"
           />
           <h1>lyrics :</h1>
-          <div className="bg-gray-50 dark:bg-gray-700 border border-gray-300 rounded-xl dark:border-gray-500 p-3 h-80 overflow-auto">
+          <div className="bg-gray-50 dark:bg-gray-700 border border-gray-300 rounded-xl dark:border-gray-500 p-3">
             <InlineStyleControls
               editorState={editorState}
               onToggle={toggleInlineStyle}
             />
-            <div className=" border-t border-gray-300 dark:border-gray-500 hover:cursor-text mt-2 pt-2">
+            <div className=" border-t border-gray-300 dark:border-gray-500 hover:cursor-text mt-2 pt-2 h-80 overflow-auto">
               <Editor
                 editorState={editorState}
                 handleKeyCommand={handleKeyCommand}
