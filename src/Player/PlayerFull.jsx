@@ -13,9 +13,10 @@ import {
 import OutsideClickHandler from 'react-outside-click-handler';
 import VolumePopUp from '../components/VolumePopUp';
 import MoreMenu from '../components/MoreMenu';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { load_post, favorite, load_likes } from '../actions/cloud';
 import { connect } from 'react-redux';
+import Popup from '../components/Popup';
 
 const PlayerFull = ({
   audioElem,
@@ -29,9 +30,11 @@ const PlayerFull = ({
   favorite,
   load_likes,
   now_playing_count,
+  isAuthenticated,
   post,
 }) => {
   const { id } = useParams();
+  const [openPopup, setOpenPopup] = useState(false);
   const [flip, setFlip] = useState('');
   const [showVolume, setShowVolume] = useState(false);
   const [showMore, setShowMore] = useState(false);
@@ -81,6 +84,13 @@ const PlayerFull = ({
       setFlip('my-rotate');
     } else {
       setFlip('');
+    }
+  };
+  const handleLike = () => {
+    if (!isAuthenticated) {
+      setOpenPopup(true);
+    } else {
+      favorite(currentSong.id);
     }
   };
   return (
@@ -195,13 +205,13 @@ const PlayerFull = ({
                 </div>
                 {post && post.favorite ? (
                   <Favorite
-                    onClick={() => favorite(currentSong.id)}
+                    onClick={handleLike}
                     fontSize="large"
                     className=" hover:cursor-pointer"
                   />
                 ) : (
                   <FavoriteBorder
-                    onClick={() => favorite(currentSong.id)}
+                    onClick={handleLike}
                     fontSize="large"
                     className=" hover:cursor-pointer"
                   />
@@ -238,6 +248,23 @@ const PlayerFull = ({
           </div>
         </div>
       )}
+      <OutsideClickHandler
+        disabled={!openPopup}
+        onOutsideClick={() => setOpenPopup(!openPopup)}>
+        <Popup
+          title={'you are not loged in!'}
+          openPopup={openPopup}
+          setOpenPopup={setOpenPopup}>
+          <div>
+            <h1 className=" my-10">Login to your account first.</h1>
+            <Link
+              to="/login"
+              className="py-2 px-4 text-sm font-medium text-center text-white bg-blue-600 rounded hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">
+              Login
+            </Link>
+          </div>
+        </Popup>
+      </OutsideClickHandler>
     </>
   );
 };
