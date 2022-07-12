@@ -10,6 +10,8 @@ import {
 import OutsideClickHandler from 'react-outside-click-handler';
 import VolumePopUp from '../components/VolumePopUp';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 const PlayerSimple = ({
   audioElem,
   isplaying,
@@ -17,6 +19,7 @@ const PlayerSimple = ({
   currentSong,
   skipBack,
   skiptoNext,
+  now_playing_count,
 }) => {
   const [showVolume, setShowVolume] = useState(false);
   const [isMuted, setIsMuted] = useState(
@@ -97,27 +100,31 @@ const PlayerSimple = ({
                 <div className="hidden sm:block">
                   <SkipPrevious
                     fontSize="large"
-                    className=" hover:cursor-pointer active:text-blue-600 "
+                    className={`hover:cursor-pointer ${
+                      now_playing_count < 1 && 'text-gray-500'
+                    }`}
                     onClick={skipBack}
                   />
                 </div>
                 {isplaying ? (
                   <Pause
                     fontSize="large"
-                    className=" hover:cursor-pointer active:text-blue-600"
+                    className=" hover:cursor-pointer "
                     onClick={() => setisplaying(false)}
                   />
                 ) : (
                   <PlayArrow
                     fontSize="large"
-                    className=" hover:cursor-pointer active:text-blue-600"
+                    className=" hover:cursor-pointer "
                     onClick={() => setisplaying(true)}
                   />
                 )}
                 <div className="hidden sm:block">
                   <SkipNext
                     fontSize="large"
-                    className=" hover:cursor-pointer active:text-blue-600"
+                    className={`hover:cursor-pointer ${
+                      now_playing_count < 1 && 'text-gray-500'
+                    }`}
                     onClick={skiptoNext}
                   />
                 </div>
@@ -128,13 +135,13 @@ const PlayerSimple = ({
                     {isMuted ? (
                       <VolumeOff
                         fontSize="large"
-                        className=" hover:cursor-pointer active:text-blue-600"
+                        className=" hover:cursor-pointer "
                         onClick={() => setShowVolume(!showVolume)}
                       />
                     ) : (
                       <VolumeUp
                         fontSize="large"
-                        className=" hover:cursor-pointer active:text-blue-600"
+                        className=" hover:cursor-pointer "
                         onClick={() => setShowVolume(!showVolume)}
                       />
                     )}
@@ -165,4 +172,7 @@ const PlayerSimple = ({
   );
 };
 
-export default PlayerSimple;
+const mapStateToProps = (state) => ({
+  now_playing_count: state.cloud.now_playing_count,
+});
+export default connect(mapStateToProps, {})(PlayerSimple);
