@@ -20,6 +20,7 @@ import ProfileSetting from './container/ProfileSetting';
 import { connect } from 'react-redux';
 import { load_now_playing, set_now_playing, load_post } from './actions/cloud';
 import { Helmet } from 'react-helmet-async';
+import EditPost from './components/forms/EditPost';
 
 const App = ({
   post,
@@ -178,6 +179,7 @@ const App = ({
                 }
               />
               <Route exact path="/createcard/:id" element={<CreateCard />} />
+              <Route exact path="/edit/:id" element={<EditPost />} />
               <Route exact path="/new" element={<NewPost />} />
               <Route exact path="/playlists" element={<PlayLists />} />
               <Route

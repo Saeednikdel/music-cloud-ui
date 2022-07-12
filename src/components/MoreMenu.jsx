@@ -5,9 +5,12 @@ import {
   Add,
   Download,
   LibraryMusic,
+  Edit,
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
-const MoreMenu = ({ showMore, currentSong, index }) => {
+import { connect } from 'react-redux';
+
+const MoreMenu = ({ showMore, currentSong, index, user }) => {
   return (
     <div
       className={`${
@@ -31,6 +34,15 @@ const MoreMenu = ({ showMore, currentSong, index }) => {
           <h1 className="text-xl">Lyrics card</h1>
         </div>
       </Link>
+      {user && user.name && user.name === currentSong.user_name && (
+        <Link to={`/edit/${index}/`}>
+          <div className="flex px-2 py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
+            <Edit />
+            <h1 className="text-xl">Edit track</h1>
+          </div>
+        </Link>
+      )}
+
       <a href={currentSong.url} download={currentSong.title + '[Music Cloud]'}>
         <div className="flex px-2 py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
           <Download />
@@ -48,5 +60,7 @@ const MoreMenu = ({ showMore, currentSong, index }) => {
     </div>
   );
 };
-
-export default MoreMenu;
+const mapStateToProps = (state) => ({
+  user: state.auth.user,
+});
+export default connect(mapStateToProps, {})(MoreMenu);

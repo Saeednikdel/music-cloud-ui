@@ -14,7 +14,12 @@ from rest_framework import status
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def newPost(request):
-    serializer = NewPostSerializer(data=request.data)
+    if request.data.get('id'):
+        post = get_object_or_404(Post, id=request.data.get(
+            'id'), user=request.data.get('user'))
+        serializer = EditPostSerializer(instance=post, data=request.data)
+    else:
+        serializer = NewPostSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
@@ -28,18 +33,6 @@ def removePost(request):
         'user'), id=request.data.get('id'))
     post.delete()
     return Response({"id": request.data.get('id')})
-
-
-@api_view(['POST'])
-@permission_classes([AllowAny])
-def editPost(request):
-    post = get_object_or_404(Post, id=request.data.get(
-        'id'), user=request.data.get('user'))
-    serializer = EditPostSerializer(instance=post, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])

@@ -5,7 +5,6 @@ urlpatterns = [
     path('post/<str:id>/', views.post, name="post"),
     path('newpost/', views.newPost, name="new_post"),
     path('removepost/', views.removePost, name="remove_post"),
-    path('editpost/', views.editPost, name="edit_post"),
     path('postlist/<str:page>/', views.postList, name="post_list"),
     path('userpostlist/<str:name>/<str:page>/',
          views.userPostList, name="user_post_list"),
