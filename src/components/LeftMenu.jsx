@@ -55,14 +55,14 @@ const LeftMenu = ({ isAuthenticated, logout, user }) => {
             <PlaylistPlay className=" mx-4" />
             Playlists
           </Link>
-          <Link
+          {/* <Link
             to="/favorites"
             className={`flex px-1 py-2 hover:cursor-pointer mx-4 ${
               location === 'favorites' && activeClass
             }`}>
             <Favorite className=" mx-4" />
             Favorite
-          </Link>
+          </Link> */}
           <Link
             to="/new"
             className={`flex px-1 py-2 hover:cursor-pointer mx-4 ${

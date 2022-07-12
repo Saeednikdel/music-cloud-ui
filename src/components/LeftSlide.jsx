@@ -69,7 +69,7 @@ const LeftSlide = ({
             <PlaylistPlay className=" mx-4" />
             Playlists
           </Link>
-          <Link
+          {/* <Link
             onClick={click}
             to="/favorites"
             className={`flex px-1 py-2 hover:cursor-pointer mx-4 ${
@@ -77,7 +77,7 @@ const LeftSlide = ({
             }`}>
             <Favorite className=" mx-4" />
             Favorite
-          </Link>
+          </Link> */}
           <Link
             onClick={click}
             to="/new"

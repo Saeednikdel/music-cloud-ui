@@ -17,7 +17,7 @@ urlpatterns = [
     path('editplaylist/', views.editPlayList, name="edit_play_list"),
     path('addtoplaylist/', views.addToPlayList, name="add_to_play_list"),
 
-    path('userfavorites/<str:user>/<str:page>/',
+    path('userfavorites/<str:username>/<str:page>/',
          views.userFavorites, name="user_favorites"),
     path('favorite/', views.favorite, name="favorite"),
 

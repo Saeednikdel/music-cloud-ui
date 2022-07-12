@@ -77,7 +77,7 @@ export const load_now_playing =
       }
       if (source === 'userfavorites') {
         const res = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/cloud/userfavorites/${user}/${page}/`,
+          `${process.env.REACT_APP_API_URL}/api/cloud/userfavorites/${user_name}/${page}/`,
           config
         );
         dispatch({
@@ -166,17 +166,16 @@ export const load_posts = (page, keyword) => async (dispatch) => {
   }
 };
 
-export const load_user_favorites = (page) => async (dispatch) => {
+export const load_user_favorites = (user_name, page) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
   };
-  const user = localStorage.getItem('id');
   try {
     const res = await axios.get(
-      `${process.env.REACT_APP_API_URL}/api/cloud/userfavorites/${user}/${page}/`,
+      `${process.env.REACT_APP_API_URL}/api/cloud/userfavorites/${user_name}/${page}/`,
       config
     );
     dispatch({

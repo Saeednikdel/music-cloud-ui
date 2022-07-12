@@ -4,30 +4,25 @@ import { load_user_favorites } from '../actions/cloud';
 import SongCard from '../components/SongCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CircularProgress from '../components/CircularProgress';
-import { useNavigate } from 'react-router-dom';
 
-const Favorite = ({
+const UserFavorite = ({
   userfavs,
-  user,
   load_user_favorites,
   count,
   skip,
-  isAuthenticated,
+  userName,
 }) => {
-  const navigate = useNavigate();
-
   const [page, setPage] = useState(2);
 
   useEffect(() => {
-    user.name && load_user_favorites(user.name, 1);
+    load_user_favorites(userName, 1);
     setPage(2);
-  }, [user]);
+  }, []);
 
   const fetchData = async () => {
-    await load_user_favorites(user.name, page);
+    await load_user_favorites(userName, page);
     setPage(page + 1);
   };
-  if (!isAuthenticated) navigate('/login');
 
   return (
     <>
@@ -55,6 +50,7 @@ const Favorite = ({
               index={i}
               source="userfavorites"
               page={page}
+              userName={userName}
             />
           ))}
         </InfiniteScroll>
@@ -64,11 +60,9 @@ const Favorite = ({
 };
 
 const mapStateToProps = (state) => ({
-  user: state.auth.user,
   userfavs: state.cloud.userfavs,
   count: state.cloud.fav_count,
-  isAuthenticated: state.auth.isAuthenticated,
 });
 export default connect(mapStateToProps, {
   load_user_favorites,
-})(Favorite);
+})(UserFavorite);

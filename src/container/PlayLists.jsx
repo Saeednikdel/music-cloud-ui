@@ -23,7 +23,7 @@ const PlayLists = ({
   const [page, setPage] = useState(2);
   const [title, setTitle] = useState('');
   useEffect(() => {
-    user && load_user_playlists(user.name, 1);
+    user.name && load_user_playlists(user.name, 1);
   }, [user]);
   const fetchData = async () => {
     await load_user_playlists(page);
@@ -103,7 +103,7 @@ const PlayLists = ({
         config
       );
       res.data.id && setOpenPopup(false);
-      res.data.id && load_user_playlists(1);
+      res.data.id && load_user_playlists(user.name, 1);
       setTitle('');
     } catch (err) {
       console.log(err);

@@ -168,8 +168,8 @@ def addToPlayList(request):
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
-def userFavorites(request, user, page):
-    user = get_object_or_404(UserAccount, id=user)
+def userFavorites(request, username, page):
+    user = get_object_or_404(UserAccount, name=username)
     favorites = Favorite.objects.filter(user=user)
     itemperpage = 10
     paginator = Paginator(favorites, itemperpage)
