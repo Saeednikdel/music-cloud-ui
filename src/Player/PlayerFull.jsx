@@ -7,11 +7,16 @@ import {
   VolumeOff,
   VolumeUp,
   MoreVert,
+  FavoriteBorder,
+  Favorite,
 } from '@mui/icons-material';
 import OutsideClickHandler from 'react-outside-click-handler';
 import VolumePopUp from '../components/VolumePopUp';
 import MoreMenu from '../components/MoreMenu';
 import { useParams } from 'react-router-dom';
+import { load_post, favorite, load_likes } from '../actions/cloud';
+import { connect } from 'react-redux';
+
 const PlayerFull = ({
   audioElem,
   isplaying,
@@ -19,9 +24,12 @@ const PlayerFull = ({
   currentSong,
   skipBack,
   skiptoNext,
-  index,
-  selectDontPlay,
   setfull,
+  load_post,
+  favorite,
+  load_likes,
+  now_playing_count,
+  post,
 }) => {
   const { id } = useParams();
   const [flip, setFlip] = useState('');
@@ -34,13 +42,14 @@ const PlayerFull = ({
     audioElem.current ? audioElem.current.volume * 100 : 100
   );
   useEffect(() => {
+    load_post(id);
     setfull(true);
-    currentSong === undefined && selectDontPlay(id);
     return () => {
       setfull(false);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index]);
+  }, []);
+
   const seek = (e) => {
     audioElem.current.currentTime = (e.target.value / 100) * currentSong.length;
   };
@@ -79,124 +88,152 @@ const PlayerFull = ({
       {currentSong && (
         <div
           dir="ltr"
-          className="py-16 px-4 md:px-16 xl:px-36 2xl:px-60 space-y-8 text-gray-900 dark:text-gray-300">
-          <div
-            onClick={rotate}
-            className="flip-card h-64 w-64 md:w-96 md:h-96 flex hover:cursor-pointer items-center justify-center mx-auto overflow-auto">
-            <div className={`flip-card-inner ${flip}`}>
-              <div className="flip-card-front">
-                <img
-                  alt="album art"
-                  src={currentSong.artwork[0].src}
-                  className={`rounded-xl shadow-xl h-64 w-64 md:w-96 md:h-96 transform transition ${
-                    !isplaying ? 'grayscale scale-90' : 'scale-1'
-                  }`}
+          className="py-16 px-4 space-y-6 text-gray-900 dark:text-gray-300 grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {/* left */}
+          <div>
+            <div
+              onClick={rotate}
+              className="flip-card h-64 w-64 md:w-96 md:h-96 flex hover:cursor-pointer items-center justify-center mx-auto">
+              <div className={`flip-card-inner ${flip}`}>
+                <div className="flip-card-front">
+                  <img
+                    alt="album art"
+                    src={currentSong.artwork}
+                    className={`rounded-xl h-64 w-64 md:w-96 md:h-96 transform transition ${
+                      !isplaying ? 'grayscale scale-90' : 'scale-1'
+                    }`}
+                  />
+                </div>
+                <div className="flip-card-back text-lg overflow-y-auto">
+                  <p
+                    dangerouslySetInnerHTML={{ __html: post && post.lyrics }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* right */}
+          <div className="space-y-8 lg:pt-12 xl:mr-10">
+            <div className="flex space-x-4 items-center">
+              <div className="w-full text-center">
+                <p className=" font-bold text-xl">{currentSong.title}</p>
+                <p className="text-xl">{currentSong.artist}</p>
+                <p className="text-xl">{currentSong.album}</p>
+                <div className="flex justify-between -mb-2">
+                  <p>
+                    {currentSong.ct
+                      ? Math.floor(currentSong.ct / 60) +
+                        ':' +
+                        Math.floor(currentSong.ct % 60)
+                      : '0:0'}
+                  </p>
+                  <p>
+                    {currentSong.length
+                      ? Math.floor(currentSong.length / 60) +
+                        ':' +
+                        Math.floor(currentSong.length % 60)
+                      : '0:0'}
+                  </p>
+                </div>
+                <input
+                  className="seekbar w-full h-1 bg-blue-200 dark:bg-slate-600 appearance-none rounded"
+                  min={0}
+                  max={100}
+                  value={currentSong.progress ? currentSong.progress : 0}
+                  type="range"
+                  onChange={seek}
                 />
               </div>
-              <div className="flip-card-back text-lg overflow-auto">
-                <p dangerouslySetInnerHTML={{ __html: currentSong.lyrics }} />
-              </div>
             </div>
-          </div>
-          <div className="flex space-x-4 items-center">
-            <div className="w-full text-center">
-              <p className=" font-bold text-xl">{currentSong.title}</p>
-              <p className="text-xl">{currentSong.artist}</p>
-              <p className="text-xl">{currentSong.album}</p>
-              <div className="flex justify-between -mb-2">
-                <p>
-                  {currentSong.ct
-                    ? Math.floor(currentSong.ct / 60) +
-                      ':' +
-                      Math.floor(currentSong.ct % 60)
-                    : '0:0'}
-                </p>
-                <p>
-                  {currentSong.length
-                    ? Math.floor(currentSong.length / 60) +
-                      ':' +
-                      Math.floor(currentSong.length % 60)
-                    : '0:0'}
-                </p>
-              </div>
-              <input
-                className="seekbar w-full h-1 bg-blue-200 dark:bg-slate-600 appearance-none rounded"
-                min={0}
-                max={100}
-                value={currentSong.progress ? currentSong.progress : 0}
-                type="range"
-                onChange={seek}
+            <div className="flex justify-center">
+              <SkipPrevious
+                fontSize="large"
+                className={`hover:cursor-pointer ${
+                  now_playing_count < 1 && 'text-gray-500'
+                }`}
+                onClick={skipBack}
+              />
+              {isplaying ? (
+                <Pause
+                  fontSize="large"
+                  className=" hover:cursor-pointer mx-8"
+                  onClick={() => setisplaying(false)}
+                />
+              ) : (
+                <PlayArrow
+                  fontSize="large"
+                  className=" hover:cursor-pointer mx-8"
+                  onClick={() => setisplaying(true)}
+                />
+              )}
+              <SkipNext
+                fontSize="large"
+                className={`hover:cursor-pointer ${
+                  now_playing_count < 1 && 'text-gray-500'
+                }`}
+                onClick={skiptoNext}
               />
             </div>
-          </div>
-          <div className="flex justify-center">
-            <SkipPrevious
-              fontSize="large"
-              className=" hover:cursor-pointer active:text-blue-600"
-              onClick={skipBack}
-            />
-            {isplaying ? (
-              <Pause
-                fontSize="large"
-                className=" hover:cursor-pointer active:text-blue-600 mx-8"
-                onClick={() => setisplaying(false)}
-              />
-            ) : (
-              <PlayArrow
-                fontSize="large"
-                className=" hover:cursor-pointer active:text-blue-600 mx-8"
-                onClick={() => setisplaying(true)}
-              />
-            )}
-            <SkipNext
-              fontSize="large"
-              className=" hover:cursor-pointer active:text-blue-600"
-              onClick={skiptoNext}
-            />
-          </div>
-          <div className=" flex space-x-2 justify-end">
-            <div className=" relative inline-block">
-              <OutsideClickHandler
-                disabled={!showVolume}
-                onOutsideClick={() => setShowVolume(!showVolume)}>
-                {isMuted ? (
-                  <VolumeOff
+            <div className=" flex">
+              <div className="flex flex-1  space-x-2 items-center">
+                <div className=" relative inline-block">
+                  <OutsideClickHandler
+                    disabled={!showMore}
+                    onOutsideClick={() => setShowMore(!showMore)}>
+                    <MoreVert
+                      fontSize="large"
+                      className=" hover:cursor-pointer"
+                      onClick={() => setShowMore(!showMore)}
+                    />
+
+                    <MoreMenu
+                      showMore={showMore}
+                      currentSong={currentSong}
+                      index={currentSong.id}
+                    />
+                  </OutsideClickHandler>
+                </div>
+                {post && post.favorite ? (
+                  <Favorite
+                    onClick={() => favorite(currentSong.id)}
                     fontSize="large"
-                    className=" hover:cursor-pointer active:text-blue-600"
-                    onClick={() => setShowVolume(!showVolume)}
+                    className=" hover:cursor-pointer"
                   />
                 ) : (
-                  <VolumeUp
+                  <FavoriteBorder
+                    onClick={() => favorite(currentSong.id)}
                     fontSize="large"
-                    className=" hover:cursor-pointer active:text-blue-600"
-                    onClick={() => setShowVolume(!showVolume)}
+                    className=" hover:cursor-pointer"
                   />
                 )}
-                <VolumePopUp
-                  mute={mute}
-                  isMuted={isMuted}
-                  volume={volume}
-                  showVolume={showVolume}
-                  changeVolume={changeVolume}
-                />
-              </OutsideClickHandler>
-            </div>
-            <div className=" relative inline-block">
-              <OutsideClickHandler
-                disabled={!showMore}
-                onOutsideClick={() => setShowMore(!showMore)}>
-                <MoreVert
-                  fontSize="large"
-                  className=" hover:cursor-pointer active:text-blue-600"
-                  onClick={() => setShowMore(!showMore)}
-                />
-
-                <MoreMenu
-                  showMore={showMore}
-                  currentSong={currentSong}
-                  index={index}
-                />
-              </OutsideClickHandler>
+                {post && <h1 className=" text-2xl mx-1">{post.like}</h1>}
+              </div>
+              <div className="relative inline-block">
+                <OutsideClickHandler
+                  disabled={!showVolume}
+                  onOutsideClick={() => setShowVolume(!showVolume)}>
+                  {isMuted ? (
+                    <VolumeOff
+                      fontSize="large"
+                      className=" hover:cursor-pointer"
+                      onClick={() => setShowVolume(!showVolume)}
+                    />
+                  ) : (
+                    <VolumeUp
+                      fontSize="large"
+                      className=" hover:cursor-pointer"
+                      onClick={() => setShowVolume(!showVolume)}
+                    />
+                  )}
+                  <VolumePopUp
+                    mute={mute}
+                    isMuted={isMuted}
+                    volume={volume}
+                    showVolume={showVolume}
+                    changeVolume={changeVolume}
+                  />
+                </OutsideClickHandler>
+              </div>
             </div>
           </div>
         </div>
@@ -205,4 +242,15 @@ const PlayerFull = ({
   );
 };
 
-export default PlayerFull;
+const mapStateToProps = (state) => ({
+  post: state.cloud.post,
+  likes: state.cloud.likes,
+  isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user,
+  now_playing_count: state.cloud.now_playing_count,
+});
+export default connect(mapStateToProps, {
+  load_post,
+  load_likes,
+  favorite,
+})(PlayerFull);

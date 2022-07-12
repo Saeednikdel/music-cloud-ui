@@ -19,21 +19,64 @@ import {
   LOAD_USER_FAVS_FAIL,
   FAVE_SUCCESS,
   FAVE_FAIL,
+  LOAD_NOW_PLAYING_SUCCESS,
+  LOAD_NOW_PLAYING_FAIL,
+  SET_NOW_PLAYING_SUCCESS,
+  LOAD_CARD_POST_SUCCESS,
 } from '../actions/types';
 const initialState = {
   posts: [],
+  count: null,
   userposts: [],
+  profile_count: null,
   likes: [],
   follower: [],
   following: [],
   post: null,
-  nowplaying: [],
+  now_playing: [],
+  userfavs: [],
+  fav_count: null,
+  now_playing_count: 0,
 };
 
 export default function (state = initialState, action) {
   const { type, payload, page } = action;
 
   switch (type) {
+    case SET_NOW_PLAYING_SUCCESS:
+      if (payload === 'home') {
+        return {
+          ...state,
+          now_playing: state.posts,
+          now_playing_count: state.count,
+        };
+      } else if (payload === 'userpostlist') {
+        return {
+          ...state,
+          now_playing: state.userposts,
+          now_playing_count: state.profile_count,
+        };
+      } else if (payload === 'userfavorites') {
+        return {
+          ...state,
+          now_playing: state.userfavs,
+          now_playing_count: state.fav_count,
+        };
+      }
+    case LOAD_NOW_PLAYING_SUCCESS:
+      if (page === 1) {
+        return {
+          ...state,
+          now_playing: payload.posts,
+          now_playing_count: payload.count,
+        };
+      } else {
+        return {
+          ...state,
+          now_playing: state.now_playing.concat(payload.posts),
+          now_playing_count: payload.count,
+        };
+      }
     case LOAD_POSTS_SUCCESS:
       if (page === 1) {
         return {
@@ -81,13 +124,13 @@ export default function (state = initialState, action) {
       if (page === 1) {
         return {
           ...state,
-          userfavs: payload.favorites,
+          userfavs: payload.posts,
           fav_count: payload.count,
         };
       } else {
         return {
           ...state,
-          userfavs: state.userfavs.concat(payload.favorites),
+          userfavs: state.userfavs.concat(payload.posts),
           fav_count: payload.count,
         };
       }
@@ -96,10 +139,19 @@ export default function (state = initialState, action) {
         ...state,
         post: payload,
       };
+    case LOAD_CARD_POST_SUCCESS:
+      return {
+        ...state,
+        card_post: payload,
+      };
     case FAVE_SUCCESS:
       return {
         ...state,
-        post: { ...state.post, favorite: !state.post.favorite },
+        post: {
+          ...state.post,
+          favorite: !state.post.favorite,
+          like: state.post.favorite ? state.post.like - 1 : state.post.like + 1,
+        },
       };
     case LOAD_PROFILE_SUCCESS:
       return {

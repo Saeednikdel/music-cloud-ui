@@ -21,7 +21,73 @@ import {
   LOAD_USERS_FAIL,
   LOAD_USER_FAVS_SUCCESS,
   LOAD_USER_FAVS_FAIL,
+  LOAD_NOW_PLAYING_SUCCESS,
+  LOAD_NOW_PLAYING_FAIL,
+  SET_NOW_PLAYING_SUCCESS,
+  LOAD_CARD_POST_SUCCESS,
 } from './types';
+export const set_now_playing = (source) => async (dispatch) => {
+  dispatch({
+    type: SET_NOW_PLAYING_SUCCESS,
+    payload: source,
+  });
+};
+export const load_now_playing =
+  (source, page, user_name) => async (dispatch) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    };
+    const user = localStorage.getItem('id')
+      ? localStorage.getItem('id')
+      : false;
+    const body = JSON.stringify({
+      page,
+      user,
+    });
+    try {
+      if (source === 'home') {
+        const res = await axios.post(
+          `${process.env.REACT_APP_API_URL}/api/cloud/postlist/${page}/`,
+          body,
+          config
+        );
+        dispatch({
+          type: LOAD_NOW_PLAYING_SUCCESS,
+          payload: res.data,
+          page: page,
+        });
+      }
+      if (source === 'userpostlist') {
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/cloud/userpostlist/${user_name}/${page}/`,
+          config
+        );
+        dispatch({
+          type: LOAD_NOW_PLAYING_SUCCESS,
+          payload: res.data,
+          page: page,
+        });
+      }
+      if (source === 'userfavorites') {
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/cloud/userfavorites/${user}/${page}/`,
+          config
+        );
+        dispatch({
+          type: LOAD_NOW_PLAYING_SUCCESS,
+          payload: res.data,
+          page: page,
+        });
+      }
+    } catch (err) {
+      dispatch({
+        type: LOAD_NOW_PLAYING_FAIL,
+      });
+    }
+  };
 
 export const load_users = (page, keyword) => async (dispatch) => {
   const config = {
@@ -160,7 +226,28 @@ export const load_post = (postId) => async (dispatch) => {
     });
   }
 };
+export const load_card_post = (postId) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  };
+  const user = localStorage.getItem('id') ? localStorage.getItem('id') : false;
+  const body = JSON.stringify({ user });
+  try {
+    const res = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/cloud/post/${postId}/`,
+      body,
+      config
+    );
 
+    dispatch({
+      type: LOAD_CARD_POST_SUCCESS,
+      payload: res.data,
+    });
+  } catch (err) {}
+};
 export const load_profile = (name) => async (dispatch) => {
   const config = {
     headers: {

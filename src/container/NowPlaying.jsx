@@ -1,18 +1,48 @@
 import React from 'react';
-import data from '../data';
+import { connect } from 'react-redux';
+import { load_now_playing } from '../actions/cloud';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import CircularProgress from '../components/CircularProgress';
 
-const NowPlaying = ({ index, skip }) => {
+const NowPlaying = ({
+  index,
+  skipToIndex,
+  now_playing,
+  load_now_playing,
+  source,
+  setSource,
+  now_playing_count,
+}) => {
+  const fetchData = async () => {
+    await load_now_playing(source.source, source.page, source.user_name);
+    setSource({ ...source, page: source.page + 1 });
+  };
   return (
-    <div className="mb-24">
-      {data.map((item, i) => (
+    <InfiniteScroll
+      className=" mb-24"
+      dataLength={now_playing.length}
+      next={fetchData}
+      hasMore={now_playing_count > now_playing.length}
+      loader={
+        <div className="text-center">
+          <CircularProgress color="secondary" />
+        </div>
+      }
+      endMessage={
+        <div className="text-center">
+          <p>...</p>
+        </div>
+      }>
+      {now_playing.map((item, i) => (
         <div
-          onClick={() => skip(i)}
+          id={i}
           key={i}
+          onClick={() => skipToIndex(i)}
           className="flex py-2 px-6 text-xl font-semibold space-x-4 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700">
           <img
             alt={item.title}
             className="w-20 h-20 object-cover rounded-lg"
-            src={item.artwork[0].src}
+            src={item.artwork}
           />
           <div className={`${i === index && 'text-blue-600'}`}>
             <h2>{item.title}</h2>
@@ -20,8 +50,11 @@ const NowPlaying = ({ index, skip }) => {
           </div>
         </div>
       ))}
-    </div>
+    </InfiniteScroll>
   );
 };
-
-export default NowPlaying;
+const mapStateToProps = (state) => ({
+  now_playing: state.cloud.now_playing,
+  now_playing_count: state.cloud.now_playing_count,
+});
+export default connect(mapStateToProps, { load_now_playing })(NowPlaying);
