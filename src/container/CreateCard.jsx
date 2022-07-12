@@ -14,7 +14,7 @@ import {
 } from '@mui/icons-material';
 import { connect } from 'react-redux';
 import { load_card_post } from '../actions/cloud';
-
+import BtnPrimary from '../components/BtnPrimary';
 const CreateCard = ({ load_card_post, card_post }) => {
   const div = useRef();
   let { id } = useParams();
@@ -28,7 +28,6 @@ const CreateCard = ({ load_card_post, card_post }) => {
   const [brightness, setBrightness] = useState(50);
   const [titleColor, setTitleColor] = useState('#ffffff');
   const [textColor, setTextColor] = useState('#ffffff');
-  const [lyric, setLyric] = useState([]);
   const [selected, setSelected] = useState('');
   const [image, setImage] = useState('');
 
@@ -37,9 +36,6 @@ const CreateCard = ({ load_card_post, card_post }) => {
   }, []);
   useEffect(() => {
     if (card_post) {
-      const lyrics = card_post.lyrics.replaceAll('</p>', '<p>').split('<p>');
-      setSelected(lyrics[1]);
-      setLyric(lyrics);
       setImage(card_post.artwork);
     }
   }, [card_post]);
@@ -86,7 +82,7 @@ const CreateCard = ({ load_card_post, card_post }) => {
                 textDecoration: underline && 'underline',
                 color: textColor,
               }}>
-              <p dangerouslySetInnerHTML={{ __html: selected }}></p>
+              <p className=" whitespace-pre-line">{selected}</p>
             </div>
             <div className="absolute bottom-4 right-4 bg-gray-900/50 p-1 rounded-md w-12">
               <img
@@ -129,19 +125,26 @@ const CreateCard = ({ load_card_post, card_post }) => {
               </p>
             </label>
           </div>
-          <div className="flex flex-col items-center h-80 overflow-auto">
-            {tab === 'lyrics' &&
-              lyric.map(
-                (line, i) =>
-                  line !== '\r\n' && (
-                    <div
-                      key={i}
-                      className=" hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 p-2 m-1"
-                      onClick={() => setSelected(line)}>
-                      <p dangerouslySetInnerHTML={{ __html: line }}></p>
-                    </div>
-                  )
-              )}
+          <div className="flex flex-col items-center">
+            {tab === 'lyrics' && (
+              <>
+                <div className="flex space-x-10 items-center w-9/12">
+                  <h1 className=" font-bold">
+                    select (highlight) a portion of lyrics you like and click
+                    Done.
+                  </h1>
+                  <BtnPrimary
+                    onClick={() =>
+                      setSelected(window.getSelection().toString())
+                    }>
+                    Done
+                  </BtnPrimary>
+                </div>
+                <div className="p-2 m-1 h-80  overflow-auto">
+                  <p dangerouslySetInnerHTML={{ __html: card_post.lyrics }}></p>
+                </div>
+              </>
+            )}
             {tab === 'edit' && (
               <div className="py-6 space-y-2 w-60">
                 <div className="flex justify-between">
