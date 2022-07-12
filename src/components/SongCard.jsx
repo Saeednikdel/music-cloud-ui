@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-const SongCard = ({ post, skip, index, source, page }) => {
+const SongCard = ({ post, skip, index, source, page, playlistid }) => {
   const click = () => {
-    skip(source, page, index, post.user_name);
+    skip(source, page, index, post.user_name, playlistid);
   };
   return (
     <div className=" bg-white dark:bg-slate-900 text-gray-800 dark:text-gray-200 shadow-lg rounded-lg overflow-hidden w-40 block mx-auto  hover:cursor-pointer">

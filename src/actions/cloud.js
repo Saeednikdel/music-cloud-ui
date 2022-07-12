@@ -25,6 +25,10 @@ import {
   LOAD_NOW_PLAYING_FAIL,
   SET_NOW_PLAYING_SUCCESS,
   LOAD_CARD_POST_SUCCESS,
+  LOAD_USER_PLAYLISTS_SUCCESS,
+  LOAD_USER_PLAYLISTS_FAIL,
+  LOAD_PLAYLIST_SUCCESS,
+  LOAD_PLAYLIST_FAIL,
 } from './types';
 export const set_now_playing = (source) => async (dispatch) => {
   dispatch({
@@ -33,7 +37,7 @@ export const set_now_playing = (source) => async (dispatch) => {
   });
 };
 export const load_now_playing =
-  (source, page, user_name) => async (dispatch) => {
+  (source, page, user_name, playlistid) => async (dispatch) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -74,6 +78,17 @@ export const load_now_playing =
       if (source === 'userfavorites') {
         const res = await axios.get(
           `${process.env.REACT_APP_API_URL}/api/cloud/userfavorites/${user}/${page}/`,
+          config
+        );
+        dispatch({
+          type: LOAD_NOW_PLAYING_SUCCESS,
+          payload: res.data,
+          page: page,
+        });
+      }
+      if (source === 'playlist') {
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/cloud/playlist/${playlistid}/${page}/`,
           config
         );
         dispatch({
@@ -175,7 +190,55 @@ export const load_user_favorites = (page) => async (dispatch) => {
     });
   }
 };
+export const load_user_playlists = (user_name, page) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  };
+  try {
+    const res = await axios.get(
+      `${process.env.REACT_APP_API_URL}/api/cloud/userplaylists/${user_name}/${page}/`,
+      config
+    );
+    dispatch({
+      type: LOAD_USER_PLAYLISTS_SUCCESS,
+      payload: res.data,
+      page: page,
+    });
+  } catch (err) {
+    dispatch({
+      type: LOAD_USER_PLAYLISTS_FAIL,
+    });
+  }
+};
 
+export const load_playlist = (id, page) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  };
+  try {
+    const res = await axios.get(
+      `${process.env.REACT_APP_API_URL}/api/cloud/playlist/${id}/${page}/`,
+      config
+    );
+    dispatch({
+      type: LOAD_PLAYLIST_SUCCESS,
+      payload: res.data,
+      page: page,
+    });
+  } catch (err) {
+    dispatch({
+      type: LOAD_PLAYLIST_FAIL,
+    });
+  }
+};
 export const load_user_posts = (name, page) => async (dispatch) => {
   const config = {
     headers: {

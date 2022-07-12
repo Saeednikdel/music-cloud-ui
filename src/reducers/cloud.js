@@ -23,6 +23,10 @@ import {
   LOAD_NOW_PLAYING_FAIL,
   SET_NOW_PLAYING_SUCCESS,
   LOAD_CARD_POST_SUCCESS,
+  LOAD_USER_PLAYLISTS_SUCCESS,
+  LOAD_USER_PLAYLISTS_FAIL,
+  LOAD_PLAYLIST_SUCCESS,
+  LOAD_PLAYLIST_FAIL,
 } from '../actions/types';
 const initialState = {
   posts: [],
@@ -37,6 +41,8 @@ const initialState = {
   userfavs: [],
   fav_count: null,
   now_playing_count: 0,
+  user_playlists: [],
+  playlist: [],
 };
 
 export default function (state = initialState, action) {
@@ -61,6 +67,12 @@ export default function (state = initialState, action) {
           ...state,
           now_playing: state.userfavs,
           now_playing_count: state.fav_count,
+        };
+      } else if (payload === 'playlist') {
+        return {
+          ...state,
+          now_playing: state.playlist,
+          now_playing_count: state.playlist_count,
         };
       }
     case LOAD_NOW_PLAYING_SUCCESS:
@@ -89,6 +101,34 @@ export default function (state = initialState, action) {
           ...state,
           posts: state.posts.concat(payload.posts),
           count: payload.count,
+        };
+      }
+    case LOAD_USER_PLAYLISTS_SUCCESS:
+      if (page === 1) {
+        return {
+          ...state,
+          user_playlists: payload.playlists,
+          playlists_count: payload.count,
+        };
+      } else {
+        return {
+          ...state,
+          user_playlists: state.user_playlists.concat(payload.playlists),
+          playlists_count: payload.count,
+        };
+      }
+    case LOAD_PLAYLIST_SUCCESS:
+      if (page === 1) {
+        return {
+          ...state,
+          playlist: payload.posts,
+          playlist_count: payload.count,
+        };
+      } else {
+        return {
+          ...state,
+          playlist: state.playlist.concat(payload.posts),
+          playlist_count: payload.count,
         };
       }
     case LOAD_USERS_SUCCESS:

@@ -21,6 +21,7 @@ import { connect } from 'react-redux';
 import { load_now_playing, set_now_playing, load_post } from './actions/cloud';
 import { Helmet } from 'react-helmet-async';
 import EditPost from './components/forms/EditPost';
+import PlayList from './container/PlayList';
 
 const App = ({
   post,
@@ -97,7 +98,12 @@ const App = ({
         source.index === now_playing.length - 2 &&
         now_playing.length < now_playing_count
       ) {
-        load_now_playing(source.source, source.page, source.user_name);
+        load_now_playing(
+          source.source,
+          source.page,
+          source.user_name,
+          source.playlistid
+        );
         setSource({ ...source, page: source.page + 1 });
       }
     }
@@ -112,8 +118,8 @@ const App = ({
     setSource({ ...source, index: i });
     load_post(now_playing[i].id);
   };
-  const skip = (source, page, index, user_name) => {
-    setSource({ source, page, index, user_name });
+  const skip = (source, page, index, user_name, playlistid) => {
+    setSource({ source, page, index, user_name, playlistid });
     set_now_playing(source);
   };
   const selectDontPlay = (post) => {
@@ -182,6 +188,11 @@ const App = ({
               <Route exact path="/edit/:id" element={<EditPost />} />
               <Route exact path="/new" element={<NewPost />} />
               <Route exact path="/playlists" element={<PlayLists />} />
+              <Route
+                exact
+                path="/playlist/:id"
+                element={<PlayList skip={skip} />}
+              />
               <Route
                 exact
                 path="/favorites"

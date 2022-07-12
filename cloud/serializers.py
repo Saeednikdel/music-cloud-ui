@@ -46,13 +46,13 @@ class PlayListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlayList
-        fields = ('id', 'title', 'date', 'image', 'count')
+        fields = ('id', 'title', 'date', 'count')
 
 
 class NewPlayListSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlayList
-        fields = ('id', 'title', 'image', 'user')
+        fields = ('id', 'title', 'user')
 
 
 class FavoriteSerializer(serializers.ModelSerializer):

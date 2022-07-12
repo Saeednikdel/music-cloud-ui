@@ -108,8 +108,8 @@ def playList(request, id, page):
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
-def userPlayLists(request, user, page):
-    user = get_object_or_404(UserAccount, id=user)
+def userPlayLists(request, username, page):
+    user = get_object_or_404(UserAccount, name=username)
     playlists = PlayList.objects.filter(user=user).order_by('-date')
     itemperpage = 10
     paginator = Paginator(playlists, itemperpage)

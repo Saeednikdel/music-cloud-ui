@@ -10,7 +10,7 @@ urlpatterns = [
          views.userPostList, name="user_post_list"),
 
     path('playlist/<str:id>/<str:page>/', views.playList, name="play_list"),
-    path('userplaylists/<str:user>/<str:page>/',
+    path('userplaylists/<str:username>/<str:page>/',
          views.userPlayLists, name="user_play_lists"),
     path('newplaylist/', views.newPlayList, name="new_play_list"),
     path('removeplaylist/', views.removePlayList, name="remove_play_list"),
