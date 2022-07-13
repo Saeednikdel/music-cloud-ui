@@ -1,4 +1,3 @@
-import CircularProgress from '../components/CircularProgress';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -28,16 +27,8 @@ const NowPlaying = ({
       dataLength={now_playing.length}
       next={fetchData}
       hasMore={now_playing_count > now_playing.length}
-      loader={
-        <div className="text-center">
-          <CircularProgress color="secondary" />
-        </div>
-      }
-      endMessage={
-        <div className="text-center">
-          <p>...</p>
-        </div>
-      }>
+      loader={<div className="text-center"></div>}
+      endMessage={<div className="text-center"></div>}>
       {now_playing.map((item, i) => (
         <div
           id={i}

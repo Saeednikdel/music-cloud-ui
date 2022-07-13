@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import CircularProgress from '../components/CircularProgress';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import SongCard from '../components/SongCard';
 import { connect } from 'react-redux';
@@ -34,16 +33,8 @@ const UserPosts = ({
           dataLength={userposts.length}
           next={fetchData}
           hasMore={count > userposts.length}
-          loader={
-            <div className="text-center">
-              <CircularProgress color="secondary" />
-            </div>
-          }
-          endMessage={
-            <div className="text-center">
-              <p>...</p>
-            </div>
-          }>
+          loader={<div className="text-center"></div>}
+          endMessage={<div className="text-center"></div>}>
           {userposts.map((post, i) => (
             <SongCard
               key={i}

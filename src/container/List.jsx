@@ -50,16 +50,8 @@ const List = ({
         dataLength={list.length}
         next={fetchData}
         hasMore={count > list.length}
-        loader={
-          <div>
-            <p>loading...</p>
-          </div>
-        }
-        endMessage={
-          <div>
-            <p>...</p>
-          </div>
-        }>
+        loader={<div></div>}
+        endMessage={<div></div>}>
         {list.map((item) => (
           <>
             <Link to={`/u/${item.name}/`}>

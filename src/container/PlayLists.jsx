@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 
 import BtnPrimary from '../components/BtnPrimary';
-import CircularProgress from '../components/CircularProgress';
 import EditPlaylist from '../components/forms/EditPlaylist';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import OutsideClickHandler from 'react-outside-click-handler';
@@ -73,16 +72,8 @@ const PlayLists = ({
           dataLength={user_playlists.length}
           next={fetchData}
           hasMore={playlists_count > user_playlists.length}
-          loader={
-            <div className="text-center">
-              <CircularProgress color="secondary" />
-            </div>
-          }
-          endMessage={
-            <div className="text-center">
-              <p>...</p>
-            </div>
-          }>
+          loader={<div></div>}
+          endMessage={<div></div>}>
           {user_playlists.map((item, i) => (
             <div
               key={i}

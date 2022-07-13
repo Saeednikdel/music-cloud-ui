@@ -33,16 +33,8 @@ const PlayList = ({
           dataLength={playlist.length}
           next={fetchData}
           hasMore={playlist_count > playlist.length}
-          loader={
-            <div>
-              <p>loading</p>
-            </div>
-          }
-          endMessage={
-            <div>
-              <p>...</p>
-            </div>
-          }>
+          loader={<div></div>}
+          endMessage={<div></div>}>
           {playlist.map((post, i) => (
             <SongCard
               key={i}

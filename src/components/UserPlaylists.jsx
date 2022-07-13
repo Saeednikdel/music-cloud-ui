@@ -1,7 +1,6 @@
 import { Edit, PlaylistPlay } from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
 
-import CircularProgress from '../components/CircularProgress';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -39,16 +38,8 @@ const UserPlayLists = ({
           dataLength={user_playlists.length}
           next={fetchData}
           hasMore={playlists_count > user_playlists.length}
-          loader={
-            <div className="text-center">
-              <CircularProgress color="secondary" />
-            </div>
-          }
-          endMessage={
-            <div className="text-center">
-              <p>...</p>
-            </div>
-          }>
+          loader={<div className="text-center"></div>}
+          endMessage={<div className="text-center"></div>}>
           {user_playlists.map((item, i) => (
             <Link
               to={`/playlist/${item.id}`}

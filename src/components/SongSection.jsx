@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import CircularProgress from './CircularProgress';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import SongCard from './SongCard';
 import { connect } from 'react-redux';
@@ -41,16 +40,8 @@ const SongSection = ({ posts, load_posts, count, history, skip, openMenu }) => {
           dataLength={posts.length}
           next={fetchData}
           hasMore={count > posts.length}
-          loader={
-            <div>
-              <p>loading</p>
-            </div>
-          }
-          endMessage={
-            <div>
-              <p>...</p>
-            </div>
-          }>
+          loader={<div></div>}
+          endMessage={<div></div>}>
           {posts.map((post, i) => (
             <SongCard
               key={i}
