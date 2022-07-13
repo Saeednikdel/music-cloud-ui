@@ -30,6 +30,7 @@ const PlayerFull = ({
   load_post,
   favorite,
   load_likes,
+  likes,
   now_playing_count,
   isAuthenticated,
   post,
@@ -47,6 +48,7 @@ const PlayerFull = ({
   );
   useEffect(() => {
     load_post(id);
+    load_likes(id, 1);
     setfull(true);
     return () => {
       setfull(false);
@@ -186,7 +188,7 @@ const PlayerFull = ({
               />
             </div>
             <div className=" flex">
-              <div className="flex flex-1  space-x-2 items-center">
+              <div className="flex flex-1  space-x-4 items-center">
                 <div className=" relative inline-block">
                   <OutsideClickHandler
                     disabled={!showMore}
@@ -217,6 +219,20 @@ const PlayerFull = ({
                     className=" hover:cursor-pointer"
                   />
                 )}
+                <Link
+                  to={`/list/like/${post.id}`}
+                  className="flex flex-row-reverse">
+                  {likes &&
+                    likes
+                      .slice(0, 3)
+                      .map((like) => (
+                        <img
+                          src={like.image}
+                          className=" w-8 h-8 rounded-full border-2 border-gray-300 dark:border-gray-700 object-cover"
+                          style={{ marginLeft: likes.length > 1 && -8 }}
+                        />
+                      ))}
+                </Link>
                 {post && (
                   <Link to={`/list/like/${post.id}`} className=" text-2xl mx-1">
                     {post.like}

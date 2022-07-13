@@ -471,7 +471,7 @@ export const favorite = (id) => async (dispatch) => {
         type: FAVE_SUCCESS,
         payload: res.data,
       });
-      // dispatch(load_post(id));
+      dispatch(load_likes(id, 1));
       // dispatch(load_likes(id));
     } catch (err) {
       dispatch({
