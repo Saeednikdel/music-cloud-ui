@@ -16,7 +16,7 @@ export default function Popup({ title, children, openPopup, setOpenPopup }) {
             data-modal-toggle="authentication-modal">
             <Close className="h-6 w-6 text-gray-700 dark:text-gray-300" />
           </button>
-          <div className="py-6 px-6 lg:px-8">
+          <div className="p-4">
             <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">
               {title}
             </h3>
