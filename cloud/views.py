@@ -203,10 +203,7 @@ def addToPlayList(request):
     playList = get_object_or_404(PlayList, user=request.data.get(
         'user'), id=request.data.get('id'))
     post = get_object_or_404(Post, id=request.data.get('post'))
-    if post in playList.posts.all():
-        playList.posts.remove(post)
-        return Response({"removed"})
-    else:
+    if post not in playList.posts.all():
         playList.posts.add(post)
         return Response({"added"})
 

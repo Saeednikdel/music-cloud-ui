@@ -51,7 +51,7 @@ const PlayLists = ({
     }
   }
   useEffect(() => {
-    user.name && load_user_playlists(user.name, 1);
+    user && load_user_playlists(user.name, 1);
   }, [user]);
   const fetchData = async () => {
     await load_user_playlists(page);

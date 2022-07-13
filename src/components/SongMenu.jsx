@@ -12,7 +12,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { remove_post } from '../actions/cloud';
 
-const SongMenu = ({ user, menuItem, setOpenPopup, remove_post }) => {
+const SongMenu = ({
+  user,
+  menuItem,
+  setOpenPopup,
+  remove_post,
+  setAddToPlayListPopUp,
+}) => {
   const click = () => {
     setOpenPopup(false);
   };
@@ -28,23 +34,26 @@ const SongMenu = ({ user, menuItem, setOpenPopup, remove_post }) => {
     remove_post(menuItem.source, menuItem.id);
     setOpenPopup(false);
   };
+  const handleAdd = () => {
+    setAddToPlayListPopUp(true);
+  };
   return (
     <div className=" space-y-1 text-gray-900 dark:text-gray-100">
       <div
         onClick={share}
-        className="flex px-2 py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
+        className="flex py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
         <Share />
         <h1 className="text-xl">Share</h1>
       </div>
       <Link onClick={click} to={`/createcard/${menuItem.id}/`}>
-        <div className="flex px-2 py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
+        <div className="flex py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
           <LibraryMusic />
           <h1 className="text-xl">Lyrics card</h1>
         </div>
       </Link>
       {user && user.name && user.name === menuItem.user_name && (
         <Link onClick={click} to={`/edit/${menuItem.id}/`}>
-          <div className="flex px-2 py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
+          <div className="flex py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
             <Edit />
             <h1 className="text-xl">Edit track</h1>
           </div>
@@ -52,23 +61,24 @@ const SongMenu = ({ user, menuItem, setOpenPopup, remove_post }) => {
       )}
       {user && user.name && user.name === menuItem.user_name && (
         <div onClick={deletePost}>
-          <div className="flex px-2 py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
+          <div className="flex py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
             <Delete />
             <h1 className="text-xl">Delete track</h1>
           </div>
         </div>
       )}
-      {menuItem.source !== 'playlist' && (
+      {user && menuItem.source !== 'playlist' && (
         <div
-          onClick={click}
-          className="flex px-2 py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
+          onClick={handleAdd}
+          className="flex py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
           <Add />
           <h1 className="text-xl">Add to playlist</h1>
         </div>
       )}
+
       <div
         onClick={click}
-        className="flex px-2 py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
+        className="flex py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
         <Report />
         <h1 className="text-xl">Report</h1>
       </div>

@@ -19,6 +19,7 @@ import PlayerFull from './Player/PlayerFull';
 import PlayerSimple from './Player/PlayerSimple';
 import Popup from './components/Popup';
 import ProfileSetting from './container/ProfileSetting';
+import PlayListAddDialog from './components/PlayListAddDialog';
 import ResetPassword from './components/forms/ResetPassword';
 import ResetPasswordConfirm from './components/forms/ResetPasswordConfirm';
 import Signup from './components/forms/Signup';
@@ -39,6 +40,7 @@ const App = ({
     localStorage.getItem('theme') ? localStorage.getItem('theme') : ''
   );
   const [openPopup, setOpenPopup] = useState(false);
+  const [addToPlayListPopUp, setAddToPlayListPopUp] = useState(false);
   const [source, setSource] = useState({
     source: null,
     page: null,
@@ -69,6 +71,10 @@ const App = ({
     post && selectDontPlay(post);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [new_post_id]);
+  useEffect(() => {
+    !openPopup && setAddToPlayListPopUp(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openPopup]);
   navigator.mediaSession.setActionHandler('previoustrack', function () {
     skipBack();
   });
@@ -146,6 +152,7 @@ const App = ({
   };
   const openMenu = (source, id, user_name) => {
     setMenuItem({ source, id, user_name });
+    if (source === 'player') setAddToPlayListPopUp(true);
     setOpenPopup(true);
   };
   return (
@@ -238,6 +245,7 @@ const App = ({
                     audioElem={audioElem}
                     currentSong={currentSong}
                     setfull={setfull}
+                    openMenu={openMenu}
                   />
                 }
               />
@@ -261,7 +269,19 @@ const App = ({
           disabled={!openPopup}
           onOutsideClick={() => setOpenPopup(!openPopup)}>
           <Popup title="" openPopup={openPopup} setOpenPopup={setOpenPopup}>
-            <SongMenu menuItem={menuItem} setOpenPopup={setOpenPopup} />
+            {addToPlayListPopUp ? (
+              <PlayListAddDialog
+                menuItem={menuItem}
+                setOpenPopup={setOpenPopup}
+                setAddToPlayListPopUp={setAddToPlayListPopUp}
+              />
+            ) : (
+              <SongMenu
+                menuItem={menuItem}
+                setOpenPopup={setOpenPopup}
+                setAddToPlayListPopUp={setAddToPlayListPopUp}
+              />
+            )}
           </Popup>
         </OutsideClickHandler>
       </div>

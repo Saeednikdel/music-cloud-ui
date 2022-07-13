@@ -34,6 +34,7 @@ const PlayerFull = ({
   now_playing_count,
   isAuthenticated,
   post,
+  openMenu,
 }) => {
   const { id } = useParams();
   const [openPopup, setOpenPopup] = useState(false);
@@ -203,6 +204,8 @@ const PlayerFull = ({
                       showMore={showMore}
                       currentSong={currentSong}
                       index={currentSong.id}
+                      openMenu={openMenu}
+                      setShowMore={setShowMore}
                     />
                   </OutsideClickHandler>
                 </div>

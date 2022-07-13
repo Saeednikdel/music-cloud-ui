@@ -11,7 +11,18 @@ import { Link } from 'react-router-dom';
 import React from 'react';
 import { connect } from 'react-redux';
 
-const MoreMenu = ({ showMore, currentSong, index, user }) => {
+const MoreMenu = ({
+  showMore,
+  currentSong,
+  index,
+  user,
+  openMenu,
+  setShowMore,
+}) => {
+  const handleAddtoplaylist = () => {
+    openMenu('player', currentSong.id, currentSong.user_name);
+    setShowMore(false);
+  };
   return (
     <div
       className={`${
@@ -50,7 +61,9 @@ const MoreMenu = ({ showMore, currentSong, index, user }) => {
           <h1 className="text-xl">Download</h1>
         </div>
       </a>
-      <div className="flex px-2 py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
+      <div
+        onClick={handleAddtoplaylist}
+        className="flex px-2 py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
         <Add />
         <h1 className="text-xl">Add to playlist</h1>
       </div>
