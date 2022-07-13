@@ -88,3 +88,22 @@ class UserDetailSerializer(serializers.ModelSerializer):
         model = UserAccount
         fields = ('id', 'profile_name', 'followers', 'header', 'is_verified',
                   'followings', 'email', 'name', 'image', 'join_date', 'bio')
+
+
+class LikeSerializer(serializers.ModelSerializer):
+    name = serializers.ReadOnlyField(source='user.name')
+    image = serializers.ImageField(source='user.image')
+    profile_name = serializers.CharField(source='user.profile_name')
+    is_verified = serializers.BooleanField(source='user.is_verified')
+
+    class Meta:
+        model = Favorite
+        fields = ('user', 'name', 'image', 'profile_name', 'is_verified')
+
+
+class FollowerSerializer(serializers.ModelSerializer):
+    user = serializers.IntegerField(source='id')
+
+    class Meta:
+        model = UserAccount
+        fields = ('user', 'name', 'image', 'profile_name', 'is_verified')

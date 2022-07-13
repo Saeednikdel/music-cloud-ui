@@ -7,8 +7,53 @@ from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from .models import Favorite, Post, PlayList, Notification
-from .serializers import PostsSerializer, PlayListSerializer, FavoriteSerializer, NotificationSerializer, NewPostSerializer, EditPostSerializer, NewPlayListSerializer, UserDetailSerializer, PostSerializer
+from .serializers import PostsSerializer, PlayListSerializer, FavoriteSerializer, NotificationSerializer, NewPostSerializer, EditPostSerializer, NewPlayListSerializer, UserDetailSerializer, PostSerializer, LikeSerializer, FollowerSerializer
 from rest_framework import status
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def likeList(request, id, page):
+    post = Post.objects.get(id=id)
+    likes = Favorite.objects.filter(post=post)
+    itemperpage = 10
+    paginator = Paginator(likes, itemperpage)
+    count = len(likes)
+    likes = paginator.get_page(page)
+    serializer = LikeSerializer(likes, many=True)
+    new_dict = {"count": count}
+    new_dict.update({"likes": serializer.data})
+    return Response(new_dict)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def followerList(request, name, page):
+    user = get_object_or_404(UserAccount, name=name)
+    follower = user.follower.exclude(follower=user)
+    itemperpage = 10
+    paginator = Paginator(follower, itemperpage)
+    count = len(follower)
+    follower = paginator.get_page(page)
+    serializer = FollowerSerializer(follower, many=True)
+    new_dict = {"count": count}
+    new_dict.update({"follower": serializer.data})
+    return Response(new_dict)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def followingList(request, name, page):
+    user = get_object_or_404(UserAccount, name=name)
+    following = user.following.exclude(following=user)
+    itemperpage = 10
+    paginator = Paginator(following, itemperpage)
+    count = len(following)
+    following = paginator.get_page(page)
+    serializer = FollowerSerializer(following, many=True)
+    new_dict = {"count": count}
+    new_dict.update({"following": serializer.data})
+    return Response(new_dict)
 
 
 @api_view(['POST'])

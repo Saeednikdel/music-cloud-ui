@@ -216,7 +216,11 @@ const PlayerFull = ({
                     className=" hover:cursor-pointer"
                   />
                 )}
-                {post && <h1 className=" text-2xl mx-1">{post.like}</h1>}
+                {post && (
+                  <Link to={`/list/like/${post.id}`} className=" text-2xl mx-1">
+                    {post.like}
+                  </Link>
+                )}
               </div>
               <div className="relative inline-block">
                 <OutsideClickHandler

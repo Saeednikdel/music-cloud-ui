@@ -20,6 +20,11 @@ urlpatterns = [
     path('userfavorites/<str:username>/<str:page>/',
          views.userFavorites, name="user_favorites"),
     path('favorite/', views.favorite, name="favorite"),
+    path('like-list/<str:id>/<str:page>/', views.likeList, name="like-list"),
+    path('follower-list/<str:name>/<str:page>/',
+         views.followerList, name="follower-list"),
+    path('following-list/<str:name>/<str:page>/',
+         views.followingList, name="following-list"),
 
     path('notification/<str:user>/<str:page>/',
          views.notification, name="notification"),

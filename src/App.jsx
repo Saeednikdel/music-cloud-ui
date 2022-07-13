@@ -24,6 +24,7 @@ import EditPost from './components/forms/EditPost';
 import PlayList from './container/PlayList';
 import Popup from './components/Popup';
 import OutsideClickHandler from 'react-outside-click-handler';
+import List from './container/List';
 const App = ({
   post,
   now_playing,
@@ -142,7 +143,6 @@ const App = ({
     }
   };
   const openMenu = (source, id, user_name) => {
-    console.log({ source, id, user_name });
     setMenuItem({ source, id, user_name });
     setOpenPopup(true);
   };
@@ -176,6 +176,8 @@ const App = ({
               <Route exact path="/login" element={<Login />} />
               <Route exact path="/signup" element={<Signup />} />
               <Route exact path="/reset_password" element={<ResetPassword />} />
+              <Route exact path="/list/:type/:id" element={<List />} />
+
               <Route
                 exact
                 path="/password/reset/confirm/:uid/:token"
