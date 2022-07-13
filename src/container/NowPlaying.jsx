@@ -43,7 +43,7 @@ const NowPlaying = ({
           id={i}
           key={i}
           onClick={() => skipToIndex(i)}
-          className="flex py-2 px-6 text-xl font-semibold space-x-4 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700">
+          className="flex py-2 px-6 font-semibold space-x-4 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700">
           <img
             alt={item.title}
             className="w-20 h-20 object-cover rounded-lg"
