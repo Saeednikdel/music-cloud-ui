@@ -1,30 +1,32 @@
-import { useRef, useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import LeftMenu from './components/LeftMenu';
-import NowPlaying from './container/NowPlaying';
-import NavBar from './components/NavBar';
-import SongSection from './components/SongSection';
-import PlayLists from './container/PlayLists';
-import PlayerSimple from './Player/PlayerSimple';
-import PlayerFull from './Player/PlayerFull';
-import NewPost from './components/forms/NewPost';
+import { load_now_playing, load_post, set_now_playing } from './actions/cloud';
+import { useEffect, useRef, useState } from 'react';
+
+import Activate from './components/forms/Activate';
 import CreateCard from './container/CreateCard';
-import SongMenu from './components/SongMenu';
+import EditPost from './components/forms/EditPost';
+import { Helmet } from 'react-helmet-async';
+import LeftMenu from './components/LeftMenu';
+import List from './container/List';
 import Login from './components/forms/Login';
-import Signup from './components/forms/Signup';
+import NavBar from './components/NavBar';
+import NewPost from './components/forms/NewPost';
+import NowPlaying from './container/NowPlaying';
+import OutsideClickHandler from 'react-outside-click-handler';
+import PlayList from './container/PlayList';
+import PlayLists from './container/PlayLists';
+import PlayerFull from './Player/PlayerFull';
+import PlayerSimple from './Player/PlayerSimple';
+import Popup from './components/Popup';
+import ProfileSetting from './container/ProfileSetting';
 import ResetPassword from './components/forms/ResetPassword';
 import ResetPasswordConfirm from './components/forms/ResetPasswordConfirm';
-import Activate from './components/forms/Activate';
+import Signup from './components/forms/Signup';
+import SongMenu from './components/SongMenu';
+import SongSection from './components/SongSection';
 import UserProfile from './container/UserProfile';
-import ProfileSetting from './container/ProfileSetting';
 import { connect } from 'react-redux';
-import { load_now_playing, set_now_playing, load_post } from './actions/cloud';
-import { Helmet } from 'react-helmet-async';
-import EditPost from './components/forms/EditPost';
-import PlayList from './container/PlayList';
-import Popup from './components/Popup';
-import OutsideClickHandler from 'react-outside-click-handler';
-import List from './container/List';
+
 const App = ({
   post,
   now_playing,

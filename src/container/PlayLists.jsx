@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { Add, PlaylistPlay, Remove, Edit } from '@mui/icons-material';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import CircularProgress from '../components/CircularProgress';
-import { useNavigate, Link } from 'react-router-dom';
+import { Add, Edit, PlaylistPlay, Remove } from '@mui/icons-material';
+import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+
 import BtnPrimary from '../components/BtnPrimary';
+import CircularProgress from '../components/CircularProgress';
+import EditPlaylist from '../components/forms/EditPlaylist';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import OutsideClickHandler from 'react-outside-click-handler';
 import Popup from '../components/Popup';
-import { connect } from 'react-redux';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import { load_user_playlists } from '../actions/cloud';
-import EditPlaylist from '../components/forms/EditPlaylist';
 
 const PlayLists = ({
   isAuthenticated,

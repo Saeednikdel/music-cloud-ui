@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { resetState, verify } from '../../actions/auth';
 import { useNavigate, useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { verify, resetState } from '../../actions/auth';
+
 import BtnPrimary from '../BtnPrimary';
+import { connect } from 'react-redux';
 
 const Activate = ({ requestSuccess, verify, resetState, requestFail }) => {
   const navigate = useNavigate();

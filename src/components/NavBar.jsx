@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, Close, Brightness3, Brightness7 } from '@mui/icons-material';
-import OutsideClickHandler from 'react-outside-click-handler';
-import LeftSlide from './LeftSlide';
-import { connect } from 'react-redux';
+import { Brightness3, Brightness7, Close, Menu } from '@mui/icons-material';
+import React, { useEffect, useState } from 'react';
 import { checkAuthenticated, load_user } from '../actions/auth';
+
+import LeftSlide from './LeftSlide';
+import OutsideClickHandler from 'react-outside-click-handler';
+import { connect } from 'react-redux';
 
 const NavBar = ({ setTheme, checked, checkAuthenticated, load_user }) => {
   const [openLeftMenu, setOpenLeftMenu] = useState(false);

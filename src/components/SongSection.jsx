@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+
+import CircularProgress from './CircularProgress';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import SongCard from './SongCard';
 import { connect } from 'react-redux';
 import { load_posts } from '../actions/cloud';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import CircularProgress from './CircularProgress';
 
 const SongSection = ({ posts, load_posts, count, history, skip, openMenu }) => {
   const [page, setPage] = useState(1);

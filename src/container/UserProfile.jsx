@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { load_profile } from '../actions/cloud';
-import { follow_unfollw } from '../actions/auth';
 import { Link, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+
 import BtnPrimary from '../components/BtnPrimary';
 import BtnSecondary from '../components/BtnSecondary';
 import CircularProgress from '../components/CircularProgress';
-import UserPosts from '../components/UserPosts';
-import UserPlayLists from '../components/UserPlayLists';
 import UserFavorite from '../components/UserFavorite';
+import UserPlayLists from '../components/UserPlayLists';
+import UserPosts from '../components/UserPosts';
+import { connect } from 'react-redux';
+import { follow_unfollw } from '../actions/auth';
+import { load_profile } from '../actions/cloud';
 
 const UserProfile = ({
   isAuthenticated,

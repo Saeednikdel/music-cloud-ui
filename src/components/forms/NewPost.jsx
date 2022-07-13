@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { Editor, EditorState, RichUtils, getDefaultKeyBinding } from 'draft-js';
 import {
   FormatBold,
   FormatItalic,
   FormatUnderlined,
 } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { Editor, EditorState, RichUtils, getDefaultKeyBinding } from 'draft-js';
-import { stateToHTML } from 'draft-js-export-html';
-import BtnPrimary from '../BtnPrimary';
-import TextField from '../TextField';
-import parseAudioMetadata from 'parse-audio-metadata';
+import React, { useState } from 'react';
+
 import { AddPhotoAlternate } from '@mui/icons-material';
+import BtnPrimary from '../BtnPrimary';
 import Resizer from 'react-image-file-resizer';
+import TextField from '../TextField';
+import axios from 'axios';
+import { connect } from 'react-redux';
+import parseAudioMetadata from 'parse-audio-metadata';
+import { stateToHTML } from 'draft-js-export-html';
+import { useNavigate } from 'react-router-dom';
 
 const NewPost = ({ isAuthenticated, user }) => {
   const navigate = useNavigate();

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { login, resetState } from '../../actions/auth';
+
 import BtnPrimary from '../BtnPrimary';
 import TextField from '../TextField';
+import { connect } from 'react-redux';
 
 const Login = ({
   login,

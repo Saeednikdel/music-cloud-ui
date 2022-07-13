@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import TextField from '../TextField';
+
 import BtnPrimary from '../BtnPrimary';
+import TextField from '../TextField';
 
 const EditPlaylist = ({ title_old, new_playlist }) => {
   const [title, setTitle] = useState(title_old);

@@ -1,18 +1,19 @@
-import React from 'react';
 import {
-  Person,
-  PlaylistPlay,
+  Add,
   Favorite,
   Home,
-  QueueMusicOutlined,
   Login,
   Logout,
+  Person,
+  PlaylistPlay,
+  QueueMusicOutlined,
   Settings,
-  Add,
 } from '@mui/icons-material';
 import { Link, useLocation } from 'react-router-dom';
-import { logout } from '../actions/auth';
+
+import React from 'react';
 import { connect } from 'react-redux';
+import { logout } from '../actions/auth';
 
 const LeftSlide = ({
   openLeftMenu,

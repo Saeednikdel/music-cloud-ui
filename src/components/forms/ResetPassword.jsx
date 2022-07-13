@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { reset_password, resetState } from '../../actions/auth';
+import React, { useEffect, useState } from 'react';
+import { resetState, reset_password } from '../../actions/auth';
+
 import BtnPrimary from '../BtnPrimary';
 import TextField from '../TextField';
+import { connect } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const ResetPassword = ({
   requestSuccess,

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+
+import CircularProgress from '../components/CircularProgress';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import SongCard from '../components/SongCard';
 import { connect } from 'react-redux';
 import { load_user_posts } from '../actions/cloud';
-import SongCard from '../components/SongCard';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import CircularProgress from '../components/CircularProgress';
 
 const UserPosts = ({
   userName,

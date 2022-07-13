@@ -1,5 +1,5 @@
-import React from 'react';
 import { Close } from '@mui/icons-material';
+import React from 'react';
 
 export default function Popup({ title, children, openPopup, setOpenPopup }) {
   return (

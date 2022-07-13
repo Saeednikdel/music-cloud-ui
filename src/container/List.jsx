@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { load_likes, load_follower, load_following } from '../actions/cloud';
+import React, { useEffect, useState } from 'react';
+import { load_follower, load_following, load_likes } from '../actions/cloud';
+
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { connect } from 'react-redux';
 
 const List = ({
   likes,

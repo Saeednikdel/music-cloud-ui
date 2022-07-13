@@ -1,5 +1,7 @@
-import React from 'react';
 import { VolumeOff, VolumeUp } from '@mui/icons-material';
+
+import React from 'react';
+
 const VolumePopUp = ({ showVolume, volume, isMuted, mute, changeVolume }) => {
   return (
     <div

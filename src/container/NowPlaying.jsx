@@ -1,8 +1,8 @@
+import CircularProgress from '../components/CircularProgress';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import React from 'react';
 import { connect } from 'react-redux';
 import { load_now_playing } from '../actions/cloud';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import CircularProgress from '../components/CircularProgress';
 
 const NowPlaying = ({
   index,

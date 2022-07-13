@@ -1,6 +1,7 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { MoreVert } from '@mui/icons-material';
+import React from 'react';
+
 const SongCard = ({
   post,
   skip,

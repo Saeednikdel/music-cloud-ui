@@ -1,8 +1,8 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import store from './store';
 import App from './App';
 import { HelmetProvider } from 'react-helmet-async';
+import { Provider } from 'react-redux';
+import React from 'react';
+import store from './store';
 
 const Layout = () => {
   return (

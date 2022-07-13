@@ -1,27 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import {
+  ContentState,
+  Editor,
+  EditorState,
+  RichUtils,
+  convertFromHTML,
+  getDefaultKeyBinding,
+} from 'draft-js';
 import {
   FormatBold,
   FormatItalic,
   FormatUnderlined,
 } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import {
-  Editor,
-  EditorState,
-  RichUtils,
-  getDefaultKeyBinding,
-  convertFromHTML,
-  ContentState,
-} from 'draft-js';
-import { stateToHTML } from 'draft-js-export-html';
-import BtnPrimary from '../BtnPrimary';
-import TextField from '../TextField';
+import React, { useEffect, useState } from 'react';
+
 import { AddPhotoAlternate } from '@mui/icons-material';
+import BtnPrimary from '../BtnPrimary';
 import Resizer from 'react-image-file-resizer';
-import { useParams } from 'react-router-dom';
+import TextField from '../TextField';
+import axios from 'axios';
+import { connect } from 'react-redux';
 import { load_card_post } from '../../actions/cloud';
+import { stateToHTML } from 'draft-js-export-html';
+import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const EditPost = ({ isAuthenticated, user, load_card_post, card_post }) => {
   const navigate = useNavigate();

@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
 import {
-  PlayArrow,
   Pause,
+  PlayArrow,
   SkipNext,
   SkipPrevious,
   VolumeOff,
   VolumeUp,
 } from '@mui/icons-material';
+import React, { useState } from 'react';
+
+import { Link } from 'react-router-dom';
 import OutsideClickHandler from 'react-outside-click-handler';
 import VolumePopUp from '../components/VolumePopUp';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 const PlayerSimple = ({

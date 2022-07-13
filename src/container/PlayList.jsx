@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+
+import InfiniteScroll from 'react-infinite-scroll-component';
 import SongCard from '../components/SongCard';
 import { connect } from 'react-redux';
 import { load_playlist } from '../actions/cloud';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { useParams } from 'react-router-dom';
 
 const PlayList = ({

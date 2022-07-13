@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { set_email, resetState } from '../../actions/auth';
+import React, { useEffect, useState } from 'react';
+import { resetState, set_email } from '../../actions/auth';
+
 import BtnPrimary from '../BtnPrimary';
 import TextField from '../TextField';
+import { connect } from 'react-redux';
 
 const SetEmail = ({
   set_email,

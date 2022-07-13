@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { signup, resetState } from '../../actions/auth';
+import React, { useEffect, useState } from 'react';
+import { resetState, signup } from '../../actions/auth';
+
 import BtnPrimary from '../BtnPrimary';
 import TextField from '../TextField';
+import { connect } from 'react-redux';
 
 const Signup = ({
   signup,

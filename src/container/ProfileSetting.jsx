@@ -1,18 +1,19 @@
+import { AddAPhotoTwoTone, Edit } from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
 import { load_user, update_avatar } from '../actions/auth';
-import { logout } from '../actions/auth';
-import { Edit, AddAPhotoTwoTone } from '@mui/icons-material';
-import SetEmail from '../components/forms/SetEmail';
-import SetPassword from '../components/forms/SetPassword';
-import Popup from '../components/Popup';
-import SetUserDetail from '../components/forms/SetUserDetail';
-import CircularProgress from '../components/CircularProgress';
+
 import BtnPrimary from '../components/BtnPrimary';
 import BtnSecondary from '../components/BtnSecondary';
+import CircularProgress from '../components/CircularProgress';
 import OutsideClickHandler from 'react-outside-click-handler';
-import { useNavigate } from 'react-router-dom';
+import Popup from '../components/Popup';
 import Resizer from 'react-image-file-resizer';
+import SetEmail from '../components/forms/SetEmail';
+import SetPassword from '../components/forms/SetPassword';
+import SetUserDetail from '../components/forms/SetUserDetail';
+import { connect } from 'react-redux';
+import { logout } from '../actions/auth';
+import { useNavigate } from 'react-router-dom';
 
 const ProfileSetting = ({
   user,

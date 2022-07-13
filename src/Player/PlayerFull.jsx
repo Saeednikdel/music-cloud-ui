@@ -1,22 +1,23 @@
-import React, { useState, useEffect } from 'react';
 import {
-  PlayArrow,
+  Favorite,
+  FavoriteBorder,
+  MoreVert,
   Pause,
+  PlayArrow,
   SkipNext,
   SkipPrevious,
   VolumeOff,
   VolumeUp,
-  MoreVert,
-  FavoriteBorder,
-  Favorite,
 } from '@mui/icons-material';
-import OutsideClickHandler from 'react-outside-click-handler';
-import VolumePopUp from '../components/VolumePopUp';
+import { Link, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { favorite, load_likes, load_post } from '../actions/cloud';
+
 import MoreMenu from '../components/MoreMenu';
-import { useParams, Link } from 'react-router-dom';
-import { load_post, favorite, load_likes } from '../actions/cloud';
-import { connect } from 'react-redux';
+import OutsideClickHandler from 'react-outside-click-handler';
 import Popup from '../components/Popup';
+import VolumePopUp from '../components/VolumePopUp';
+import { connect } from 'react-redux';
 
 const PlayerFull = ({
   audioElem,

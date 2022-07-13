@@ -1,20 +1,22 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import domtoimage from 'dom-to-image';
 import {
+  AddAPhoto,
   Download,
+  Edit,
   FormatAlignLeft,
   FormatAlignRight,
   FormatBold,
   FormatItalic,
   FormatUnderlined,
-  AddAPhoto,
-  Edit,
   ShortText,
 } from '@mui/icons-material';
-import { connect } from 'react-redux';
-import { load_card_post } from '../actions/cloud';
+import React, { useEffect, useRef, useState } from 'react';
+
 import BtnPrimary from '../components/BtnPrimary';
+import { connect } from 'react-redux';
+import domtoimage from 'dom-to-image';
+import { load_card_post } from '../actions/cloud';
+import { useParams } from 'react-router-dom';
+
 const CreateCard = ({ load_card_post, card_post }) => {
   const div = useRef();
   let { id } = useParams();
