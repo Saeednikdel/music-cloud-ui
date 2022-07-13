@@ -5,7 +5,6 @@ import NowPlaying from './container/NowPlaying';
 import NavBar from './components/NavBar';
 import SongSection from './components/SongSection';
 import PlayLists from './container/PlayLists';
-import Favorites from './container/Favorites';
 import PlayerSimple from './Player/PlayerSimple';
 import PlayerFull from './Player/PlayerFull';
 import NewPost from './components/forms/NewPost';
@@ -192,11 +191,6 @@ const App = ({
                 exact
                 path="/playlist/:id"
                 element={<PlayList skip={skip} />}
-              />
-              <Route
-                exact
-                path="/favorites"
-                element={<Favorites skip={skip} />}
               />
               <Route
                 exact
