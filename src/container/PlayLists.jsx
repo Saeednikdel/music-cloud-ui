@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Add, PlaylistPlay } from '@mui/icons-material';
+import { Add, PlaylistPlay, Remove, Edit } from '@mui/icons-material';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CircularProgress from '../components/CircularProgress';
 import { useNavigate, Link } from 'react-router-dom';
-import TextField from '../components/TextField';
 import BtnPrimary from '../components/BtnPrimary';
 import OutsideClickHandler from 'react-outside-click-handler';
 import Popup from '../components/Popup';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { load_user_playlists } from '../actions/cloud';
+import EditPlaylist from '../components/forms/EditPlaylist';
 
 const PlayLists = ({
   isAuthenticated,
@@ -22,6 +22,31 @@ const PlayLists = ({
   const [openPopup, setOpenPopup] = useState(false);
   const [page, setPage] = useState(2);
   const [title, setTitle] = useState('');
+  const [selectedId, setSelectedId] = useState();
+  const [childComponent, setchildComponent] = useState('');
+  const handleDialog = (name, id, title) => {
+    setchildComponent(name);
+    setOpenPopup(true);
+    id && setSelectedId(id);
+    if (name === 'Edit') setTitle(title);
+    if (name === 'New') setTitle('');
+  };
+  function ChildrenComponent({ value }) {
+    switch (value) {
+      case 'New':
+      case 'Edit':
+        return <EditPlaylist title_old={title} new_playlist={new_playlist} />;
+      case 'Delete':
+        return (
+          <div className=" space-y-8">
+            <div>Do you want to delete this playlist?</div>
+            <BtnPrimary onClick={() => remove_playlist()}>Delete</BtnPrimary>
+          </div>
+        );
+      default:
+        return false;
+    }
+  }
   useEffect(() => {
     user.name && load_user_playlists(user.name, 1);
   }, [user]);
@@ -34,7 +59,7 @@ const PlayLists = ({
   return (
     <div className="mb-24 mt-4">
       <div
-        onClick={() => setOpenPopup(true)}
+        onClick={() => handleDialog('New')}
         className="flex py-2 px-6 text-xl font-semibold space-x-4 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700">
         <Add fontSize="large" />
         <h2>Create New PlayList</h2>
@@ -55,13 +80,22 @@ const PlayLists = ({
             </div>
           }>
           {user_playlists.map((item, i) => (
-            <Link
-              to={`/playlist/${item.id}`}
+            <div
               key={i}
-              className="flex py-2 px-6 text-xl font-semibold space-x-4 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700">
+              className="flex items-center py-2 px-6 text-xl font-semibold space-x-4 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700">
               <PlaylistPlay fontSize="large" />
-              <h2>{item.title + '  (' + item.count + '-track)'}</h2>
-            </Link>
+              <Link to={`/playlist/${item.id}`} className="flex-1">
+                {item.title + '  (' + item.count + '-track)'}
+              </Link>
+              <Edit
+                onClick={() => handleDialog('Edit', item.id, item.title)}
+                style={{ fontSize: 25 }}
+              />
+              <Remove
+                onClick={() => handleDialog('Delete', item.id)}
+                fontSize="large"
+              />
+            </div>
           ))}
         </InfiniteScroll>
       )}
@@ -69,25 +103,15 @@ const PlayLists = ({
         disabled={!openPopup}
         onOutsideClick={() => setOpenPopup(!openPopup)}>
         <Popup
-          title="New playlist"
+          title={childComponent}
           openPopup={openPopup}
           setOpenPopup={setOpenPopup}>
-          <div className=" space-y-8">
-            <div>
-              <TextField
-                label="title"
-                placeholder="title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </div>
-            <BtnPrimary onClick={() => new_playlist()}>Create</BtnPrimary>
-          </div>
+          <ChildrenComponent value={childComponent} />
         </Popup>
       </OutsideClickHandler>
     </div>
   );
-  async function new_playlist() {
+  async function new_playlist(newTitle) {
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -95,10 +119,53 @@ const PlayLists = ({
         Accept: 'application/json',
       },
     };
-    const body = JSON.stringify({ user: user.id, title: title });
+    if (childComponent === 'New') {
+      const body = JSON.stringify({ user: user.id, title: newTitle });
+      try {
+        const res = await axios.post(
+          `${process.env.REACT_APP_API_URL}/api/cloud/newplaylist/`,
+          body,
+          config
+        );
+        res.data.id && setOpenPopup(false);
+        res.data.id && load_user_playlists(user.name, 1);
+        setTitle('');
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    if (childComponent === 'Edit') {
+      const body = JSON.stringify({
+        user: user.id,
+        id: selectedId,
+        title: newTitle,
+      });
+      try {
+        const res = await axios.post(
+          `${process.env.REACT_APP_API_URL}/api/cloud/editplaylist/`,
+          body,
+          config
+        );
+        res.data.id && setOpenPopup(false);
+        res.data.id && load_user_playlists(user.name, 1);
+        setTitle('');
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
+  async function remove_playlist() {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `JWT ${localStorage.getItem('access')}`,
+        Accept: 'application/json',
+      },
+    };
+    const body = JSON.stringify({ user: user.id, id: selectedId });
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/cloud/newplaylist/`,
+        `${process.env.REACT_APP_API_URL}/api/cloud/removeplaylist/`,
         body,
         config
       );
