@@ -29,7 +29,40 @@ import {
   LOAD_USER_PLAYLISTS_FAIL,
   LOAD_PLAYLIST_SUCCESS,
   LOAD_PLAYLIST_FAIL,
+  REMOVE_POST_SUCCESS,
+  REMOVE_POST_FAIL,
 } from './types';
+export const remove_post = (source, id) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  };
+  const user = localStorage.getItem('id');
+
+  const body = JSON.stringify({
+    user,
+    id,
+  });
+  try {
+    const res = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/cloud/removepost/`,
+      body,
+      config
+    );
+    dispatch({
+      type: REMOVE_POST_SUCCESS,
+      payload: { source, id },
+    });
+  } catch (err) {
+    dispatch({
+      type: REMOVE_POST_FAIL,
+    });
+  }
+};
+
 export const set_now_playing = (source) => async (dispatch) => {
   dispatch({
     type: SET_NOW_PLAYING_SUCCESS,

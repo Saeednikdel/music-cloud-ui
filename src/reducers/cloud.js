@@ -27,6 +27,8 @@ import {
   LOAD_USER_PLAYLISTS_FAIL,
   LOAD_PLAYLIST_SUCCESS,
   LOAD_PLAYLIST_FAIL,
+  REMOVE_POST_SUCCESS,
+  REMOVE_POST_FAIL,
 } from '../actions/types';
 const initialState = {
   posts: [],
@@ -43,12 +45,39 @@ const initialState = {
   now_playing_count: 0,
   user_playlists: [],
   playlist: [],
+  playlist_count: null,
 };
 
 export default function (state = initialState, action) {
   const { type, payload, page } = action;
 
   switch (type) {
+    case REMOVE_POST_SUCCESS:
+      if (payload.source === 'home') {
+        return {
+          ...state,
+          posts: state.posts.filter((item) => item.id !== payload.id),
+          count: state.count - 1,
+        };
+      } else if (payload.source === 'userpostlist') {
+        return {
+          ...state,
+          userposts: state.userposts.filter((item) => item.id !== payload.id),
+          profile_count: state.profile_count - 1,
+        };
+      } else if (payload.source === 'userfavorites') {
+        return {
+          ...state,
+          userfavs: state.userfavs.filter((item) => item.id !== payload.id),
+          fav_count: state.fav_count - 1,
+        };
+      } else if (payload.source === 'playlist') {
+        return {
+          ...state,
+          playlist: state.playlist.filter((item) => item.id !== payload.id),
+          playlist_count: state.playlist_count - 1,
+        };
+      }
     case SET_NOW_PLAYING_SUCCESS:
       if (payload === 'home') {
         return {

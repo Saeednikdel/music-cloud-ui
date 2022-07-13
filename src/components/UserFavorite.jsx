@@ -11,6 +11,7 @@ const UserFavorite = ({
   count,
   skip,
   userName,
+  openMenu,
 }) => {
   const [page, setPage] = useState(2);
 
@@ -51,6 +52,7 @@ const UserFavorite = ({
               source="userfavorites"
               page={page}
               userName={userName}
+              openMenu={openMenu}
             />
           ))}
         </InfiniteScroll>

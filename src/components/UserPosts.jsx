@@ -5,7 +5,14 @@ import SongCard from '../components/SongCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CircularProgress from '../components/CircularProgress';
 
-const UserPosts = ({ userName, userposts, load_user_posts, count, skip }) => {
+const UserPosts = ({
+  userName,
+  userposts,
+  load_user_posts,
+  count,
+  skip,
+  openMenu,
+}) => {
   const [page, setPage] = useState(2);
 
   useEffect(() => {
@@ -44,6 +51,7 @@ const UserPosts = ({ userName, userposts, load_user_posts, count, skip }) => {
               index={i}
               source="userpostlist"
               page={page}
+              openMenu={openMenu}
             />
           ))}
         </InfiniteScroll>

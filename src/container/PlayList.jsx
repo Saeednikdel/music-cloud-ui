@@ -5,7 +5,13 @@ import { load_playlist } from '../actions/cloud';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useParams } from 'react-router-dom';
 
-const PlayList = ({ playlist, load_playlist, playlist_count, skip }) => {
+const PlayList = ({
+  playlist,
+  load_playlist,
+  playlist_count,
+  skip,
+  openMenu,
+}) => {
   const { id } = useParams();
   const [page, setPage] = useState(2);
   useEffect(() => {
@@ -45,6 +51,7 @@ const PlayList = ({ playlist, load_playlist, playlist_count, skip }) => {
               source="playlist"
               page={page}
               playlistid={id}
+              openMenu={openMenu}
             />
           ))}
         </InfiniteScroll>

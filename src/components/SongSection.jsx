@@ -3,8 +3,9 @@ import SongCard from './SongCard';
 import { connect } from 'react-redux';
 import { load_posts } from '../actions/cloud';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import CircularProgress from '../components/CircularProgress';
-const SongSection = ({ posts, load_posts, count, history, skip }) => {
+import CircularProgress from './CircularProgress';
+
+const SongSection = ({ posts, load_posts, count, history, skip, openMenu }) => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState(getQueryVariable('keyword'));
   useEffect(() => {
@@ -30,6 +31,7 @@ const SongSection = ({ posts, load_posts, count, history, skip }) => {
     await load_posts(page, search);
     setPage(page + 1);
   };
+
   return (
     <>
       {posts && (
@@ -56,6 +58,7 @@ const SongSection = ({ posts, load_posts, count, history, skip }) => {
               index={i}
               source="home"
               page={page}
+              openMenu={openMenu}
             />
           ))}
         </InfiniteScroll>

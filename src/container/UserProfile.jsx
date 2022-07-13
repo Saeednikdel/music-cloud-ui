@@ -17,6 +17,7 @@ const UserProfile = ({
   follow_unfollw,
   user,
   skip,
+  openMenu,
 }) => {
   let { userName } = useParams();
   const [tab, setTab] = useState('tracks');
@@ -116,9 +117,13 @@ const UserProfile = ({
           </button>
         </div>
       </div>
-      {tab === 'tracks' && <UserPosts userName={userName} skip={skip} />}
+      {tab === 'tracks' && (
+        <UserPosts userName={userName} skip={skip} openMenu={openMenu} />
+      )}
       {tab === 'playlists' && <UserPlayLists userName={userName} />}
-      {tab === 'favorite' && <UserFavorite userName={userName} skip={skip} />}
+      {tab === 'favorite' && (
+        <UserFavorite userName={userName} skip={skip} openMenu={openMenu} />
+      )}
     </>
   ) : (
     <>

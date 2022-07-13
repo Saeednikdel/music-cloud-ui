@@ -9,6 +9,7 @@ import PlayerSimple from './Player/PlayerSimple';
 import PlayerFull from './Player/PlayerFull';
 import NewPost from './components/forms/NewPost';
 import CreateCard from './container/CreateCard';
+import SongMenu from './components/SongMenu';
 import Login from './components/forms/Login';
 import Signup from './components/forms/Signup';
 import ResetPassword from './components/forms/ResetPassword';
@@ -21,7 +22,8 @@ import { load_now_playing, set_now_playing, load_post } from './actions/cloud';
 import { Helmet } from 'react-helmet-async';
 import EditPost from './components/forms/EditPost';
 import PlayList from './container/PlayList';
-
+import Popup from './components/Popup';
+import OutsideClickHandler from 'react-outside-click-handler';
 const App = ({
   post,
   now_playing,
@@ -33,7 +35,7 @@ const App = ({
   const [theme, setTheme] = useState(
     localStorage.getItem('theme') ? localStorage.getItem('theme') : ''
   );
-
+  const [openPopup, setOpenPopup] = useState(false);
   const [source, setSource] = useState({
     source: null,
     page: null,
@@ -44,8 +46,12 @@ const App = ({
   const [isplayerOpen, setisplayerOpen] = useState(false);
   const [full, setfull] = useState(false);
   const [currentSong, setCurrentSong] = useState();
+  const [menuItem, setMenuItem] = useState({
+    source: null,
+    id: null,
+    user_name: null,
+  });
   const audioElem = useRef();
-
   useEffect(() => {
     if (isplaying) {
       audioElem.current.play();
@@ -135,6 +141,11 @@ const App = ({
       localStorage.setItem('theme', '');
     }
   };
+  const openMenu = (source, id, user_name) => {
+    console.log({ source, id, user_name });
+    setMenuItem({ source, id, user_name });
+    setOpenPopup(true);
+  };
   return (
     <BrowserRouter>
       <Helmet>
@@ -157,7 +168,11 @@ const App = ({
 
           <div className=" col-span-4 md:col-span-3 pt-14 bg-gray-100 dark:bg-slate-800">
             <Routes>
-              <Route exact path="/" element={<SongSection skip={skip} />} />
+              <Route
+                exact
+                path="/"
+                element={<SongSection skip={skip} openMenu={openMenu} />}
+              />
               <Route exact path="/login" element={<Login />} />
               <Route exact path="/signup" element={<Signup />} />
               <Route exact path="/reset_password" element={<ResetPassword />} />
@@ -190,15 +205,14 @@ const App = ({
               <Route
                 exact
                 path="/playlist/:id"
-                element={<PlayList skip={skip} />}
+                element={<PlayList skip={skip} openMenu={openMenu} />}
               />
               <Route
                 exact
                 path="/u/:userName"
-                element={<UserProfile skip={skip} />}
+                element={<UserProfile skip={skip} openMenu={openMenu} />}
               />
               <Route exact path="/setting" element={<ProfileSetting />} />
-
               <Route
                 exact
                 path="*"
@@ -239,6 +253,13 @@ const App = ({
             />
           </div>
         )}
+        <OutsideClickHandler
+          disabled={!openPopup}
+          onOutsideClick={() => setOpenPopup(!openPopup)}>
+          <Popup title="" openPopup={openPopup} setOpenPopup={setOpenPopup}>
+            <SongMenu menuItem={menuItem} setOpenPopup={setOpenPopup} />
+          </Popup>
+        </OutsideClickHandler>
       </div>
     </BrowserRouter>
   );
