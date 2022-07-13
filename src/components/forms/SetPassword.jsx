@@ -38,66 +38,58 @@ const SetPassword = ({
     setRequestSent(true);
   };
   return (
-    <div className="py-6 px-6 lg:px-8 flex flex-col justify-center items-center">
-      <form className="space-y-4" onSubmit={onSubmit}>
-        <div>
-          <TextField
-            label="new password"
-            type="password"
-            name="new_password"
-            id="new_password"
-            placeholder="at least 8 character"
-            value={new_password}
-            onChange={onChange}
-            minLength="8"
-            required
-            error={set_pass_error && set_pass_error.new_password && true}
-            helperText={
-              set_pass_error &&
-              set_pass_error.new_password &&
-              set_pass_error.new_password[0]
-            }
-          />
-        </div>
-        <div>
-          <TextField
-            label="retype password"
-            type="password"
-            name="re_new_password"
-            id="re_new_password"
-            placeholder="at least 8 character"
-            value={re_new_password}
-            onChange={onChange}
-            minLength="8"
-            required
-            error={set_pass_error && set_pass_error.non_field_errors && true}
-            helperText={set_pass_error && set_pass_error.non_field_errors}
-          />
-        </div>
-        <div>
-          <TextField
-            label="current password"
-            type="password"
-            name="current_password"
-            id="current_password"
-            placeholder="at least 8 character"
-            value={current_password}
-            onChange={onChange}
-            minLength="8"
-            required
-            error={set_pass_error && set_pass_error.current_password && true}
-            helperText={
-              set_pass_error &&
-              set_pass_error.current_password &&
-              set_pass_error.current_password[0]
-            }
-          />
-        </div>
-        <div className="text-center">
-          <BtnPrimary type="submit">ok</BtnPrimary>
-        </div>
-      </form>
-    </div>
+    <form className=" space-y-2 flex flex-col" onSubmit={onSubmit}>
+      <TextField
+        label="new password"
+        type="password"
+        name="new_password"
+        id="new_password"
+        placeholder="at least 8 character"
+        value={new_password}
+        onChange={onChange}
+        minLength="8"
+        required
+        error={set_pass_error && set_pass_error.new_password && true}
+        helperText={
+          set_pass_error &&
+          set_pass_error.new_password &&
+          set_pass_error.new_password[0]
+        }
+      />
+      <TextField
+        label="retype password"
+        type="password"
+        name="re_new_password"
+        id="re_new_password"
+        placeholder="at least 8 character"
+        value={re_new_password}
+        onChange={onChange}
+        minLength="8"
+        required
+        error={set_pass_error && set_pass_error.non_field_errors && true}
+        helperText={set_pass_error && set_pass_error.non_field_errors}
+      />
+      <TextField
+        label="current password"
+        type="password"
+        name="current_password"
+        id="current_password"
+        placeholder="at least 8 character"
+        value={current_password}
+        onChange={onChange}
+        minLength="8"
+        required
+        error={set_pass_error && set_pass_error.current_password && true}
+        helperText={
+          set_pass_error &&
+          set_pass_error.current_password &&
+          set_pass_error.current_password[0]
+        }
+      />
+      <div className="text-center">
+        <BtnPrimary type="submit">ok</BtnPrimary>
+      </div>
+    </form>
   );
 };
 const mapStateToProps = (state) => ({

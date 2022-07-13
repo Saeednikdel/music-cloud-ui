@@ -14,7 +14,9 @@ const EditPlaylist = ({ title_old, new_playlist }) => {
           onChange={(e) => setTitle(e.target.value)}
         />
       </div>
-      <BtnPrimary onClick={() => new_playlist(title)}>Ok</BtnPrimary>
+      <div className="text-center">
+        <BtnPrimary onClick={() => new_playlist(title)}>Ok</BtnPrimary>
+      </div>
     </div>
   );
 };

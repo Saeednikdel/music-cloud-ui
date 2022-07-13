@@ -44,61 +44,52 @@ const SetEmail = ({
     setRequestSent(true);
   };
   return (
-    <div className="py-6 px-6 lg:px-8 flex flex-col justify-center items-center">
-      <form className="space-y-4" onSubmit={onSubmit}>
-        <div>
-          <TextField
-            label="new email"
-            type="email"
-            name="new_email"
-            id="new_email"
-            value={new_email}
-            onChange={onChange}
-            error={set_email_error && set_email_error.new_email && true}
-            helperText={set_email_error && set_email_error.new_email}
-            placeholder="email"
-            required
-          />
-        </div>
-        <div>
-          <TextField
-            label="retype email"
-            type="email"
-            name="re_new_email"
-            id="re_new_email"
-            value={re_new_email}
-            onChange={onChange}
-            error={set_email_error && set_email_error.non_field_errors && true}
-            helperText={set_email_error && set_email_error.non_field_errors}
-            placeholder="email"
-            required
-          />
-        </div>
-        <div>
-          <TextField
-            label="Your password :"
-            type="password"
-            name="current_password"
-            id="current_password"
-            placeholder="at least 8 character"
-            value={current_password}
-            onChange={onChange}
-            minLength="8"
-            required
-            error={set_email_error && set_email_error.current_password && true}
-            helperText={
-              set_email_error &&
-              set_email_error.current_password &&
-              set_email_error.current_password[0]
-            }
-          />
-        </div>
-
-        <div className="text-center">
-          <BtnPrimary type="submit">ok</BtnPrimary>
-        </div>
-      </form>
-    </div>
+    <form className=" space-y-2 flex flex-col" onSubmit={onSubmit}>
+      <TextField
+        label="new email"
+        type="email"
+        name="new_email"
+        id="new_email"
+        value={new_email}
+        onChange={onChange}
+        error={set_email_error && set_email_error.new_email && true}
+        helperText={set_email_error && set_email_error.new_email}
+        placeholder="email"
+        required
+      />
+      <TextField
+        label="retype email"
+        type="email"
+        name="re_new_email"
+        id="re_new_email"
+        value={re_new_email}
+        onChange={onChange}
+        error={set_email_error && set_email_error.non_field_errors && true}
+        helperText={set_email_error && set_email_error.non_field_errors}
+        placeholder="email"
+        required
+      />
+      <TextField
+        label="Your password :"
+        type="password"
+        name="current_password"
+        id="current_password"
+        placeholder="at least 8 character"
+        value={current_password}
+        onChange={onChange}
+        minLength="8"
+        required
+        error={set_email_error && set_email_error.current_password && true}
+        helperText={
+          set_email_error &&
+          set_email_error.current_password &&
+          set_email_error.current_password[0]
+        }
+      />
+      <div className="text-center">
+        <BtnPrimary type="submit">ok</BtnPrimary>
+      </div>
+    </form>
   );
 };
 const mapStateToProps = (state) => ({

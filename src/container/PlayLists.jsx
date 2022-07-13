@@ -28,8 +28,11 @@ const PlayLists = ({
     setchildComponent(name);
     setOpenPopup(true);
     id && setSelectedId(id);
-    if (name === 'Edit') setTitle(title);
-    if (name === 'New') setTitle('');
+    if (name === 'New') {
+      setTitle('');
+    } else {
+      setTitle(title);
+    }
   };
   function ChildrenComponent({ value }) {
     switch (value) {
@@ -39,7 +42,7 @@ const PlayLists = ({
       case 'Delete':
         return (
           <div className=" space-y-8">
-            <div>Do you want to delete this playlist?</div>
+            <div>Do you want to delete {title}?</div>
             <BtnPrimary onClick={() => remove_playlist()}>Delete</BtnPrimary>
           </div>
         );
@@ -92,7 +95,7 @@ const PlayLists = ({
                 style={{ fontSize: 25 }}
               />
               <Remove
-                onClick={() => handleDialog('Delete', item.id)}
+                onClick={() => handleDialog('Delete', item.id, item.title)}
                 fontSize="large"
               />
             </div>

@@ -44,49 +44,41 @@ const SetUserDetail = ({
   };
 
   return (
-    <div>
-      <form
-        className=" space-y-2 flex flex-col items-center w-full"
-        autoComplete="off"
-        onSubmit={(e) => onSubmit(e)}>
-        <div>
-          <TextField
-            type="text"
-            label="user name"
-            name="name"
-            value={name}
-            error={set_detail_error && set_detail_error.name && true}
-            helperText={
-              set_detail_error &&
-              set_detail_error.name &&
-              set_detail_error.name[0]
-            }
-            onChange={(e) => onChange(e)}
-            required
-          />
-        </div>
-        <div>
-          <TextField
-            type="text"
-            label="name"
-            name="profile_name"
-            value={profile_name}
-            onChange={(e) => onChange(e)}
-            required
-          />
-        </div>
-        <div>
-          <TextField
-            type="text"
-            label="biography"
-            name="bio"
-            value={bio}
-            onChange={(e) => onChange(e)}
-          />
-        </div>
+    <form
+      className=" space-y-2 flex flex-col"
+      autoComplete="off"
+      onSubmit={(e) => onSubmit(e)}>
+      <TextField
+        type="text"
+        label="user name"
+        name="name"
+        value={name}
+        error={set_detail_error && set_detail_error.name && true}
+        helperText={
+          set_detail_error && set_detail_error.name && set_detail_error.name[0]
+        }
+        onChange={(e) => onChange(e)}
+        required
+      />
+      <TextField
+        type="text"
+        label="name"
+        name="profile_name"
+        value={profile_name}
+        onChange={(e) => onChange(e)}
+        required
+      />
+      <TextField
+        type="text"
+        label="biography"
+        name="bio"
+        value={bio}
+        onChange={(e) => onChange(e)}
+      />
+      <div className="text-center">
         <BtnPrimary type="submit">ok</BtnPrimary>
-      </form>
-    </div>
+      </div>
+    </form>
   );
 };
 const mapStateToProps = (state) => ({
