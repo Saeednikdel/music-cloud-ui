@@ -121,7 +121,11 @@ const ProfileSetting = ({
       <div className=" relative w-fit">
         <div className="h-20 w-20 object-cover md:h-28 md:w-28 rounded-full -mt-10 md:-mt-14 mx-10 md:mx-14 border-4 border-gray-300 dark:border-gray-700 relative overflow-hidden bg-green-600">
           {user.image ? (
-            <img alt="avatar" className=" object-cover " src={user.image} />
+            <img
+              alt="avatar"
+              className="h-20 w-20 md:h-28 md:w-28 object-cover "
+              src={user.image}
+            />
           ) : (
             <h1 className=" text-4xl absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
               {user.name && user.name.slice(0, 2).toUpperCase()}

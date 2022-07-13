@@ -68,7 +68,7 @@ const List = ({
                   {item.image ? (
                     <img
                       alt="avatar"
-                      className=" object-cover "
+                      className="h-14 w-14 object-cover "
                       src={item.image}
                     />
                   ) : (
