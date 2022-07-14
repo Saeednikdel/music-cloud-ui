@@ -259,7 +259,6 @@ export const load_user_playlists = (user_name, page) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `JWT ${localStorage.getItem('access')}`,
       Accept: 'application/json',
     },
   };
