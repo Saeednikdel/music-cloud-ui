@@ -5,7 +5,7 @@ import { resetState, signup } from '../../actions/auth';
 import BtnPrimary from '../BtnPrimary';
 import TextField from '../TextField';
 import { connect } from 'react-redux';
-
+import { TaskAlt } from '@mui/icons-material';
 const Signup = ({
   signup,
   isAuthenticated,
@@ -28,11 +28,7 @@ const Signup = ({
       setRequestSent(false);
       resetState();
     }
-    if (requestSuccess) {
-      resetState();
-      setRequestSent(false);
-    }
-  }, [requestFail, requestSuccess]);
+  }, [requestFail]);
   const onChange = (e) => {
     console.log(e.target.value);
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -44,7 +40,18 @@ const Signup = ({
     setRequestSent(true);
   };
   if (isAuthenticated) navigate('/');
-
+  if (requestSuccess)
+    return (
+      <div className=" mt-20 mx-10 flex flex-col justify-center items-center space-y-4 text-center">
+        <TaskAlt fontSize="large" />
+        <p className=" font-bold">your account created.</p>
+        <p>
+          please click on the link sent to you by email, to verify your email
+          address.
+        </p>
+        <p>it may be in the spam folder!!</p>
+      </div>
+    );
   return (
     <div className="py-6 px-6 lg:px-8 flex flex-col justify-center items-center">
       <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">
