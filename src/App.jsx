@@ -46,6 +46,7 @@ const App = ({
     page: null,
     index: null,
     user_name: null,
+    playlistid: null,
   });
   const [isplaying, setisplaying] = useState(false);
   const [isplayerOpen, setisplayerOpen] = useState(false);
@@ -55,6 +56,7 @@ const App = ({
     source: null,
     id: null,
     user_name: null,
+    playlistid: null,
   });
   const audioElem = useRef();
   useEffect(() => {
@@ -150,8 +152,8 @@ const App = ({
       localStorage.setItem('theme', '');
     }
   };
-  const openMenu = (source, id, user_name) => {
-    setMenuItem({ source, id, user_name });
+  const openMenu = (source, id, user_name, playlistid, url) => {
+    setMenuItem({ source, id, user_name, playlistid, url });
     if (source === 'player') setAddToPlayListPopUp(true);
     setOpenPopup(true);
   };

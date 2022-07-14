@@ -30,10 +30,41 @@ import {
   REMOVE_POST_FAIL,
   REMOVE_POST_SUCCESS,
   SET_NOW_PLAYING_SUCCESS,
+  REMOVE_FROM_PLAYLIST_SUCCESS,
+  REMOVE_FROM_PLAYLIST_FAIL,
 } from './types';
 
 import axios from 'axios';
-
+export const remove_from_playlist = (post, id) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+      Accept: 'application/json',
+    },
+  };
+  const user = localStorage.getItem('id');
+  const body = JSON.stringify({
+    user,
+    post,
+    id,
+  });
+  try {
+    const res = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/cloud/removefromplaylist/`,
+      body,
+      config
+    );
+    dispatch({
+      type: REMOVE_FROM_PLAYLIST_SUCCESS,
+      payload: { post },
+    });
+  } catch (err) {
+    dispatch({
+      type: REMOVE_FROM_PLAYLIST_FAIL,
+    });
+  }
+};
 export const remove_post = (source, id) => async (dispatch) => {
   const config = {
     headers: {

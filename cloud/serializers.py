@@ -58,13 +58,14 @@ class NewPlayListSerializer(serializers.ModelSerializer):
 class FavoriteSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(source="post.id")
     title = serializers.CharField(source="post.title")
+    url = serializers.CharField(source="post.url")
     artist = serializers.CharField(source="post.artist")
     artwork = serializers.ImageField(source="post.artwork")
     user_name = serializers.ReadOnlyField(source='post.user.name')
 
     class Meta:
         model = Favorite
-        fields = ('id', 'user_name', 'title', 'artist', 'artwork')
+        fields = ('id', 'user_name', 'url', 'title', 'artist', 'artwork')
 
 
 class NotificationSerializer(serializers.ModelSerializer):

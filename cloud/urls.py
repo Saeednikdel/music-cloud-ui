@@ -16,6 +16,8 @@ urlpatterns = [
     path('removeplaylist/', views.removePlayList, name="remove_play_list"),
     path('editplaylist/', views.editPlayList, name="edit_play_list"),
     path('addtoplaylist/', views.addToPlayList, name="add_to_play_list"),
+    path('removefromplaylist/', views.removeFromPlayList,
+         name="remove_from_play_list"),
 
     path('userfavorites/<str:username>/<str:page>/',
          views.userFavorites, name="user_favorites"),

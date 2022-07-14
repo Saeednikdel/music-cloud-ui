@@ -39,7 +39,9 @@ const SongCard = ({
             : post.user_name}
         </Link>
         <MoreVert
-          onClick={() => openMenu(source, post.id, post.user_name)}
+          onClick={() =>
+            openMenu(source, post.id, post.user_name, playlistid, post.url)
+          }
           className="  hover:cursor-pointer"
         />
       </div>

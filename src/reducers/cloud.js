@@ -29,6 +29,8 @@ import {
   REMOVE_POST_FAIL,
   REMOVE_POST_SUCCESS,
   SET_NOW_PLAYING_SUCCESS,
+  REMOVE_FROM_PLAYLIST_SUCCESS,
+  REMOVE_FROM_PLAYLIST_FAIL,
 } from '../actions/types';
 
 const initialState = {
@@ -153,14 +155,22 @@ export default function (state = initialState, action) {
           ...state,
           playlist: payload.posts,
           playlist_count: payload.count,
+          playlist_owner: payload.user,
         };
       } else {
         return {
           ...state,
           playlist: state.playlist.concat(payload.posts),
           playlist_count: payload.count,
+          playlist_owner: payload.user,
         };
       }
+    case REMOVE_FROM_PLAYLIST_SUCCESS:
+      return {
+        ...state,
+        playlist: state.playlist.filter((item) => item.id !== payload.post),
+        playlist_count: state.playlist_count - 1,
+      };
     case LOAD_USERS_SUCCESS:
       if (page === 1) {
         return {

@@ -5,12 +5,14 @@ import {
   LibraryMusic,
   Report,
   Share,
+  Remove,
+  Download,
 } from '@mui/icons-material';
 
 import { Link } from 'react-router-dom';
 import React from 'react';
 import { connect } from 'react-redux';
-import { remove_post } from '../actions/cloud';
+import { remove_post, remove_from_playlist } from '../actions/cloud';
 
 const SongMenu = ({
   user,
@@ -18,6 +20,8 @@ const SongMenu = ({
   setOpenPopup,
   remove_post,
   setAddToPlayListPopUp,
+  playlist_owner,
+  remove_from_playlist,
 }) => {
   const click = () => {
     setOpenPopup(false);
@@ -37,6 +41,10 @@ const SongMenu = ({
   const handleAdd = () => {
     setAddToPlayListPopUp(true);
   };
+  const remove = () => {
+    remove_from_playlist(menuItem.id, menuItem.playlistid);
+    setOpenPopup(false);
+  };
   return (
     <div className=" space-y-1 text-gray-900 dark:text-gray-100">
       <div
@@ -51,6 +59,12 @@ const SongMenu = ({
           <h1 className="text-xl">Lyrics card</h1>
         </div>
       </Link>
+      <a href={menuItem.url} download>
+        <div className="flex py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
+          <Download />
+          <h1 className="text-xl">Download</h1>
+        </div>
+      </a>
       {user && user.name && user.name === menuItem.user_name && (
         <Link onClick={click} to={`/edit/${menuItem.id}/`}>
           <div className="flex py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
@@ -67,7 +81,7 @@ const SongMenu = ({
           </div>
         </div>
       )}
-      {user && menuItem.source !== 'playlist' && (
+      {user && (
         <div
           onClick={handleAdd}
           className="flex py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
@@ -75,7 +89,14 @@ const SongMenu = ({
           <h1 className="text-xl">Add to playlist</h1>
         </div>
       )}
-
+      {menuItem.source === 'playlist' && user && playlist_owner === user.id && (
+        <div
+          onClick={remove}
+          className="flex py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
+          <Remove />
+          <h1 className="text-xl">Remove from playlist</h1>
+        </div>
+      )}
       <div
         onClick={click}
         className="flex py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
@@ -87,5 +108,8 @@ const SongMenu = ({
 };
 const mapStateToProps = (state) => ({
   user: state.auth.user,
+  playlist_owner: state.cloud.playlist_owner,
 });
-export default connect(mapStateToProps, { remove_post })(SongMenu);
+export default connect(mapStateToProps, { remove_post, remove_from_playlist })(
+  SongMenu
+);

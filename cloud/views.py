@@ -146,7 +146,7 @@ def playList(request, id, page):
     count = len(posts)
     posts = paginator.get_page(page)
     serializer = PostsSerializer(posts, many=True)
-    new_dict = {"count": count}
+    new_dict = {"count": count, "user": playlist.user.id}
     new_dict.update({"posts": serializer.data})
     return Response(new_dict)
 
@@ -206,6 +206,21 @@ def addToPlayList(request):
     if post not in playList.posts.all():
         playList.posts.add(post)
         return Response({"added"})
+    else:
+        return Response({"already exists"})
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def removeFromPlayList(request):
+    playList = get_object_or_404(PlayList, user=request.data.get(
+        'user'), id=request.data.get('id'))
+    post = get_object_or_404(Post, id=request.data.get('post'))
+    if post in playList.posts.all():
+        playList.posts.remove(post)
+        return Response({"removed"})
+    else:
+        return Response({"does not exists"})
 
 
 @api_view(['GET'])
