@@ -20,13 +20,13 @@ const VolumePopUp = ({ showVolume, volume, isMuted, mute, changeVolume }) => {
         <p className="w-6">{Math.floor(volume)}</p>
         {isMuted ? (
           <VolumeOff
-            fontSize="large"
+            style={{ fontSize: 28 }}
             className=" hover:cursor-pointer active:text-blue-600"
             onClick={mute}
           />
         ) : (
           <VolumeUp
-            fontSize="large"
+            style={{ fontSize: 28 }}
             className=" hover:cursor-pointer active:text-blue-600"
             onClick={mute}
           />

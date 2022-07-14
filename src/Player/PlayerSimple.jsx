@@ -58,7 +58,7 @@ const PlayerSimple = ({
   return (
     <div
       dir="ltr"
-      className="pt-1 pb-2 px-4 backdrop-blur-2xl  backdrop-brightness-200 dark:backdrop-brightness-50 shadow-sm border-1 text-gray-900 dark:text-gray-300">
+      className="pt-2 pb-2 px-4 backdrop-blur-2xl  backdrop-brightness-200 dark:backdrop-brightness-50 shadow-sm border-1 text-gray-900 dark:text-gray-300">
       <div className="flex space-x-4 items-center md:mx-16 xl:mx-36 2xl:mx-60">
         <Link
           to={`/p/${currentSong.id}`}
@@ -66,13 +66,13 @@ const PlayerSimple = ({
           <img
             alt="album art"
             src={currentSong.artwork}
-            className={`h-20 w-20 object-cover rounded shadow-xl transform transition hover:cursor-pointer ${
+            className={`h-14 w-14 md:h-20 md:w-20 object-cover rounded transform transition hover:cursor-pointer ${
               !isplaying ? 'grayscale scale-90' : 'scale-1'
             }`}
           />
         </Link>
         <div className="flex-1">
-          <div className="flex justify-between items-center -mb-2">
+          <div className="flex justify-between items-center">
             <div>
               <p className=" sm:hidden font-bold text">
                 {currentSong.title.length > 15
@@ -100,7 +100,7 @@ const PlayerSimple = ({
               <div className="flex space-x-4 ">
                 <div className="hidden sm:block">
                   <SkipPrevious
-                    fontSize="large"
+                    style={{ fontSize: 28 }}
                     className={`hover:cursor-pointer ${
                       now_playing_count < 1 && 'text-gray-500'
                     }`}
@@ -109,20 +109,20 @@ const PlayerSimple = ({
                 </div>
                 {isplaying ? (
                   <Pause
-                    fontSize="large"
+                    style={{ fontSize: 28 }}
                     className=" hover:cursor-pointer "
                     onClick={() => setisplaying(false)}
                   />
                 ) : (
                   <PlayArrow
-                    fontSize="large"
+                    style={{ fontSize: 28 }}
                     className=" hover:cursor-pointer "
                     onClick={() => setisplaying(true)}
                   />
                 )}
                 <div className="hidden sm:block">
                   <SkipNext
-                    fontSize="large"
+                    style={{ fontSize: 28 }}
                     className={`hover:cursor-pointer ${
                       now_playing_count < 1 && 'text-gray-500'
                     }`}
@@ -135,13 +135,13 @@ const PlayerSimple = ({
                     onOutsideClick={() => setShowVolume(!showVolume)}>
                     {isMuted ? (
                       <VolumeOff
-                        fontSize="large"
+                        style={{ fontSize: 28 }}
                         className=" hover:cursor-pointer "
                         onClick={() => setShowVolume(!showVolume)}
                       />
                     ) : (
                       <VolumeUp
-                        fontSize="large"
+                        style={{ fontSize: 28 }}
                         className=" hover:cursor-pointer "
                         onClick={() => setShowVolume(!showVolume)}
                       />

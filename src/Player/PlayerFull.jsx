@@ -132,38 +132,40 @@ const PlayerFull = ({
             </div>
           </div>
           {/* right */}
-          <div className="space-y-8 lg:pt-12 xl:mr-10">
-            <div className="flex space-x-4 items-center">
-              <div className="w-full text-center">
-                <p className=" font-bold text-xl">{currentSong.title}</p>
-                <p className="text-xl">{currentSong.artist}</p>
-                <p className="text-xl">{currentSong.album}</p>
-                <div className="flex justify-between -mb-2">
-                  <p>
-                    {currentSong.ct
-                      ? Math.floor(currentSong.ct / 60) +
-                        ':' +
-                        Math.floor(currentSong.ct % 60)
-                      : '0:0'}
-                  </p>
-                  <p>
-                    {currentSong.length
-                      ? Math.floor(currentSong.length / 60) +
-                        ':' +
-                        Math.floor(currentSong.length % 60)
-                      : '0:0'}
-                  </p>
-                </div>
-                <input
-                  className="seekbar w-full h-1 bg-blue-200 dark:bg-slate-600 appearance-none rounded"
-                  min={0}
-                  max={100}
-                  value={currentSong.progress ? currentSong.progress : 0}
-                  type="range"
-                  onChange={seek}
-                />
+          <div className="space-y-8 lg:pt-10 xl:mr-10">
+            <Link className=" text-gray-500" to={`/u/${post.user_name}`}>
+              @{post.user_name}
+            </Link>
+            <div className="w-full text-center">
+              <p className=" font-bold text-xl">{currentSong.title}</p>
+              <p className="text-xl">{currentSong.artist}</p>
+              <p className="text-xl">{currentSong.album}</p>
+              <div className="flex justify-between -mb-2">
+                <p>
+                  {currentSong.ct
+                    ? Math.floor(currentSong.ct / 60) +
+                      ':' +
+                      Math.floor(currentSong.ct % 60)
+                    : '0:0'}
+                </p>
+                <p>
+                  {currentSong.length
+                    ? Math.floor(currentSong.length / 60) +
+                      ':' +
+                      Math.floor(currentSong.length % 60)
+                    : '0:0'}
+                </p>
               </div>
+              <input
+                className="seekbar w-full h-1 bg-blue-200 dark:bg-slate-600 appearance-none rounded"
+                min={0}
+                max={100}
+                value={currentSong.progress ? currentSong.progress : 0}
+                type="range"
+                onChange={seek}
+              />
             </div>
+
             <div className="flex justify-center">
               <SkipPrevious
                 fontSize="large"
@@ -200,7 +202,7 @@ const PlayerFull = ({
                     disabled={!showMore}
                     onOutsideClick={() => setShowMore(!showMore)}>
                     <MoreVert
-                      fontSize="large"
+                      style={{ fontSize: 28 }}
                       className=" hover:cursor-pointer"
                       onClick={() => setShowMore(!showMore)}
                     />
@@ -217,13 +219,13 @@ const PlayerFull = ({
                 {post && post.favorite ? (
                   <Favorite
                     onClick={handleLike}
-                    fontSize="large"
+                    style={{ fontSize: 28 }}
                     className=" hover:cursor-pointer"
                   />
                 ) : (
                   <FavoriteBorder
                     onClick={handleLike}
-                    fontSize="large"
+                    style={{ fontSize: 28 }}
                     className=" hover:cursor-pointer"
                   />
                 )}
@@ -240,13 +242,13 @@ const PlayerFull = ({
                               ? like.image
                               : `${process.env.REACT_APP_API_URL}/media/placeholder-image.png`
                           }
-                          className=" w-8 h-8 rounded-full border-2 border-gray-300 dark:border-gray-700 object-cover"
+                          className=" w-6 h-6 rounded-full border-2 border-gray-300 dark:border-gray-700 object-cover"
                           style={{ marginLeft: likes.length > 1 && -8 }}
                         />
                       ))}
                 </Link>
                 {post && (
-                  <Link to={`/list/like/${post.id}`} className=" text-2xl mx-1">
+                  <Link to={`/list/like/${post.id}`} className=" text-xl mx-1">
                     {post.like}
                   </Link>
                 )}
@@ -257,13 +259,13 @@ const PlayerFull = ({
                   onOutsideClick={() => setShowVolume(!showVolume)}>
                   {isMuted ? (
                     <VolumeOff
-                      fontSize="large"
+                      style={{ fontSize: 28 }}
                       className=" hover:cursor-pointer"
                       onClick={() => setShowVolume(!showVolume)}
                     />
                   ) : (
                     <VolumeUp
-                      fontSize="large"
+                      style={{ fontSize: 28 }}
                       className=" hover:cursor-pointer"
                       onClick={() => setShowVolume(!showVolume)}
                     />
