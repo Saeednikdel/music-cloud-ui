@@ -2,7 +2,7 @@
 
 created with tailwind css, material ui and react js
 
-[Live Demo](https://music-cloud-ui.vercel.app/)
+[Live Demo](https://musiccloud.pythonanywhere.com/)
 
 <br/>
 desktop view
