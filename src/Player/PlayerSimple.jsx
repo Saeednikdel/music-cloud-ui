@@ -58,20 +58,20 @@ const PlayerSimple = ({
   return (
     <div
       dir="ltr"
-      className="pt-1 pb-2 px-4 md:px-16 xl:px-36 2xl:px-60 backdrop-blur-2xl  backdrop-brightness-200 dark:backdrop-brightness-50 shadow-sm border-1 text-gray-900 dark:text-gray-300">
-      <div className="flex space-x-4 items-center">
+      className="pt-1 pb-2 px-4 backdrop-blur-2xl  backdrop-brightness-200 dark:backdrop-brightness-50 shadow-sm border-1 text-gray-900 dark:text-gray-300">
+      <div className="flex space-x-4 items-center md:mx-16 xl:mx-36 2xl:mx-60">
         <Link
           to={`/p/${currentSong.id}`}
           className="flex items-center justify-center">
           <img
             alt="album art"
             src={currentSong.artwork}
-            className={`h-20 w-24 object-cover rounded shadow-xl transform transition hover:cursor-pointer ${
+            className={`h-20 w-20 object-cover rounded shadow-xl transform transition hover:cursor-pointer ${
               !isplaying ? 'grayscale scale-90' : 'scale-1'
             }`}
           />
         </Link>
-        <div className="w-full">
+        <div className="flex-1">
           <div className="flex justify-between items-center -mb-2">
             <div>
               <p className=" sm:hidden font-bold text">

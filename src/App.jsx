@@ -97,14 +97,16 @@ const App = ({
   });
 
   const onPlaying = () => {
-    const duration = audioElem.current.duration;
-    const ct = audioElem.current.currentTime;
-    setCurrentSong({
-      ...currentSong,
-      progress: (ct / duration) * 100,
-      length: duration,
-      ct: ct,
-    });
+    if (full) {
+      const duration = audioElem.current.duration;
+      const ct = audioElem.current.currentTime;
+      setCurrentSong({
+        ...currentSong,
+        progress: (ct / duration) * 100,
+        length: duration,
+        ct: ct,
+      });
+    }
   };
   const skiptoNext = () => {
     if (now_playing_count > 0 && source.index < now_playing_count - 1) {
@@ -169,7 +171,7 @@ const App = ({
           autoPlay={isplayerOpen && isplaying}
           src={currentSong && currentSong.url}
           ref={audioElem}
-          onTimeUpdate={full && onPlaying}
+          onTimeUpdate={onPlaying}
           onEnded={skiptoNext}
         />
         <div className="grid grid-cols-4 h-screen bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200">
