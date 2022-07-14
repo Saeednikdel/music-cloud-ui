@@ -19,6 +19,7 @@ import { useNavigate } from 'react-router-dom';
 const NewPost = ({ isAuthenticated, user }) => {
   const navigate = useNavigate();
   const [requestSent, setRequestSent] = useState(false);
+  const [uploaded, setUploaded] = useState(0);
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
@@ -97,102 +98,109 @@ const NewPost = ({ isAuthenticated, user }) => {
   if (isAuthenticated === false) navigate('/login');
 
   return (
-    <div className="p-4 pb-32 tex flex flex-col space-y-1">
-      <div className="flex justify-between">
-        <label htmlFor="file-input">
-          <input
-            id="file-input"
-            className="hidden"
-            type="file"
-            accept="audio/mp3"
-            onChange={handleFile}
-          />
-          <p className="bg-blue-600 dark:bg-blue-500 text-white text-sm px-4 py-2 w-fit rounded-full shadow hover:cursor-pointer hover:bg-blue-700 dark:hover:bg-blue-600">
-            choose file
-          </p>
-        </label>
-        {file && (
-          <BtnPrimary
-            size="small"
-            type="submit"
-            variant="contained"
-            color="secondary"
-            onClick={onSubmit}>
-            send
-          </BtnPrimary>
-        )}
-      </div>
+    <div>
       {file && (
-        <>
-          <div className="flex justify-center">
-            <label htmlFor="image-input">
-              <input
-                accept="image/jpeg,image/png"
-                id="image-input"
-                onChange={newimage}
-                style={{ display: 'none' }}
-                type="file"
-              />
-              <div className="h-32 w-32 relative">
-                <img
-                  className="h-32 w-32 object-cover"
-                  alt="album-art"
-                  src={
-                    file.image
-                      ? URL.createObjectURL(file.image)
-                      : `${process.env.REACT_APP_API_URL}/media/placeholder-image.png`
-                  }
+        <div
+          className=" h-1 bg-blue-600"
+          style={{ width: `${(uploaded * 100) / file.audio.size}%` }}></div>
+      )}
+      <div className="p-4 pb-32 flex flex-col space-y-1">
+        <div className="flex justify-between">
+          <label htmlFor="file-input">
+            <input
+              id="file-input"
+              className="hidden"
+              type="file"
+              accept="audio/mp3"
+              onChange={handleFile}
+            />
+            <p className="bg-blue-600 dark:bg-blue-500 text-white text-sm px-4 py-2 w-fit rounded-full shadow hover:cursor-pointer hover:bg-blue-700 dark:hover:bg-blue-600">
+              choose file
+            </p>
+          </label>
+          {file && (
+            <BtnPrimary
+              size="small"
+              type="submit"
+              variant="contained"
+              color="secondary"
+              onClick={onSubmit}>
+              send
+            </BtnPrimary>
+          )}
+        </div>
+        {file && (
+          <>
+            <div className="flex justify-center">
+              <label htmlFor="image-input">
+                <input
+                  accept="image/jpeg,image/png"
+                  id="image-input"
+                  onChange={newimage}
+                  style={{ display: 'none' }}
+                  type="file"
                 />
-                <AddPhotoAlternate
-                  className=" absolute top-12 left-12 rounded p-1 text-white bg-gray-900/50 hover:cursor-pointer"
-                  fontSize="large"
+                <div className="h-32 w-32 relative">
+                  <img
+                    className="h-32 w-32 object-cover"
+                    alt="album-art"
+                    src={
+                      file.image
+                        ? URL.createObjectURL(file.image)
+                        : `${process.env.REACT_APP_API_URL}/media/placeholder-image.png`
+                    }
+                  />
+                  <AddPhotoAlternate
+                    className=" absolute top-12 left-12 rounded p-1 text-white bg-gray-900/50 hover:cursor-pointer"
+                    fontSize="large"
+                  />
+                </div>
+              </label>
+            </div>
+
+            <TextField
+              label="title"
+              type="text"
+              value={file.title ? file.title : ''}
+              name="title"
+              onChange={textChange}
+              placeholder="title"
+            />
+            <TextField
+              label="artist"
+              type="text"
+              value={file.artist ? file.artist : ''}
+              name="artist"
+              onChange={textChange}
+              placeholder="artist"
+            />
+            <TextField
+              label="album"
+              type="text"
+              onChange={textChange}
+              value={file.album ? file.album : ''}
+              name="album"
+              placeholder="album"
+            />
+            <h1>lyrics :</h1>
+            <div className="bg-gray-50 dark:bg-gray-700 border border-gray-300 rounded-xl dark:border-gray-500 p-3">
+              <InlineStyleControls
+                editorState={editorState}
+                onToggle={toggleInlineStyle}
+              />
+              <div className=" border-t border-gray-300 dark:border-gray-500 hover:cursor-text mt-2 pt-2 h-80 overflow-auto">
+                <Editor
+                  editorState={editorState}
+                  handleKeyCommand={handleKeyCommand}
+                  keyBindingFn={mapKeyToEditorCommand}
+                  onChange={setEditorState}
+                  spellCheck={true}
                 />
               </div>
-            </label>
-          </div>
-
-          <TextField
-            label="title"
-            type="text"
-            value={file.title ? file.title : ''}
-            name="title"
-            onChange={textChange}
-            placeholder="title"
-          />
-          <TextField
-            label="artist"
-            type="text"
-            value={file.artist ? file.artist : ''}
-            name="artist"
-            onChange={textChange}
-            placeholder="artist"
-          />
-          <TextField
-            label="album"
-            type="text"
-            onChange={textChange}
-            value={file.album ? file.album : ''}
-            name="album"
-            placeholder="album"
-          />
-          <h1>lyrics :</h1>
-          <div className="bg-gray-50 dark:bg-gray-700 border border-gray-300 rounded-xl dark:border-gray-500 p-3">
-            <InlineStyleControls
-              editorState={editorState}
-              onToggle={toggleInlineStyle}
-            />
-            <div className=" border-t border-gray-300 dark:border-gray-500 hover:cursor-text mt-2 pt-2 h-80 overflow-auto">
-              <Editor
-                editorState={editorState}
-                handleKeyCommand={handleKeyCommand}
-                keyBindingFn={mapKeyToEditorCommand}
-                onChange={setEditorState}
-                spellCheck={true}
-              />
             </div>
-          </div>
-        </>
-      )}
+          </>
+        )}
+      </div>
     </div>
   );
 
@@ -207,6 +215,7 @@ const NewPost = ({ isAuthenticated, user }) => {
     formData.append('album', file.album && file.album);
     formData.append('lyrics', stateToHTML(editorState.getCurrentContent()));
     const config = {
+      onUploadProgress: (progressEvent) => setUploaded(progressEvent.loaded),
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: `JWT ${localStorage.getItem('access')}`,
@@ -219,7 +228,7 @@ const NewPost = ({ isAuthenticated, user }) => {
         formData,
         config
       );
-      res.data.id && navigate('/');
+      res.data.id ? navigate('/') : setUploaded(0);
     } catch (err) {
       console.log(err);
     }
