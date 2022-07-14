@@ -60,17 +60,17 @@ const PlayerSimple = ({
       dir="ltr"
       className="pt-1 pb-2 px-4 md:px-16 xl:px-36 2xl:px-60 backdrop-blur-2xl  backdrop-brightness-200 dark:backdrop-brightness-50 shadow-sm border-1 text-gray-900 dark:text-gray-300">
       <div className="flex space-x-4 items-center">
-        <div className="h-20 w-20 flex items-center justify-center">
-          <Link to={`/p/${currentSong.id}`}>
-            <img
-              alt="album art"
-              src={currentSong.artwork}
-              className={`rounded shadow-xl transform transition hover:cursor-pointer ${
-                !isplaying ? 'grayscale scale-90' : 'scale-1'
-              }`}
-            />
-          </Link>
-        </div>
+        <Link
+          to={`/p/${currentSong.id}`}
+          className="flex items-center justify-center">
+          <img
+            alt="album art"
+            src={currentSong.artwork}
+            className={`h-20 w-24 object-cover rounded shadow-xl transform transition hover:cursor-pointer ${
+              !isplaying ? 'grayscale scale-90' : 'scale-1'
+            }`}
+          />
+        </Link>
         <div className="w-full">
           <div className="flex justify-between items-center -mb-2">
             <div>
@@ -158,15 +158,6 @@ const PlayerSimple = ({
               </div>
             </div>
           </div>
-
-          <input
-            className="seekbar h-1 w-full bg-blue-200 dark:bg-slate-600 appearance-none rounded"
-            min={0}
-            max={100}
-            value={currentSong.progress ? currentSong.progress : 0}
-            type="range"
-            onChange={seek}
-          />
         </div>
       </div>
     </div>

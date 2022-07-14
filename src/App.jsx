@@ -169,7 +169,7 @@ const App = ({
           autoPlay={isplayerOpen && isplaying}
           src={currentSong && currentSong.url}
           ref={audioElem}
-          onTimeUpdate={onPlaying}
+          onTimeUpdate={full && onPlaying}
           onEnded={skiptoNext}
         />
         <div className="grid grid-cols-4 h-screen bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200">

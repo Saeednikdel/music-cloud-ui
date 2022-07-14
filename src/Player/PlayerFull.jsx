@@ -56,7 +56,12 @@ const PlayerFull = ({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const new_post_id = post && post.id;
 
+  useEffect(() => {
+    post && load_likes(new_post_id, 1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [new_post_id]);
   const seek = (e) => {
     audioElem.current.currentTime = (e.target.value / 100) * currentSong.length;
   };
@@ -230,7 +235,11 @@ const PlayerFull = ({
                       .slice(0, 3)
                       .map((like) => (
                         <img
-                          src={like.image}
+                          src={
+                            like.image
+                              ? like.image
+                              : `${process.env.REACT_APP_API_URL}/media/placeholder-image.png`
+                          }
                           className=" w-8 h-8 rounded-full border-2 border-gray-300 dark:border-gray-700 object-cover"
                           style={{ marginLeft: likes.length > 1 && -8 }}
                         />
