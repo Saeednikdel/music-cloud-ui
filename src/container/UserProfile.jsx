@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import BtnPrimary from '../components/BtnPrimary';
 import BtnSecondary from '../components/BtnSecondary';
 import UserFavorite from '../components/UserFavorite';
-import UserPlayLists from '../components/UserPlayLists';
+import UserPlayLists from '../components/UserPlaylists';
 import UserPosts from '../components/UserPosts';
 import { connect } from 'react-redux';
 import { follow_unfollw } from '../actions/auth';
