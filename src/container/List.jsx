@@ -64,7 +64,7 @@ const List = ({
                       src={item.image}
                     />
                   ) : (
-                    <h1 className=" text-lg absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
+                    <h1 className=" text-lg text-white absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
                       {item.name.slice(0, 2).toUpperCase()}
                     </h1>
                   )}
