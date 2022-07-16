@@ -1,3 +1,4 @@
+from itertools import chain
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
@@ -9,6 +10,7 @@ from django.shortcuts import get_object_or_404
 from .models import Favorite, Post, PlayList, Notification
 from .serializers import PostsSerializer, PlayListSerializer, FavoriteSerializer, NotificationSerializer, NewPostSerializer, EditPostSerializer, NewPlayListSerializer, UserDetailSerializer, PostSerializer, LikeSerializer, FollowerSerializer
 from rest_framework import status
+from itertools import chain
 
 
 @api_view(['GET'])
@@ -101,8 +103,9 @@ def post(request, id):
 def postList(request, page):
     if request.data.get('keyword'):
         keyword = request.data.get('keyword')
-        posts = Post.objects.filter(
-            title__contains=keyword).order_by('-date')
+        post1 = Post.objects.filter(title__contains=keyword)
+        post2 = Post.objects.filter(artist__contains=keyword)
+        posts = list(chain(post1, post2))
     elif request.data.get('user'):
         user = UserAccount.objects.get(id=request.data.get('user'))
         posts = Post.objects.filter(

@@ -26,7 +26,7 @@ const TextField = ({
         id={id}
         value={value}
         onChange={(e) => onChange(e)}
-        className={`bg-gray-50 border dark:bg-gray-600 ${
+        className={`bg-gray-100 dark:bg-slate-800 border ${
           error
             ? ' border-red-600 dark:border-red-500'
             : ' border-gray-300 dark:border-gray-500 '

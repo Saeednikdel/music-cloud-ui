@@ -13,6 +13,7 @@ import NavBar from './components/NavBar';
 import NewPost from './components/forms/NewPost';
 import NowPlaying from './container/NowPlaying';
 import UsersList from './container/UsersList';
+import Search from './container/Search';
 import OutsideClickHandler from 'react-outside-click-handler';
 import PlayList from './container/PlayList';
 import PlayLists from './container/PlayLists';
@@ -115,7 +116,8 @@ const App = ({
       load_post(now_playing[source.index + 1].id);
       if (
         source.index === now_playing.length - 2 &&
-        now_playing.length < now_playing_count
+        now_playing.length < now_playing_count &&
+        source.source !== 'search'
       ) {
         load_now_playing(
           source.source,
@@ -180,18 +182,22 @@ const App = ({
             <LeftMenu />
           </div>
 
-          <div className=" col-span-4 md:col-span-3 pt-14 bg-gray-100 dark:bg-slate-800">
+          <div className=" col-span-4 md:col-span-3 pt-12 bg-gray-100 dark:bg-slate-800">
             <Routes>
               <Route
                 exact
                 path="/"
                 element={<Home skip={skip} openMenu={openMenu} />}
               />
+              <Route
+                exact
+                path="/search"
+                element={<Search skip={skip} openMenu={openMenu} />}
+              />
               <Route exact path="/login" element={<Login />} />
               <Route exact path="/signup" element={<Signup />} />
               <Route exact path="/reset_password" element={<ResetPassword />} />
               <Route exact path="/list/:type/:id" element={<List />} />
-
               <Route
                 exact
                 path="/password/reset/confirm/:uid/:token"

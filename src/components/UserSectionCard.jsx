@@ -9,7 +9,7 @@ const UserSectionCard = ({ item }) => {
           {item.image ? (
             <img
               alt="avatar"
-              className="h-14 w-14 object-cover "
+              className="h-16 w-16 object-cover "
               src={item.image}
             />
           ) : (

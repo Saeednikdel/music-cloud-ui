@@ -13,13 +13,15 @@ const NowPlaying = ({
   now_playing_count,
 }) => {
   const fetchData = async () => {
-    await load_now_playing(
-      source.source,
-      source.page,
-      source.user_name,
-      source.playlistid
-    );
-    setSource({ ...source, page: source.page + 1 });
+    if (source.source !== 'search') {
+      await load_now_playing(
+        source.source,
+        source.page,
+        source.user_name,
+        source.playlistid
+      );
+      setSource({ ...source, page: source.page + 1 });
+    }
   };
   return (
     <InfiniteScroll

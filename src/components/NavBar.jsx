@@ -1,12 +1,21 @@
-import { Brightness3, Brightness7, Close, Menu } from '@mui/icons-material';
+import {
+  Brightness3,
+  Brightness7,
+  Close,
+  Menu,
+  Search,
+  ArrowBack,
+} from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
 import { checkAuthenticated, load_user } from '../actions/auth';
 
 import LeftSlide from './LeftSlide';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { connect } from 'react-redux';
-
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 const NavBar = ({ setTheme, checked, checkAuthenticated, load_user }) => {
+  const location = useLocation().pathname.split('/')[1];
+  const navigate = useNavigate();
   const [openLeftMenu, setOpenLeftMenu] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
@@ -20,19 +29,16 @@ const NavBar = ({ setTheme, checked, checkAuthenticated, load_user }) => {
   return (
     <nav className="backdrop-blur-2xl  backdrop-brightness-200 dark:backdrop-brightness-50 shadow-sm border-1 px-2 sm:px-4 py-2.5 fixed top-0 left-0 right-0 bottom-auto z-10 text-gray-800 dark:text-gray-300">
       <div className="container flex flex-wrap flex-row-reverse justify-between items-center mx-auto md:px-8 xl:px-16">
-        <div className="flex items-center space-x-3">
-          <form>
-            <div className="flex space-x-1">
-              <input
-                type="text"
-                className="flex-1 h-8 rounded-full border border-gray-600 dark:border-gray-300 bg-transparent placeholder:text-gray-600 dark:placeholder:text-gray-400 px-4 focus:outline-none w-44 md:w-auto"
-                placeholder="Search"
-              />
-            </div>
-          </form>
+        <div className="flex items-center">
+          {location !== 'search' && (
+            <Link to="/search" className="mx-1 hover:cursor-pointer">
+              <Search />
+            </Link>
+          )}
+
           <button
             type="button"
-            className="mx-2 hover:cursor-pointer rounded-xl border p-1 border-gray-600 active:text-blue-600"
+            className="mx-1 hover:cursor-pointer"
             onClick={setTheme}>
             {checked ? <Brightness7 /> : <Brightness3 />}
           </button>
@@ -56,6 +62,18 @@ const NavBar = ({ setTheme, checked, checkAuthenticated, load_user }) => {
               setOpenLeftMenu={setOpenLeftMenu}
             />
           </OutsideClickHandler>
+          {location === 'search' && (
+            <Link to="/" className="mx-1 hover:cursor-pointer">
+              <ArrowBack />
+            </Link>
+          )}
+          {location === 'p' && (
+            <button
+              onClick={() => navigate(-1)}
+              className="mx-1 hover:cursor-pointer">
+              <ArrowBack />
+            </button>
+          )}
         </div>
       </div>
     </nav>

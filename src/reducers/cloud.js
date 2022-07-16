@@ -106,6 +106,12 @@ export default function (state = initialState, action) {
           now_playing: state.playlist,
           now_playing_count: state.playlist_count,
         };
+      } else if (payload === 'search') {
+        return {
+          ...state,
+          now_playing: state.posts,
+          now_playing_count: state.count,
+        };
       }
     case LOAD_NOW_PLAYING_SUCCESS:
       if (page === 1) {

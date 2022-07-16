@@ -25,7 +25,7 @@ const UsersList = ({ users, load_users, count }) => {
   };
   return (
     <div>
-      <div className="px-2">
+      <div className="p-2">
         <form autoComplete="off" onSubmit={(e) => submit(e)}>
           <TextField
             autoComplete="off"

@@ -29,7 +29,7 @@ const LeftSlide = ({
   };
   return (
     <div
-      className={`absolute md:hidden flex flex-col w-2/3 h-screen pt-6 space-y-1 text-lg font-semibold top-14 left-0 bg-white dark:bg-slate-900 text-gray-800 dark:text-gray-200 transition ease-in-out duration-500 ${
+      className={`absolute -mt-1.5 md:hidden flex flex-col w-2/3 h-screen pt-6 space-y-1 text-lg font-semibold top-14 left-0 bg-white dark:bg-slate-900 text-gray-800 dark:text-gray-200 transition ease-in-out duration-500 ${
         openLeftMenu ? '' : '-translate-x-full'
       }`}>
       <Link
