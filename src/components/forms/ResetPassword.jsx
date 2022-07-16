@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { resetState, reset_password } from '../../actions/auth';
+import { TaskAlt } from '@mui/icons-material';
 
 import BtnPrimary from '../BtnPrimary';
 import TextField from '../TextField';
@@ -23,9 +24,9 @@ const ResetPassword = ({
       setRequestSent(false);
       resetState();
     }
-    if (requestSuccess) {
-      resetState();
-    }
+    // if (requestSuccess) {
+    //   resetState();
+    // }
   }, [requestFail, requestSuccess]);
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -35,8 +36,18 @@ const ResetPassword = ({
     reset_password(email);
     setRequestSent(true);
   };
-  if (requestSent === requestSuccess) navigate('/');
-
+  // if (requestSent === requestSuccess) navigate('/');
+  if (requestSuccess)
+    return (
+      <div className=" mt-20 mx-10 flex flex-col justify-center items-center space-y-4 text-center">
+        <TaskAlt fontSize="large" />
+        <p className=" font-bold">Request Sent.</p>
+        <p>
+          please click on the link sent to you by email, to reset your password.
+        </p>
+        <p>it may be in the spam folder!!</p>
+      </div>
+    );
   return (
     <div className="py-6 px-6 lg:px-8 flex flex-col justify-center items-center">
       <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">
