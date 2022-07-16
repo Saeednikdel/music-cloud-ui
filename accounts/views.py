@@ -76,9 +76,9 @@ def userSet(request):
 def userList(request, page):
     if request.data.get('keyword'):
         users = UserAccount.objects.filter(
-            name__contains=request.data.get('keyword'))
+            name__contains=request.data.get('keyword'), is_active=True)
     else:
-        users = UserAccount.objects.all()
+        users = UserAccount.objects.filter(is_active=True)
     itemperpage = 10
     paginator = Paginator(users, itemperpage)
     count = len(users)

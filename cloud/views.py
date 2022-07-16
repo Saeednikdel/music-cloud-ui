@@ -287,7 +287,8 @@ def notification(request, user, page):
 @permission_classes([AllowAny])
 def profileDetail(request):
     followed = False
-    target = get_object_or_404(UserAccount, name=request.data.get('name'))
+    target = get_object_or_404(
+        UserAccount, name=request.data.get('name'), is_active=True)
     if request.data.get('user'):
         user = get_object_or_404(UserAccount, id=request.data.get('user'))
         if target in user.following.all():
