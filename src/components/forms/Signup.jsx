@@ -30,7 +30,6 @@ const Signup = ({
     }
   }, [requestFail]);
   const onChange = (e) => {
-    console.log(e.target.value);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
