@@ -12,6 +12,7 @@ import Login from './components/forms/Login';
 import NavBar from './components/NavBar';
 import NewPost from './components/forms/NewPost';
 import NowPlaying from './container/NowPlaying';
+import UsersList from './container/UsersList';
 import OutsideClickHandler from 'react-outside-click-handler';
 import PlayList from './container/PlayList';
 import PlayLists from './container/PlayLists';
@@ -24,7 +25,7 @@ import ResetPassword from './components/forms/ResetPassword';
 import ResetPasswordConfirm from './components/forms/ResetPasswordConfirm';
 import Signup from './components/forms/Signup';
 import SongMenu from './components/SongMenu';
-import SongSection from './components/SongSection';
+import Home from './container/Home';
 import UserProfile from './container/UserProfile';
 import { connect } from 'react-redux';
 
@@ -184,7 +185,7 @@ const App = ({
               <Route
                 exact
                 path="/"
-                element={<SongSection skip={skip} openMenu={openMenu} />}
+                element={<Home skip={skip} openMenu={openMenu} />}
               />
               <Route exact path="/login" element={<Login />} />
               <Route exact path="/signup" element={<Signup />} />
@@ -217,6 +218,7 @@ const App = ({
               <Route exact path="/edit/:id" element={<EditPost />} />
               <Route exact path="/new" element={<NewPost />} />
               <Route exact path="/playlists" element={<PlayLists />} />
+              <Route exact path="/users" element={<UsersList />} />
               <Route
                 exact
                 path="/playlist/:id"

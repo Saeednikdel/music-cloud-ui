@@ -35,6 +35,7 @@ import {
 } from './types';
 
 import axios from 'axios';
+
 export const remove_from_playlist = (post, id) => async (dispatch) => {
   const config = {
     headers: {
