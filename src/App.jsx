@@ -17,6 +17,7 @@ import Search from './container/Search';
 import OutsideClickHandler from 'react-outside-click-handler';
 import PlayList from './container/PlayList';
 import PlayLists from './container/PlayLists';
+import Notification from './container/Notification';
 import PlayerFull from './Player/PlayerFull';
 import PlayerSimple from './Player/PlayerSimple';
 import Popup from './components/Popup';
@@ -225,6 +226,7 @@ const App = ({
               <Route exact path="/new" element={<NewPost />} />
               <Route exact path="/playlists" element={<PlayLists />} />
               <Route exact path="/users" element={<UsersList />} />
+              <Route exact path="/notification" element={<Notification />} />
               <Route
                 exact
                 path="/playlist/:id"

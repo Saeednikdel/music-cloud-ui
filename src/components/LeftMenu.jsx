@@ -8,6 +8,7 @@ import {
   PlaylistPlay,
   QueueMusicOutlined,
   Settings,
+  NotificationsNone,
 } from '@mui/icons-material';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -71,6 +72,14 @@ const LeftMenu = ({ isAuthenticated, logout, user }) => {
             }`}>
             <Add className=" mx-4" />
             New Post
+          </Link>
+          <Link
+            to="/notification"
+            className={`flex px-1 py-2 hover:cursor-pointer mx-4 ${
+              location === 'notification' && activeClass
+            }`}>
+            <NotificationsNone className=" mx-4" />
+            Notification
           </Link>
           <Link
             to="/setting"

@@ -46,7 +46,7 @@ export const load_notif =
       const userId = localStorage.getItem('id');
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/notification/${userId}/${page}/`,
+          `${process.env.REACT_APP_API_URL}/api/cloud/notification/${userId}/${page}/`,
           config
         );
 
