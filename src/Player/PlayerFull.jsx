@@ -287,7 +287,7 @@ const PlayerFull = ({
         disabled={!openPopup}
         onOutsideClick={() => setOpenPopup(!openPopup)}>
         <Popup
-          title={'you are not loged in!'}
+          title="you are not loged in!"
           openPopup={openPopup}
           setOpenPopup={setOpenPopup}>
           <div>
