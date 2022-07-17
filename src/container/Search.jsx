@@ -109,7 +109,7 @@ const Search = ({
                   <option value={item.id}>{item.title}</option>
                 ))}
             </select>
-            <BtnPrimary onClick={submit}>serch</BtnPrimary>
+            <BtnPrimary onClick={submit}>search</BtnPrimary>
           </div>
         </Popup>
       </OutsideClickHandler>
