@@ -5,7 +5,7 @@ import SongCard from '../components/SongCard';
 import { connect } from 'react-redux';
 import { load_posts, load_genre } from '../actions/cloud';
 import TextField from '../components/TextField';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Popup from '../components/Popup';
 import BtnPrimary from '../components/BtnPrimary';
 import OutsideClickHandler from 'react-outside-click-handler';
@@ -19,8 +19,6 @@ const Search = ({
   genre,
 }) => {
   const navigate = useNavigate();
-  const location = useLocation().pathname;
-  console.log({ location });
   const [page, setPage] = useState(1);
   const key = getQueryVariable('keyword');
   const gen = getQueryVariable('genre');
