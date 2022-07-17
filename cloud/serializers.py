@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .models import Favorite, Post, PlayList, Notification
+from .models import Favorite, Post, PlayList, Notification, Genre
 from accounts.models import UserAccount
 
 
@@ -31,7 +31,7 @@ class PostSerializer(serializers.ModelSerializer):
 class NewPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ('id', 'title', 'artist', 'album',
+        fields = ('id', 'title', 'artist', 'album', 'genre',
                   'lyrics', 'artwork', 'url', 'user')
 
 
@@ -108,3 +108,10 @@ class FollowerSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserAccount
         fields = ('user', 'name', 'image', 'profile_name', 'is_verified')
+
+
+class GenreSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Genre
+        fields = '__all__'

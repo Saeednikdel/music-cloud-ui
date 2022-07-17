@@ -32,9 +32,36 @@ import {
   SET_NOW_PLAYING_SUCCESS,
   REMOVE_FROM_PLAYLIST_SUCCESS,
   REMOVE_FROM_PLAYLIST_FAIL,
+  LOAD_GENRE_SUCCESS,
+  LOAD_GENRE_FAIL,
 } from './types';
 
 import axios from 'axios';
+
+export const load_genre = () => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  };
+
+  try {
+    const res = await axios.get(
+      `${process.env.REACT_APP_API_URL}/api/cloud/genre-list/`,
+
+      config
+    );
+    dispatch({
+      type: LOAD_GENRE_SUCCESS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: LOAD_GENRE_FAIL,
+    });
+  }
+};
 
 export const remove_from_playlist = (post, id) => async (dispatch) => {
   const config = {
@@ -201,7 +228,7 @@ export const load_users = (page, keyword) => async (dispatch) => {
   }
 };
 
-export const load_posts = (page, keyword) => async (dispatch) => {
+export const load_posts = (page, keyword, genre) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -213,6 +240,7 @@ export const load_posts = (page, keyword) => async (dispatch) => {
     keyword,
     page,
     user,
+    genre,
   });
   try {
     const res = await axios.post(

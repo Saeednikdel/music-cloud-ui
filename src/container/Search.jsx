@@ -3,36 +3,61 @@ import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import SongCard from '../components/SongCard';
 import { connect } from 'react-redux';
-import { load_posts } from '../actions/cloud';
+import { load_posts, load_genre } from '../actions/cloud';
 import TextField from '../components/TextField';
-import { Link, useNavigate } from 'react-router-dom';
-
-const Search = ({ posts, load_posts, count, skip, openMenu }) => {
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import Popup from '../components/Popup';
+import BtnPrimary from '../components/BtnPrimary';
+import OutsideClickHandler from 'react-outside-click-handler';
+const Search = ({
+  posts,
+  load_posts,
+  count,
+  skip,
+  openMenu,
+  load_genre,
+  genre,
+}) => {
   const navigate = useNavigate();
-
+  const location = useLocation().pathname;
+  console.log({ location });
   const [page, setPage] = useState(1);
   const key = getQueryVariable('keyword');
+  const gen = getQueryVariable('genre');
   const [search, setSearch] = useState(key);
+  const [selectedGenre, setSelectedGenre] = useState(gen);
+  const [openPopup, setOpenPopup] = useState(false);
+
   useEffect(() => {
-    key && load_posts(1, key);
-    key && setPage(2);
+    load_posts(1, key, gen);
+    setPage(2);
+    load_genre();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const submit = (e) => {
     e.preventDefault();
-    navigate(`/search/?keyword=${search}`);
-    load_posts(1, search);
+    openPopup && setOpenPopup(false);
+    if (search && selectedGenre) {
+      navigate(`/search/?keyword=${search}&genre=${selectedGenre}`);
+    } else if (search) {
+      navigate(`/search/?keyword=${search}`);
+    } else if (selectedGenre) {
+      navigate(`/search/?genre=${selectedGenre}`);
+    } else {
+      navigate('/search');
+    }
+    load_posts(1, search, selectedGenre);
     setPage(2);
   };
   const fetchData = async () => {
-    await load_posts(page, search);
+    await load_posts(page, search, selectedGenre);
     setPage(page + 1);
   };
 
   return (
     <>
-      <div className="p-2">
-        <form autoComplete="off" onSubmit={(e) => submit(e)}>
+      <div className="p-2 flex it space-x-2 items-center">
+        <form className="flex-1" autoComplete="off" onSubmit={(e) => submit(e)}>
           <TextField
             autoComplete="off"
             id="search"
@@ -41,6 +66,7 @@ const Search = ({ posts, load_posts, count, skip, openMenu }) => {
             onChange={(e) => setSearch(e.target.value)}
           />
         </form>
+        <BtnPrimary onClick={() => setOpenPopup(!openPopup)}>filter</BtnPrimary>
       </div>
       {posts && (
         <InfiniteScroll
@@ -63,6 +89,32 @@ const Search = ({ posts, load_posts, count, skip, openMenu }) => {
           ))}
         </InfiniteScroll>
       )}
+      <OutsideClickHandler
+        disabled={!openPopup}
+        onOutsideClick={() => setOpenPopup(!openPopup)}>
+        <Popup title="filter" openPopup={openPopup} setOpenPopup={setOpenPopup}>
+          <div className="flex flex-col items-center">
+            <label for="genre" class="block mb-2 text-sm font-medium">
+              genre
+            </label>
+            <select
+              value={selectedGenre}
+              onChange={(e) => setSelectedGenre(e.target.value)}
+              id="genre"
+              name="genre"
+              class="bg-gray-100 dark:bg-slate-800 border mb-3 border-gray-300  text-sm rounded block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 ">
+              <option value="" selected>
+                None
+              </option>
+              {genre &&
+                genre.map((item) => (
+                  <option value={item.id}>{item.title}</option>
+                ))}
+            </select>
+            <BtnPrimary onClick={submit}>serch</BtnPrimary>
+          </div>
+        </Popup>
+      </OutsideClickHandler>
     </>
   );
   function getQueryVariable(variable) {
@@ -87,7 +139,9 @@ const Search = ({ posts, load_posts, count, skip, openMenu }) => {
 const mapStateToProps = (state) => ({
   posts: state.cloud.posts,
   count: state.cloud.count,
+  genre: state.cloud.genre,
 });
 export default connect(mapStateToProps, {
   load_posts,
+  load_genre,
 })(Search);

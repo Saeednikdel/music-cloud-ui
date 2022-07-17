@@ -7,8 +7,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
-from .models import Favorite, Post, PlayList, Notification
-from .serializers import PostsSerializer, PlayListSerializer, FavoriteSerializer, NotificationSerializer, NewPostSerializer, EditPostSerializer, NewPlayListSerializer, UserDetailSerializer, PostSerializer, LikeSerializer, FollowerSerializer
+from .models import Favorite, Post, PlayList, Notification, Genre
+from .serializers import PostsSerializer, PlayListSerializer, FavoriteSerializer, NotificationSerializer, NewPostSerializer, EditPostSerializer, NewPlayListSerializer, UserDetailSerializer, PostSerializer, LikeSerializer, FollowerSerializer, GenreSerializer
 from rest_framework import status
 from itertools import chain
 
@@ -103,9 +103,18 @@ def post(request, id):
 def postList(request, page):
     if request.data.get('keyword'):
         keyword = request.data.get('keyword')
-        post1 = Post.objects.filter(title__contains=keyword)
-        post2 = Post.objects.filter(artist__contains=keyword)
-        posts = list(chain(post1, post2))
+        if request.data.get('genre'):
+            gen = request.data.get('genre')
+            post1 = Post.objects.filter(title__contains=keyword, genre=gen)
+            post2 = Post.objects.filter(artist__contains=keyword, genre=gen)
+            posts = list(chain(post1, post2))
+        else:
+            post1 = Post.objects.filter(title__contains=keyword)
+            post2 = Post.objects.filter(artist__contains=keyword)
+            posts = list(chain(post1, post2))
+    elif request.data.get('genre'):
+        gen = request.data.get('genre')
+        posts = Post.objects.filter(genre=gen)
     elif request.data.get('user'):
         user = UserAccount.objects.get(id=request.data.get('user'))
         posts = Post.objects.filter(
@@ -297,3 +306,11 @@ def profileDetail(request):
     new_dict = {"followed": followed}
     new_dict.update(serializer.data)
     return Response(new_dict)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def genreList(request):
+    genres = Genre.objects.all()
+    serializer = GenreSerializer(genres, many=True)
+    return Response(serializer.data)

@@ -31,6 +31,8 @@ import {
   SET_NOW_PLAYING_SUCCESS,
   REMOVE_FROM_PLAYLIST_SUCCESS,
   REMOVE_FROM_PLAYLIST_FAIL,
+  LOAD_GENRE_SUCCESS,
+  LOAD_GENRE_FAIL,
 } from '../actions/types';
 
 const initialState = {
@@ -55,6 +57,11 @@ export default function (state = initialState, action) {
   const { type, payload, page } = action;
 
   switch (type) {
+    case LOAD_GENRE_SUCCESS:
+      return {
+        ...state,
+        genre: payload,
+      };
     case REMOVE_POST_SUCCESS:
       if (payload.source === 'home') {
         return {

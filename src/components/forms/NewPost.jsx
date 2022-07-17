@@ -4,7 +4,7 @@ import {
   FormatItalic,
   FormatUnderlined,
 } from '@mui/icons-material';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { AddPhotoAlternate } from '@mui/icons-material';
 import BtnPrimary from '../BtnPrimary';
@@ -15,8 +15,11 @@ import { connect } from 'react-redux';
 import parseAudioMetadata from 'parse-audio-metadata';
 import { stateToHTML } from 'draft-js-export-html';
 import { useNavigate } from 'react-router-dom';
+import { load_genre } from '../../actions/cloud';
+import Popup from '../Popup';
+import OutsideClickHandler from 'react-outside-click-handler';
 
-const NewPost = ({ isAuthenticated, user }) => {
+const NewPost = ({ isAuthenticated, load_genre, genre }) => {
   const navigate = useNavigate();
   const [requestSent, setRequestSent] = useState(false);
   const [uploaded, setUploaded] = useState(0);
@@ -24,6 +27,12 @@ const NewPost = ({ isAuthenticated, user }) => {
     EditorState.createEmpty()
   );
   const [file, setFile] = useState();
+  const [openPopup, setOpenPopup] = useState(false);
+
+  useEffect(() => {
+    load_genre();
+  }, []);
+
   async function handleFile(e) {
     if (e.target.files[0]) {
       const meta = await parseAudioMetadata(e.target.files[0]);
@@ -70,8 +79,12 @@ const NewPost = ({ isAuthenticated, user }) => {
     setFile({ ...file, [e.target.name]: e.target.value });
   };
   const onSubmit = () => {
-    new_post();
-    setRequestSent(true);
+    if (file.genre) {
+      new_post();
+      setRequestSent(true);
+    } else {
+      setOpenPopup(true);
+    }
   };
   const toggleInlineStyle = (inlineStyle) => {
     setEditorState(RichUtils.toggleInlineStyle(editorState, inlineStyle));
@@ -96,7 +109,6 @@ const NewPost = ({ isAuthenticated, user }) => {
   };
 
   if (isAuthenticated === false) navigate('/login');
-
   return (
     <div>
       {file && (
@@ -182,8 +194,22 @@ const NewPost = ({ isAuthenticated, user }) => {
               name="album"
               placeholder="album"
             />
+            <label for="genre" class="block mb-2 text-sm font-medium">
+              genre
+            </label>
+            <select
+              onChange={textChange}
+              id="genre"
+              name="genre"
+              class="bg-gray-100 dark:bg-slate-800 border border-gray-300  text-sm rounded block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 ">
+              <option selected>Choose a genre</option>
+              {genre &&
+                genre.map((item) => (
+                  <option value={item.id}>{item.title}</option>
+                ))}
+            </select>
             <h1>lyrics :</h1>
-            <div className="bg-gray-50 dark:bg-gray-700 border border-gray-300 rounded-xl dark:border-gray-500 p-3">
+            <div className="bg-gray-100 dark:bg-slate-800 border border-gray-300 rounded-xl dark:border-gray-500 p-3">
               <InlineStyleControls
                 editorState={editorState}
                 onToggle={toggleInlineStyle}
@@ -201,6 +227,15 @@ const NewPost = ({ isAuthenticated, user }) => {
           </>
         )}
       </div>
+      <OutsideClickHandler
+        disabled={!openPopup}
+        onOutsideClick={() => setOpenPopup(!openPopup)}>
+        <Popup title="!" openPopup={openPopup} setOpenPopup={setOpenPopup}>
+          <div>
+            <h1 className=" my-10">Please choose a genre.</h1>
+          </div>
+        </Popup>
+      </OutsideClickHandler>
     </div>
   );
 
@@ -211,6 +246,7 @@ const NewPost = ({ isAuthenticated, user }) => {
     formData.append('url', file.audio && file.audio);
     formData.append('user', user);
     formData.append('title', file.title);
+    formData.append('genre', file.genre);
     formData.append('artist', file.artist && file.artist);
     formData.append('album', file.album && file.album);
     formData.append('lyrics', stateToHTML(editorState.getCurrentContent()));
@@ -296,5 +332,6 @@ const InlineStyleControls = (props) => {
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   user: state.auth.user,
+  genre: state.cloud.genre,
 });
-export default connect(mapStateToProps, {})(NewPost);
+export default connect(mapStateToProps, { load_genre })(NewPost);

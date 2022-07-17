@@ -8,6 +8,14 @@ NOTIF_CHOICES = (
 )
 
 
+class Genre(models.Model):
+    title = models.CharField(max_length=100)
+    image = models.ImageField(blank=True)
+
+    def __str__(self):
+        return self.title
+
+
 class Post(models.Model):
     title = models.CharField(max_length=100)
     artist = models.CharField(max_length=100, blank=True)
@@ -20,6 +28,8 @@ class Post(models.Model):
     url = models.FileField(upload_to='uploads/%Y/%m/%d/')
     like = models.IntegerField(default=0)
     view = models.IntegerField(default=0)
+    genre = models.ForeignKey(
+        Genre, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.title

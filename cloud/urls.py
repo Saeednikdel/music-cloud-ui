@@ -32,4 +32,7 @@ urlpatterns = [
          views.notification, name="notification"),
 
     path('profile-detail/', views.profileDetail, name="profile-detail"),
+
+    path('genre-list/', views.genreList, name="genre-list"),
+
 ]
