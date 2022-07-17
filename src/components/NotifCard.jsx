@@ -11,8 +11,8 @@ export default function NotifCard({ notif }) {
           : `/p/${notif.post}/`
       }>
       <div className="flex items-center p-2 space-x-2">
-        {notif.kind === 'liked your post' && <Favorite />}
-        {notif.kind === 'followed you' && <PersonAddRounded />}
+        {notif.kind === 'liked your post' && <Favorite color="error" />}
+        {notif.kind === 'followed you' && <PersonAddRounded color="primary" />}
         <Link to={`/u/${notif.name}/`}>
           <div className="h-14 w-14 rounded-full border-2 relative border-gray-300 dark:border-gray-700 overflow-hidden bg-green-600">
             {notif.image ? (
