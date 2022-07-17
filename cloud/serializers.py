@@ -24,7 +24,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'artist', 'album',
+        fields = ('id', 'title', 'artist', 'album', 'genre',
                   'lyrics', 'date', 'artwork', 'url', 'user_name', 'profile_name', 'user_image', 'user_verified', 'view', 'like')
 
 
@@ -38,7 +38,7 @@ class NewPostSerializer(serializers.ModelSerializer):
 class EditPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ('id', 'title', 'artist', 'album', 'lyrics', 'artwork')
+        fields = ('id', 'title', 'artist', 'genre', 'album', 'lyrics', 'artwork')
 
 
 class PlayListSerializer(serializers.ModelSerializer):

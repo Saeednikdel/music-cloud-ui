@@ -19,12 +19,19 @@ import Resizer from 'react-image-file-resizer';
 import TextField from '../TextField';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { load_card_post } from '../../actions/cloud';
+import { load_card_post, load_genre } from '../../actions/cloud';
 import { stateToHTML } from 'draft-js-export-html';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
-const EditPost = ({ isAuthenticated, user, load_card_post, card_post }) => {
+const EditPost = ({
+  isAuthenticated,
+  user,
+  load_card_post,
+  card_post,
+  load_genre,
+  genre,
+}) => {
   const navigate = useNavigate();
   let { id } = useParams();
 
@@ -34,6 +41,7 @@ const EditPost = ({ isAuthenticated, user, load_card_post, card_post }) => {
   );
   const [file, setFile] = useState();
   useEffect(() => {
+    load_genre();
     load_card_post(id);
   }, []);
   useEffect(() => {
@@ -73,7 +81,7 @@ const EditPost = ({ isAuthenticated, user, load_card_post, card_post }) => {
     setFile({ ...file, [e.target.name]: e.target.value });
   };
   const onSubmit = () => {
-    new_post();
+    edit_post();
     setRequestSent(true);
   };
   const toggleInlineStyle = (inlineStyle) => {
@@ -165,8 +173,23 @@ const EditPost = ({ isAuthenticated, user, load_card_post, card_post }) => {
             name="album"
             placeholder="album"
           />
+          <label for="genre" class="block mb-2 text-sm font-medium">
+            genre
+          </label>
+          <select
+            value={file.genre && file.genre}
+            onChange={textChange}
+            id="genre"
+            name="genre"
+            class="bg-gray-100 dark:bg-slate-800 border border-gray-300  text-sm rounded block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 ">
+            <option selected>Choose a genre</option>
+            {genre &&
+              genre.map((item) => (
+                <option value={item.id}>{item.title}</option>
+              ))}
+          </select>
           <h1>lyrics :</h1>
-          <div className="bg-gray-50 dark:bg-gray-700 border border-gray-300 rounded-xl dark:border-gray-500 p-3">
+          <div className="bg-gray-100 dark:bg-slate-800 border border-gray-300 rounded-xl dark:border-gray-500 p-3">
             <InlineStyleControls
               editorState={editorState}
               onToggle={toggleInlineStyle}
@@ -186,11 +209,12 @@ const EditPost = ({ isAuthenticated, user, load_card_post, card_post }) => {
     </div>
   );
 
-  async function new_post() {
+  async function edit_post() {
     let formData = new FormData();
     file.image && formData.append('artwork', file.image);
     formData.append('id', file.id);
     formData.append('user', user.id);
+    formData.append('genre', file.genre);
     formData.append('title', file.title);
     formData.append('artist', file.artist && file.artist);
     formData.append('album', file.album && file.album);
@@ -277,5 +301,8 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   user: state.auth.user,
   card_post: state.cloud.card_post,
+  genre: state.cloud.genre,
 });
-export default connect(mapStateToProps, { load_card_post })(EditPost);
+export default connect(mapStateToProps, { load_card_post, load_genre })(
+  EditPost
+);
