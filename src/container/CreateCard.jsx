@@ -86,7 +86,7 @@ const CreateCard = ({ load_card_post, card_post }) => {
               }}>
               <p className=" whitespace-pre-line">{selected}</p>
             </div>
-            <div className="absolute bottom-4 right-4 bg-gray-900/50 p-1 rounded-md w-12">
+            <div className="absolute bottom-4 right-4 w-12">
               <img
                 alt="Music Cloud"
                 src={`${process.env.REACT_APP_API_URL}/media/logo.png`}
