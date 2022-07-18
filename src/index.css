@@ -3,24 +3,27 @@
 @tailwind utilities;
 
 ::-webkit-scrollbar {
-  display: none;
-
   width: 5px;
   height: 5px;
+}
+
+@media screen and (max-width: 800px) {
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
 /* Track */
 ::-webkit-scrollbar-track {
   background: rgb(71, 85, 105);
-  border-radius: 10px;
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #2563eb;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #22d3ee;
+  background: #5c9feb;
 }
 
 .flip-card {
