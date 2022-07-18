@@ -65,7 +65,7 @@ const App = ({
   useEffect(() => {
     if (isplaying) {
       audioElem.current.play();
-      // updateNotif();
+      updateNotif();
     } else {
       audioElem.current.pause();
     }
@@ -74,12 +74,23 @@ const App = ({
   const new_post_id = post && post.id;
   useEffect(() => {
     post && selectDontPlay(post);
+    isplaying && updateNotif();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [new_post_id]);
   useEffect(() => {
     !openPopup && setAddToPlayListPopUp(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openPopup]);
+  const updateNotif = () => {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: post.title,
+        artist: post.artist,
+        album: post.album,
+        artwork: [{ src: post.artwork, sizes: '512x512', type: 'image/png' }],
+      });
+    }
+  };
   navigator.mediaSession.setActionHandler('previoustrack', function () {
     skipBack();
   });
