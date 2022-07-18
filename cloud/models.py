@@ -10,7 +10,7 @@ NOTIF_CHOICES = (
 
 class Genre(models.Model):
     title = models.CharField(max_length=100)
-    image = models.ImageField(blank=True)
+    image = models.ImageField(blank=True, upload_to='genre/%Y/%m/%d/')
 
     def __str__(self):
         return self.title
