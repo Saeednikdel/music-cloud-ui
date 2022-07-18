@@ -3,13 +3,15 @@ import TextField from '../components/TextField';
 import { connect } from 'react-redux';
 import { load_users } from '../actions/cloud';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { SearchSharp, ArrowBack } from '@mui/icons-material';
 
 const UsersList = ({ users, load_users, count }) => {
   const navigate = useNavigate();
   const [page, setPage] = useState(2);
   const [search, setSearch] = useState(getQueryVariable('search'));
+  const location = useLocation().pathname.split('/')[1];
+
   useEffect(() => {
     load_users(1, getQueryVariable('search'));
   }, []);
@@ -26,25 +28,44 @@ const UsersList = ({ users, load_users, count }) => {
   };
   return (
     <div>
-      <div className="p-3 flex items-center space-x-2">
-        <Link to="/" className="hover:cursor-pointer">
-          <ArrowBack />
-        </Link>
-        <form
-          className="flex-1 flex items-center"
-          autoComplete="off"
-          onSubmit={(e) => submit(e)}>
-          <TextField
+      <div className="bg-white dark:bg-slate-900">
+        <div className="p-3 flex items-center space-x-2">
+          <Link to="/" className="hover:cursor-pointer">
+            <ArrowBack />
+          </Link>
+          <form
+            className="flex-1 flex items-center"
             autoComplete="off"
-            id="search"
-            placeholder="search"
-            value={search ? search : ''}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <button type="submit" className="-ml-8 hover:cursor-pointer">
-            <SearchSharp />
-          </button>
-        </form>
+            onSubmit={(e) => submit(e)}>
+            <TextField
+              autoComplete="off"
+              id="search"
+              placeholder="search"
+              value={search ? search : ''}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <button type="submit" className="-ml-8 hover:cursor-pointer">
+              <SearchSharp />
+            </button>
+          </form>
+        </div>
+        <div className="flex items-center border-t border-gray-300 dark:border-gray-500">
+          <Link
+            to="/search"
+            className={`${
+              location === 'search' && 'border-b-2 border-blue-600'
+            } p-3 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 flex-1 text-center`}>
+            tracks
+          </Link>
+
+          <Link
+            to="/users"
+            className={`${
+              location === 'users' && 'border-b-2 border-blue-600'
+            } p-3 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 flex-1  text-center`}>
+            users
+          </Link>
+        </div>
       </div>
       {users && (
         <InfiniteScroll

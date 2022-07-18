@@ -29,7 +29,7 @@ const NavBar = ({ setTheme, checked, checkAuthenticated, load_user }) => {
     <nav className="backdrop-blur-2xl  backdrop-brightness-200 dark:backdrop-brightness-50 shadow-sm border-1 px-2 sm:px-4 py-2.5 md:py-3 fixed top-0 right-0 left-0 bottom-auto z-10 text-gray-800 dark:text-gray-300">
       <div className="container flex flex-wrap flex-row-reverse justify-between items-center mx-auto md:px-8 xl:px-16">
         <div className="flex items-center">
-          {location !== 'search' && (
+          {location !== 'search' && location !== 'users' && (
             <Link to="/search" className="mx-1 hover:cursor-pointer">
               <Search />
             </Link>

@@ -5,7 +5,7 @@ import SongCard from '../components/SongCard';
 import { connect } from 'react-redux';
 import { load_posts, load_genre } from '../actions/cloud';
 import TextField from '../components/TextField';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import Popup from '../components/Popup';
 import BtnPrimary from '../components/BtnPrimary';
 import OutsideClickHandler from 'react-outside-click-handler';
@@ -26,7 +26,8 @@ const Search = ({
   const [search, setSearch] = useState(key);
   const [selectedGenre, setSelectedGenre] = useState(gen);
   const [openPopup, setOpenPopup] = useState(false);
-
+  const location = useLocation().pathname.split('/')[1];
+  console.log(location);
   useEffect(() => {
     load_posts(1, key, gen);
     setPage(2);
@@ -55,26 +56,47 @@ const Search = ({
 
   return (
     <>
-      <div className="p-3 flex space-x-2 items-center">
-        <Link to="/" className="hover:cursor-pointer">
-          <ArrowBack />
-        </Link>
-        <form
-          className="flex-1 flex items-center"
-          autoComplete="off"
-          onSubmit={(e) => submit(e)}>
-          <TextField
+      <div className="bg-white dark:bg-slate-900">
+        <div className="p-3 flex space-x-2 items-center">
+          <Link to="/" className="hover:cursor-pointer">
+            <ArrowBack />
+          </Link>
+          <form
+            className="flex-1 flex items-center"
             autoComplete="off"
-            id="search"
-            placeholder="search"
-            value={search ? search : ''}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <button type="submit" className="-ml-8 hover:cursor-pointer">
-            <SearchSharp />
-          </button>
-        </form>
-        <BtnPrimary onClick={() => setOpenPopup(!openPopup)}>filter</BtnPrimary>
+            onSubmit={(e) => submit(e)}>
+            <TextField
+              autoComplete="off"
+              id="search"
+              placeholder="search"
+              value={search ? search : ''}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <button type="submit" className="-ml-8 hover:cursor-pointer">
+              <SearchSharp />
+            </button>
+          </form>
+          <BtnPrimary onClick={() => setOpenPopup(!openPopup)}>
+            filter
+          </BtnPrimary>
+        </div>
+        <div className="flex items-center border-t border-gray-300 dark:border-gray-500">
+          <Link
+            to="/search"
+            className={`${
+              location === 'search' && 'border-b-2 border-blue-600'
+            } p-3 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 flex-1 text-center`}>
+            tracks
+          </Link>
+
+          <Link
+            to="/users"
+            className={`${
+              location === 'users' && 'border-b-2 border-blue-600'
+            } p-3 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 flex-1  text-center`}>
+            users
+          </Link>
+        </div>
       </div>
       {posts && (
         <InfiniteScroll
