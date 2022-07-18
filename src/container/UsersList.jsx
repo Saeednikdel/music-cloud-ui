@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { load_users } from '../actions/cloud';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Link, useNavigate } from 'react-router-dom';
+import { SearchSharp, ArrowBack } from '@mui/icons-material';
 
 const UsersList = ({ users, load_users, count }) => {
   const navigate = useNavigate();
@@ -25,8 +26,14 @@ const UsersList = ({ users, load_users, count }) => {
   };
   return (
     <div>
-      <div className="p-2">
-        <form autoComplete="off" onSubmit={(e) => submit(e)}>
+      <div className="p-3 flex items-center space-x-2">
+        <Link to="/" className="hover:cursor-pointer">
+          <ArrowBack />
+        </Link>
+        <form
+          className="flex-1 flex items-center"
+          autoComplete="off"
+          onSubmit={(e) => submit(e)}>
           <TextField
             autoComplete="off"
             id="search"
@@ -34,6 +41,9 @@ const UsersList = ({ users, load_users, count }) => {
             value={search ? search : ''}
             onChange={(e) => setSearch(e.target.value)}
           />
+          <button type="submit" className="-ml-8 hover:cursor-pointer">
+            <SearchSharp />
+          </button>
         </form>
       </div>
       {users && (
@@ -66,6 +76,7 @@ const UsersList = ({ users, load_users, count }) => {
                 <h1 className=" mx-2">@{item.name}</h1>
                 {item.is_verified && (
                   <img
+                    alt="badge"
                     src={`${process.env.REACT_APP_API_URL}/media/verified.png`}
                     className="w-4 h-4"
                   />

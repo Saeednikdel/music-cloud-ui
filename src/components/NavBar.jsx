@@ -4,7 +4,6 @@ import {
   Close,
   Menu,
   Search,
-  ArrowBack,
 } from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
 import { checkAuthenticated, load_user } from '../actions/auth';
@@ -27,7 +26,7 @@ const NavBar = ({ setTheme, checked, checkAuthenticated, load_user }) => {
     fetchData();
   }, []);
   return (
-    <nav className="backdrop-blur-2xl  backdrop-brightness-200 dark:backdrop-brightness-50 shadow-sm border-1 px-2 sm:px-4 py-2.5 fixed top-0 left-0 right-0 bottom-auto z-10 text-gray-800 dark:text-gray-300">
+    <nav className="backdrop-blur-2xl  backdrop-brightness-200 dark:backdrop-brightness-50 shadow-sm border-1 px-2 sm:px-4 py-3 fixed top-0 right-0 left-0 bottom-auto z-10 text-gray-800 dark:text-gray-300">
       <div className="container flex flex-wrap flex-row-reverse justify-between items-center mx-auto md:px-8 xl:px-16">
         <div className="flex items-center">
           {location !== 'search' && (
@@ -62,18 +61,6 @@ const NavBar = ({ setTheme, checked, checkAuthenticated, load_user }) => {
               setOpenLeftMenu={setOpenLeftMenu}
             />
           </OutsideClickHandler>
-          {location === 'search' && (
-            <Link to="/" className="mx-1 hover:cursor-pointer">
-              <ArrowBack />
-            </Link>
-          )}
-          {location === 'p' && (
-            <button
-              onClick={() => navigate(-1)}
-              className="mx-1 hover:cursor-pointer">
-              <ArrowBack />
-            </button>
-          )}
         </div>
       </div>
     </nav>

@@ -5,10 +5,11 @@ import SongCard from '../components/SongCard';
 import { connect } from 'react-redux';
 import { load_posts, load_genre } from '../actions/cloud';
 import TextField from '../components/TextField';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Popup from '../components/Popup';
 import BtnPrimary from '../components/BtnPrimary';
 import OutsideClickHandler from 'react-outside-click-handler';
+import { SearchSharp, ArrowBack } from '@mui/icons-material';
 const Search = ({
   posts,
   load_posts,
@@ -54,8 +55,14 @@ const Search = ({
 
   return (
     <>
-      <div className="p-2 flex it space-x-2 items-center">
-        <form className="flex-1" autoComplete="off" onSubmit={(e) => submit(e)}>
+      <div className="p-3 flex space-x-2 items-center">
+        <Link to="/" className="hover:cursor-pointer">
+          <ArrowBack />
+        </Link>
+        <form
+          className="flex-1 flex items-center"
+          autoComplete="off"
+          onSubmit={(e) => submit(e)}>
           <TextField
             autoComplete="off"
             id="search"
@@ -63,6 +70,9 @@ const Search = ({
             value={search ? search : ''}
             onChange={(e) => setSearch(e.target.value)}
           />
+          <button type="submit" className="-ml-8 hover:cursor-pointer">
+            <SearchSharp />
+          </button>
         </form>
         <BtnPrimary onClick={() => setOpenPopup(!openPopup)}>filter</BtnPrimary>
       </div>
