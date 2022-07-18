@@ -126,7 +126,7 @@ const NewPost = ({ isAuthenticated, load_genre, genre }) => {
               accept="audio/mp3"
               onChange={handleFile}
             />
-            <p className="bg-blue-600 dark:bg-blue-500 text-white text-sm px-4 py-2 w-fit rounded-full shadow hover:cursor-pointer hover:bg-blue-700 dark:hover:bg-blue-600">
+            <p className="bg-blue-600 dark:bg-blue-500 text-white text-sm px-4 py-2 w-fit rounded shadow hover:cursor-pointer hover:bg-blue-700 dark:hover:bg-blue-600">
               choose file
             </p>
           </label>
