@@ -63,9 +63,8 @@ const UsersList = ({ users, load_users, count }) => {
             className={`${
               location === 'search' && 'border-b-2 border-blue-600'
             } p-3 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 flex-1 text-center`}>
-            {translate('users')}
+            {translate('tracks')}
           </Link>
-
           <Link
             to="/users"
             className={`${
