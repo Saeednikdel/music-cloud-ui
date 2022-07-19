@@ -44,9 +44,11 @@ const PlayLists = ({
         return (
           <div className=" space-y-8">
             <div>
-              {translate('Do you want to delete')} {title}?
+              {translate('Do you want to delete this playlist?')} {title}
             </div>
-            <BtnPrimary onClick={() => remove_playlist()}>Delete</BtnPrimary>
+            <BtnPrimary onClick={() => remove_playlist()}>
+              {translate('Delete')}
+            </BtnPrimary>
           </div>
         );
       default:

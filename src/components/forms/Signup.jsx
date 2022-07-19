@@ -51,7 +51,7 @@ const Signup = ({
             'please click on the link sent to you by email, to verify your email address.'
           )}
         </p>
-        <p>={translate('it may be in the spam folder!!')}</p>
+        <p>{translate('it may be in the spam folder!!')}</p>
       </div>
     );
   return (
@@ -89,7 +89,7 @@ const Signup = ({
             placeholder={translate('email')}
             required
             error={signup_error && signup_error.email && true}
-            helperText={signup_error && signup_error.email}
+            helperText={signup_error && translate(signup_error.email)}
           />
         </div>
         <div>
@@ -105,7 +105,9 @@ const Signup = ({
             required
             error={signup_error && signup_error.password && true}
             helperText={
-              signup_error && signup_error.password && signup_error.password[0]
+              signup_error &&
+              signup_error.password &&
+              translate(signup_error.password[0])
             }
           />
         </div>
@@ -121,7 +123,9 @@ const Signup = ({
             value={re_password}
             onChange={onChange}
             error={signup_error && signup_error.non_field_errors && true}
-            helperText={signup_error && signup_error.non_field_errors}
+            helperText={
+              signup_error && translate(signup_error.non_field_errors)
+            }
           />
         </div>
         <div className="text-center">

@@ -233,7 +233,7 @@ const NewPost = ({ isAuthenticated, load_genre, genre }) => {
         onOutsideClick={() => setOpenPopup(!openPopup)}>
         <Popup title="!" openPopup={openPopup} setOpenPopup={setOpenPopup}>
           <div>
-            <h1 className=" my-10">Please choose a genre.</h1>
+            <h1 className=" my-10">{translate('Please choose a genre.')}</h1>
           </div>
         </Popup>
       </OutsideClickHandler>

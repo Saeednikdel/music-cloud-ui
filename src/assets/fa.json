@@ -52,6 +52,7 @@
   "edit": "ویرایش",
   "Change language": "تغییر زبان",
   "Delete track": "حذف",
+  "Delete": "حذف",
   "Report": "گزارش تخلف",
   "Share": "اشتراک گذاری",
   "close": "بستن",
@@ -66,7 +67,7 @@
   "album": "آلبوم",
   "genre": "ژانر",
   "none": "هیچ",
-  "lyrics": "شعر",
+  "lyrics": "متن آهنگ",
   "choose file": "انتخاب فایل",
   "Request Sent.": "درخواست ارسال شد",
   "please click on the link sent to you by email, to reset your password.": "لینک بازیابی رمز عبور به ایمیل ارسال شد",
@@ -88,7 +89,8 @@
   "filter": "فیلتر",
   "tracks": "آهنگ ها",
   "users": "کاربران",
-  "Do you want to delete": "میخواهید حذف کنید؟",
+  "Do you want to delete this playlist?": "میخواهید این پلی لیست را حذف کنید؟",
   "playlists": "پلی لیست ها",
-  "likes": "مورد علاقه"
+  "likes": "مورد علاقه",
+  "Please choose a genre.": "لطفا یک ژانر انتخاب کنید."
 }

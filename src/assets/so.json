@@ -53,6 +53,7 @@
   "edit": "راستکردنەوە",
   "Change language": "گۆڕینی زمان",
   "Delete track": "سڕینەوە",
+  "Delete": "سڕینەوە",
   "Report": "ڕاپۆرت",
   "Share": "هاوبەشکردن",
   "choose language": "زمان هەڵبژێرە",
@@ -64,8 +65,8 @@
   "Arabic": "عەرەبی",
   "artist": "هونەرمند",
   "album": "ئەلبوم",
-  "genre": "ژانر",
-  "lyrics": "تێکستەکان",
+  "genre": "ژانرا",
+  "lyrics": "تێکستی گورانی",
   "choose file": "فایلێک هەڵبژێرە",
   "Request Sent.": "داواكارییه‌كه‌ت نێردرا",
   "please click on the link sent to you by email, to reset your password.": "تکایە بۆ ڕێستکردنی وشەی نهێنییەکەت کلیک لەسەر ئەو بەستەرە بکە کە لە ڕێگەی ئیمەیڵەوە بۆت دەنێردرێت",
@@ -86,7 +87,8 @@
   "filter": "فلتەر",
   "tracks": "تراکەکان",
   "users": "بەکارهێنەران",
-  "Do you want to delete": "دەتەوێت بیسڕیتەوە",
+  "Do you want to delete this playlist?": "دەتەوێت بیسڕیتەوە",
   "playlists": "پلەی لیستەکان",
-  "likes": "لایکەکان"
+  "likes": "لایکەکان",
+  "Please choose a genre.": "تکایه ژانرایەک هەڵبژێرە"
 }
