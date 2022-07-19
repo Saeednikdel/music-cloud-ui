@@ -1,35 +1,35 @@
 import {
   Add,
-  Favorite,
   Home,
   Login,
   Logout,
   Person,
-  PlaylistPlay,
   QueueMusicOutlined,
   Settings,
   NotificationsNone,
+  Language,
 } from '@mui/icons-material';
 import { Link, useLocation } from 'react-router-dom';
+import translate from '../translate';
 
 import React from 'react';
 import { connect } from 'react-redux';
 import { logout } from '../actions/auth';
 
-const LeftMenu = ({ isAuthenticated, logout, user }) => {
+const LeftMenu = ({ isAuthenticated, logout, user, openMenu }) => {
   const location = useLocation().pathname.split('/')[1];
   const activeClass = ' text-blue-600 ';
 
   return (
     <div
-      className={`flex flex-col h-screen pt-20 space-y-1 text-lg font-semibold text-gray-800 dark:text-gray-200 fixed left-0`}>
+      className={`flex flex-col h-screen pt-20 space-y-1 text-lg font-semibold text-gray-800 dark:text-gray-200 fixed ltr:left-0 rtl:right-0`}>
       <Link
         to="/"
         className={`flex px-1 py-2 hover:cursor-pointer mx-4 ${
           location === '' && activeClass
         }`}>
         <Home className="mx-4" />
-        Home
+        {translate('Home')}
       </Link>
       <Link
         to="/nowplaying"
@@ -37,7 +37,7 @@ const LeftMenu = ({ isAuthenticated, logout, user }) => {
           location === 'nowplaying' && activeClass
         }`}>
         <QueueMusicOutlined className="mx-4" />
-        Now playing
+        {translate('Now playing')}
       </Link>
       {isAuthenticated && user ? (
         <>
@@ -47,7 +47,7 @@ const LeftMenu = ({ isAuthenticated, logout, user }) => {
               location === 'u' && activeClass
             }`}>
             <Person className=" mx-4" />
-            Profile
+            {translate('Profile')}
           </Link>
           {/* <Link
             to="/playlists"
@@ -71,7 +71,7 @@ const LeftMenu = ({ isAuthenticated, logout, user }) => {
               location === 'new' && activeClass
             }`}>
             <Add className=" mx-4" />
-            New Post
+            {translate('New Post')}
           </Link>
           <Link
             to="/notification"
@@ -79,7 +79,7 @@ const LeftMenu = ({ isAuthenticated, logout, user }) => {
               location === 'notification' && activeClass
             }`}>
             <NotificationsNone className=" mx-4" />
-            Notification
+            {translate('Notification')}
           </Link>
           <Link
             to="/setting"
@@ -87,14 +87,14 @@ const LeftMenu = ({ isAuthenticated, logout, user }) => {
               location === 'setting' && activeClass
             }`}>
             <Settings className=" mx-4" />
-            Setting
+            {translate('Setting')}
           </Link>
-          <p
+          {/* <p
             onClick={() => logout()}
             className="flex px-1 py-2 hover:cursor-pointer mx-4">
             <Logout className=" mx-4" />
             Log out
-          </p>
+          </p> */}
         </>
       ) : (
         <Link
@@ -103,9 +103,15 @@ const LeftMenu = ({ isAuthenticated, logout, user }) => {
             location === 'login' && activeClass
           }`}>
           <Login className=" mx-4" />
-          Login
+          {translate('Login')}
         </Link>
       )}
+      <button
+        onClick={() => openMenu('lang')}
+        className="flex px-1 py-2 hover:cursor-pointer mx-4">
+        <Language className=" mx-4" />
+        {translate('Change language')}
+      </button>
     </div>
   );
 };

@@ -23,6 +23,7 @@ import { load_card_post, load_genre } from '../../actions/cloud';
 import { stateToHTML } from 'draft-js-export-html';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import translate from '../../translate';
 
 const EditPost = ({
   isAuthenticated,
@@ -118,7 +119,7 @@ const EditPost = ({
             variant="contained"
             color="secondary"
             onClick={onSubmit}>
-            send
+            {translate('send')}
           </BtnPrimary>
         )}
       </div>
@@ -150,31 +151,31 @@ const EditPost = ({
           </div>
 
           <TextField
-            label="title"
+            label={translate('title')}
             type="text"
             value={file.title ? file.title : ''}
             name="title"
             onChange={textChange}
-            placeholder="title"
+            placeholder={translate('title')}
           />
           <TextField
-            label="artist"
+            label={translate('artist')}
             type="text"
             value={file.artist ? file.artist : ''}
             name="artist"
             onChange={textChange}
-            placeholder="artist"
+            placeholder={translate('artist')}
           />
           <TextField
-            label="album"
+            label={translate('album')}
             type="text"
             onChange={textChange}
             value={file.album ? file.album : ''}
             name="album"
-            placeholder="album"
+            placeholder={translate('album')}
           />
           <label for="genre" class="block mb-2 text-sm font-medium">
-            genre
+            {translate('genre')}
           </label>
           <select
             value={file.genre && file.genre}
@@ -182,13 +183,13 @@ const EditPost = ({
             id="genre"
             name="genre"
             class="bg-gray-100 dark:bg-slate-800 border border-gray-300  text-sm rounded block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 ">
-            <option selected>Choose a genre</option>
+            <option selected>{translate('none')}</option>
             {genre &&
               genre.map((item) => (
                 <option value={item.id}>{item.title}</option>
               ))}
           </select>
-          <h1>lyrics :</h1>
+          <h1>{translate('lyrics')}</h1>
           <div className="bg-gray-100 dark:bg-slate-800 border border-gray-300 rounded-xl dark:border-gray-500 p-3">
             <InlineStyleControls
               editorState={editorState}

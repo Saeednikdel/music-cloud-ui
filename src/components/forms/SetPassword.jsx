@@ -4,6 +4,7 @@ import { resetState, set_password } from '../../actions/auth';
 import BtnPrimary from '../BtnPrimary';
 import TextField from '../TextField';
 import { connect } from 'react-redux';
+import translate from '../../translate';
 
 const SetPassword = ({
   set_password,
@@ -41,11 +42,11 @@ const SetPassword = ({
   return (
     <form className=" space-y-2 flex flex-col" onSubmit={onSubmit}>
       <TextField
-        label="new password"
+        label={translate('new password')}
         type="password"
         name="new_password"
         id="new_password"
-        placeholder="at least 8 character"
+        placeholder="********"
         value={new_password}
         onChange={onChange}
         minLength="8"
@@ -54,28 +55,30 @@ const SetPassword = ({
         helperText={
           set_pass_error &&
           set_pass_error.new_password &&
-          set_pass_error.new_password[0]
+          translate(set_pass_error.new_password[0])
         }
       />
       <TextField
-        label="retype password"
+        label={translate('retype password')}
         type="password"
         name="re_new_password"
         id="re_new_password"
-        placeholder="at least 8 character"
+        placeholder="********"
         value={re_new_password}
         onChange={onChange}
         minLength="8"
         required
         error={set_pass_error && set_pass_error.non_field_errors && true}
-        helperText={set_pass_error && set_pass_error.non_field_errors}
+        helperText={
+          set_pass_error && translate(set_pass_error.non_field_errors)
+        }
       />
       <TextField
-        label="current password"
+        label={translate('current password')}
         type="password"
         name="current_password"
         id="current_password"
-        placeholder="at least 8 character"
+        placeholder="********"
         value={current_password}
         onChange={onChange}
         minLength="8"
@@ -84,11 +87,11 @@ const SetPassword = ({
         helperText={
           set_pass_error &&
           set_pass_error.current_password &&
-          set_pass_error.current_password[0]
+          translate(set_pass_error.current_password[0])
         }
       />
       <div className="text-center">
-        <BtnPrimary type="submit">ok</BtnPrimary>
+        <BtnPrimary type="submit">{translate('ok')}</BtnPrimary>
       </div>
     </form>
   );

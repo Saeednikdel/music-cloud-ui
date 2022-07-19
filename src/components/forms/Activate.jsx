@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { resetState, verify } from '../../actions/auth';
 import { useNavigate, useParams } from 'react-router-dom';
-
+import translate from '../../translate';
 import BtnPrimary from '../BtnPrimary';
 import { connect } from 'react-redux';
 
@@ -28,11 +28,11 @@ const Activate = ({ requestSuccess, verify, resetState, requestFail }) => {
   return (
     <div className="py-6 px-6 lg:px-8 flex flex-col justify-center items-center">
       <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">
-        verify email
+        {translate('verify email')}
       </h3>
 
       <div className="text-center">
-        <BtnPrimary onClick={verify_account}>Activate</BtnPrimary>
+        <BtnPrimary onClick={verify_account}>{translate('ok')}</BtnPrimary>
       </div>
     </div>
   );

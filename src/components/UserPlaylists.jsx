@@ -5,6 +5,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { load_user_playlists } from '../actions/cloud';
+import translate from '../translate';
 
 const UserPlayLists = ({
   userName,
@@ -28,9 +29,9 @@ const UserPlayLists = ({
       {isAuthenticated && user.name === userName && (
         <Link
           to="/playlists"
-          className="flex items-center py-2 px-6 text-xl font-semibold space-x-4 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700">
+          className="flex items-center py-2 px-6 text-lg font-semibold space-x-4 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700">
           <Edit style={{ fontSize: 25 }} />
-          <h2>Edit Playlists</h2>
+          <h2>{translate('Edit Playlists')}</h2>
         </Link>
       )}
       {user_playlists && (
@@ -44,9 +45,9 @@ const UserPlayLists = ({
             <Link
               to={`/playlist/${item.id}`}
               key={i}
-              className="flex py-2 px-6 text-xl font-semibold space-x-4 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700">
+              className="flex py-2 px-6 text-lg font-semibold space-x-4 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700">
               <PlaylistPlay fontSize="large" />
-              <h2>{item.title + '  (' + item.count + '-track)'}</h2>
+              <h2>{item.title + '  (' + item.count + ' - track)'}</h2>
             </Link>
           ))}
         </InfiniteScroll>

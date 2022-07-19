@@ -4,6 +4,7 @@ import { resetState, set_user_detail } from '../../actions/auth';
 import BtnPrimary from '../BtnPrimary';
 import TextField from '../TextField';
 import { connect } from 'react-redux';
+import translate from '../../translate';
 
 const SetUserDetail = ({
   _id,
@@ -51,19 +52,23 @@ const SetUserDetail = ({
       onSubmit={(e) => onSubmit(e)}>
       <TextField
         type="text"
-        label="user name"
+        label={translate('user name')}
+        placeholder={translate('user name')}
         name="name"
         value={name}
         error={set_detail_error && set_detail_error.name && true}
         helperText={
-          set_detail_error && set_detail_error.name && set_detail_error.name[0]
+          set_detail_error &&
+          set_detail_error.name &&
+          translate(set_detail_error.name[0])
         }
         onChange={(e) => onChange(e)}
         required
       />
       <TextField
         type="text"
-        label="name"
+        label={translate('name')}
+        placeholder={translate('name')}
         name="profile_name"
         value={profile_name}
         onChange={(e) => onChange(e)}
@@ -71,13 +76,14 @@ const SetUserDetail = ({
       />
       <TextField
         type="text"
-        label="biography"
+        label={translate('bio')}
+        placeholder={translate('bio')}
         name="bio"
         value={bio}
         onChange={(e) => onChange(e)}
       />
       <div className="text-center">
-        <BtnPrimary type="submit">ok</BtnPrimary>
+        <BtnPrimary type="submit">{translate('ok')}</BtnPrimary>
       </div>
     </form>
   );

@@ -5,6 +5,7 @@ import { login, resetState } from '../../actions/auth';
 import BtnPrimary from '../BtnPrimary';
 import TextField from '../TextField';
 import { connect } from 'react-redux';
+import translate from '../../translate';
 
 const Login = ({
   login,
@@ -39,12 +40,12 @@ const Login = ({
   return (
     <div className="py-6 px-6 lg:px-8 flex flex-col justify-center items-center">
       <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">
-        Sign in
+        {translate('log in')}
       </h3>
       <form className="space-y-4" onSubmit={onSubmit}>
         <div>
           <TextField
-            label="Your email :"
+            label={translate('email')}
             type="email"
             name="email"
             id="email"
@@ -54,41 +55,41 @@ const Login = ({
             helperText={
               login_error &&
               login_error.detail &&
-              "password or email doesn't match"
+              translate("password or email doesn't match")
             }
-            placeholder="email"
+            placeholder={translate('email')}
             required
           />
         </div>
         <div>
           <TextField
-            label="Your password :"
+            label={translate('email')}
             type="password"
             name="password"
             id="password"
-            placeholder="at least 8 character"
+            placeholder="********"
             value={password}
             onChange={onChange}
             // minLength="8"
             required
           />
         </div>
-        <div className="flex justify-between">
+        <div className="flex justify-end">
           <Link
             to="/reset_password"
             className="text-sm text-blue-600 hover:underline dark:text-blue-500">
-            Lost Password?
+            {translate('forgot your password?')}
           </Link>
         </div>
         <div className="text-center">
-          <BtnPrimary type="submit">Login to your account</BtnPrimary>
+          <BtnPrimary type="submit">{translate('log in')}</BtnPrimary>
         </div>
-        <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
-          Not registered?
+        <div className="flex text-sm font-medium text-gray-500 dark:text-gray-300">
+          <h1>{translate("haven't sign up yet?")}</h1>
           <Link
             to="/signup"
             className="text-blue-600 hover:underline dark:text-blue-500 mx-2">
-            Create account
+            {translate('sign up')}
           </Link>
         </div>
       </form>

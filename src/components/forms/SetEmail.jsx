@@ -4,6 +4,7 @@ import { resetState, set_email } from '../../actions/auth';
 import BtnPrimary from '../BtnPrimary';
 import TextField from '../TextField';
 import { connect } from 'react-redux';
+import translate from '../../translate';
 
 const SetEmail = ({
   set_email,
@@ -47,7 +48,7 @@ const SetEmail = ({
   return (
     <form className=" space-y-2 flex flex-col" onSubmit={onSubmit}>
       <TextField
-        label="new email"
+        label={translate('new email')}
         type="email"
         name="new_email"
         id="new_email"
@@ -55,11 +56,11 @@ const SetEmail = ({
         onChange={onChange}
         error={set_email_error && set_email_error.new_email && true}
         helperText={set_email_error && set_email_error.new_email}
-        placeholder="email"
+        placeholder={translate('email')}
         required
       />
       <TextField
-        label="retype email"
+        label={translate('retype email')}
         type="email"
         name="re_new_email"
         id="re_new_email"
@@ -67,15 +68,15 @@ const SetEmail = ({
         onChange={onChange}
         error={set_email_error && set_email_error.non_field_errors && true}
         helperText={set_email_error && set_email_error.non_field_errors}
-        placeholder="email"
+        placeholder={translate('email')}
         required
       />
       <TextField
-        label="Your password :"
+        label={translate('password')}
         type="password"
         name="current_password"
         id="current_password"
-        placeholder="at least 8 character"
+        placeholder="********"
         value={current_password}
         onChange={onChange}
         minLength="8"
@@ -88,7 +89,7 @@ const SetEmail = ({
         }
       />
       <div className="text-center">
-        <BtnPrimary type="submit">ok</BtnPrimary>
+        <BtnPrimary type="submit">{translate('ok')}</BtnPrimary>
       </div>
     </form>
   );

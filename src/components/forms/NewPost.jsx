@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { load_genre } from '../../actions/cloud';
 import Popup from '../Popup';
 import OutsideClickHandler from 'react-outside-click-handler';
+import translate from '../../translate';
 
 const NewPost = ({ isAuthenticated, load_genre, genre }) => {
   const navigate = useNavigate();
@@ -127,7 +128,7 @@ const NewPost = ({ isAuthenticated, load_genre, genre }) => {
               onChange={handleFile}
             />
             <p className="bg-blue-600 dark:bg-blue-500 text-white text-sm px-4 py-2 w-fit rounded shadow hover:cursor-pointer hover:bg-blue-700 dark:hover:bg-blue-600">
-              choose file
+              {translate('choose file')}
             </p>
           </label>
           {file && (
@@ -137,7 +138,7 @@ const NewPost = ({ isAuthenticated, load_genre, genre }) => {
               variant="contained"
               color="secondary"
               onClick={onSubmit}>
-              send
+              {translate('send')}
             </BtnPrimary>
           )}
         </div>
@@ -171,44 +172,44 @@ const NewPost = ({ isAuthenticated, load_genre, genre }) => {
             </div>
 
             <TextField
-              label="title"
+              label={translate('title')}
               type="text"
               value={file.title ? file.title : ''}
               name="title"
               onChange={textChange}
-              placeholder="title"
+              placeholder={translate('title')}
             />
             <TextField
-              label="artist"
+              label={translate('artist')}
               type="text"
               value={file.artist ? file.artist : ''}
               name="artist"
               onChange={textChange}
-              placeholder="artist"
+              placeholder={translate('artist')}
             />
             <TextField
-              label="album"
+              label={translate('album')}
               type="text"
               onChange={textChange}
               value={file.album ? file.album : ''}
               name="album"
-              placeholder="album"
+              placeholder={translate('album')}
             />
             <label for="genre" class="block mb-2 text-sm font-medium">
-              genre
+              {translate('genre')}
             </label>
             <select
               onChange={textChange}
               id="genre"
               name="genre"
               class="bg-gray-100 dark:bg-slate-800 border border-gray-300  text-sm rounded block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 ">
-              <option selected>Choose a genre</option>
+              <option selected>{translate('none')}</option>
               {genre &&
                 genre.map((item) => (
                   <option value={item.id}>{item.title}</option>
                 ))}
             </select>
-            <h1>lyrics :</h1>
+            <h1>{translate('lyrics')}</h1>
             <div className="bg-gray-100 dark:bg-slate-800 border border-gray-300 rounded-xl dark:border-gray-500 p-3">
               <InlineStyleControls
                 editorState={editorState}

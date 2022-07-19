@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import React from 'react';
 import { connect } from 'react-redux';
 import { remove_post, remove_from_playlist } from '../actions/cloud';
+import translate from '../translate';
 
 const SongMenu = ({
   user,
@@ -49,59 +50,59 @@ const SongMenu = ({
     <div className=" space-y-1 text-gray-900 dark:text-gray-100">
       <div
         onClick={share}
-        className="flex py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
-        <Share />
-        <h1 className="text-xl">Share</h1>
+        className="flex py-1 items-center hover:cursor-pointer active:text-blue-600">
+        <Share className="mx-2" />
+        <h1 className="text-xl">{translate('Share')}</h1>
       </div>
-      <Link onClick={click} to={`/createcard/${menuItem.id}/`}>
-        <div className="flex py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
-          <LibraryMusic />
+      {/* <Link onClick={click} to={`/createcard/${menuItem.id}/`}>
+        <div className="flex py-1 items-center hover:cursor-pointer active:text-blue-600">
+          <LibraryMusic className="mx-2" />
           <h1 className="text-xl">Lyrics card</h1>
         </div>
-      </Link>
+      </Link> */}
       <a href={menuItem.url} download>
-        <div className="flex py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
-          <Download />
-          <h1 className="text-xl">Download</h1>
+        <div className="flex py-1 items-center hover:cursor-pointer active:text-blue-600">
+          <Download className="mx-2" />
+          <h1 className="text-xl">{translate('Download')}</h1>
         </div>
       </a>
       {user && user.name && user.name === menuItem.user_name && (
         <Link onClick={click} to={`/edit/${menuItem.id}/`}>
-          <div className="flex py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
-            <Edit />
-            <h1 className="text-xl">Edit track</h1>
+          <div className="flex py-1 items-center hover:cursor-pointer active:text-blue-600">
+            <Edit className="mx-2" />
+            <h1 className="text-xl">{translate('Edit track')}</h1>
           </div>
         </Link>
       )}
       {user && user.name && user.name === menuItem.user_name && (
         <div onClick={deletePost}>
-          <div className="flex py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
-            <Delete />
-            <h1 className="text-xl">Delete track</h1>
+          <div className="flex py-1 items-center hover:cursor-pointer active:text-blue-600">
+            <Delete className="mx-2" />
+            <h1 className="text-xl">{translate('Delete track')}</h1>
           </div>
         </div>
       )}
       {user && (
         <div
           onClick={handleAdd}
-          className="flex py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
-          <Add />
-          <h1 className="text-xl">Add to playlist</h1>
+          className="flex py-1 items-center hover:cursor-pointer active:text-blue-600">
+          <Add className="mx-2" />
+          <h1 className="text-xl">{translate('Add to playlist')}</h1>
         </div>
       )}
       {menuItem.source === 'playlist' && user && playlist_owner === user.id && (
         <div
           onClick={remove}
-          className="flex py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
-          <Remove />
-          <h1 className="text-xl">Remove from playlist</h1>
+          className="flex py-1 items-center hover:cursor-pointer active:text-blue-600">
+          <Remove className="mx-2" />
+          <h1 className="text-xl">{translate('Remove from playlist')}</h1>
         </div>
       )}
       <div
         onClick={click}
-        className="flex py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
-        <Report />
-        <h1 className="text-xl">Report</h1>
+        className="flex py-1 items-center hover:cursor-pointer active:text-blue-600">
+        <Report className="mx-2" />
+        <h1 className="text-xl">{translate('Report')}</h1>
       </div>
     </div>
   );

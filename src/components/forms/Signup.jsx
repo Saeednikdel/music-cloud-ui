@@ -6,6 +6,8 @@ import BtnPrimary from '../BtnPrimary';
 import TextField from '../TextField';
 import { connect } from 'react-redux';
 import { TaskAlt } from '@mui/icons-material';
+import translate from '../../translate';
+
 const Signup = ({
   signup,
   isAuthenticated,
@@ -43,45 +45,48 @@ const Signup = ({
     return (
       <div className=" mt-20 mx-10 flex flex-col justify-center items-center space-y-4 text-center">
         <TaskAlt fontSize="large" />
-        <p className=" font-bold">your account created.</p>
+        <p className=" font-bold">{translate('your account created.')}</p>
         <p>
-          please click on the link sent to you by email, to verify your email
-          address.
+          {translate(
+            'please click on the link sent to you by email, to verify your email address.'
+          )}
         </p>
-        <p>it may be in the spam folder!!</p>
+        <p>={translate('it may be in the spam folder!!')}</p>
       </div>
     );
   return (
     <div className="py-6 px-6 lg:px-8 flex flex-col justify-center items-center">
       <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">
-        Sign up
+        {translate('sign up')}
       </h3>
       <form className="space-y-4" onSubmit={onSubmit}>
         <div>
           <TextField
-            label="User name :"
+            label={translate('user name')}
             type="text"
             name="name"
             id="name"
             value={name}
             onChange={onChange}
-            placeholder="user name"
+            placeholder={translate('user name')}
             required
             error={signup_error && signup_error.name && true}
             helperText={
-              signup_error && signup_error.name && signup_error.name[0]
+              signup_error &&
+              signup_error.name &&
+              translate(signup_error.name[0])
             }
           />
         </div>
         <div>
           <TextField
-            label="Your email :"
+            label={translate('email')}
             type="email"
             name="email"
             id="email"
             value={email}
             onChange={onChange}
-            placeholder="email"
+            placeholder={translate('email')}
             required
             error={signup_error && signup_error.email && true}
             helperText={signup_error && signup_error.email}
@@ -89,14 +94,14 @@ const Signup = ({
         </div>
         <div>
           <TextField
-            label="Your password :"
+            label={translate('password')}
             type="password"
             name="password"
             id="password"
             minLength="8"
             value={password}
             onChange={onChange}
-            placeholder="at least 8 character"
+            placeholder="********"
             required
             error={signup_error && signup_error.password && true}
             helperText={
@@ -106,11 +111,11 @@ const Signup = ({
         </div>
         <div>
           <TextField
-            label="Retype password :"
+            label={translate('retype password')}
             type="password"
             name="re_password"
             id="re_password"
-            placeholder="at least 8 character"
+            placeholder="********"
             minLength="8"
             required
             value={re_password}
@@ -120,14 +125,14 @@ const Signup = ({
           />
         </div>
         <div className="text-center">
-          <BtnPrimary type="submit">Create Account</BtnPrimary>
+          <BtnPrimary type="submit">{translate('sign up')}</BtnPrimary>
         </div>
-        <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
-          Already Signed up?
+        <div className="flex text-sm font-medium text-gray-500 dark:text-gray-300">
+          <h1>{translate('you have signed up before?')}</h1>
           <Link
             to="/login"
             className="text-blue-600 hover:underline dark:text-blue-500 mx-2">
-            Login
+            {translate('log in')}
           </Link>
         </div>
       </form>

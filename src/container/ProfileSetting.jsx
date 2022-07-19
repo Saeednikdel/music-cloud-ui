@@ -13,6 +13,7 @@ import SetUserDetail from '../components/forms/SetUserDetail';
 import { connect } from 'react-redux';
 import { logout } from '../actions/auth';
 import { useNavigate } from 'react-router-dom';
+import translate from '../translate';
 
 const ProfileSetting = ({
   user,
@@ -151,24 +152,24 @@ const ProfileSetting = ({
 
         <div className="flex flex-1 justify-end mx-4">
           <BtnPrimary onClick={() => handleDialog('edit info')}>
-            edit info
+            {translate('edit')}
           </BtnPrimary>
         </div>
         <div className="p-4 space-y-2 divide-y divide-gray-300 dark:divide-gray-600">
           <div>
-            <h1>user name :</h1>
+            <h1>{translate('user name')} :</h1>
             <h1>{user.name ? user.name : '--'}@</h1>
           </div>
           <div>
-            <h1>name :</h1>
+            <h1>{translate('name')} :</h1>
             <h1>{user.profile_name ? user.profile_name : '--'}</h1>
           </div>
           <div>
-            <h1>biography :</h1>
+            <h1>{translate('bio')} :</h1>
             <h1>{user.bio ? user.bio : '--'}</h1>
           </div>
           <div>
-            <h1>email :</h1>
+            <h1>{translate('email')} :</h1>
             <h1>
               {user.email ? user.email : '--'}
               <Edit
@@ -179,7 +180,7 @@ const ProfileSetting = ({
             </h1>
           </div>
           <div>
-            <h1>password :</h1>
+            <h1>{translate('password')} :</h1>
             <h1>
               ********
               <Edit
@@ -191,15 +192,14 @@ const ProfileSetting = ({
           </div>
         </div>
         <div className="mx-4">
-          <BtnSecondary onClick={() => logout()}>log out</BtnSecondary>
+          <BtnSecondary onClick={() => logout()}>
+            {translate('log out')}
+          </BtnSecondary>
         </div>
         <OutsideClickHandler
           disabled={!openPopup}
           onOutsideClick={() => setOpenPopup(!openPopup)}>
-          <Popup
-            title={childComponent}
-            openPopup={openPopup}
-            setOpenPopup={setOpenPopup}>
+          <Popup openPopup={openPopup} setOpenPopup={setOpenPopup}>
             <ChildrenComponent value={childComponent} />
           </Popup>
         </OutsideClickHandler>

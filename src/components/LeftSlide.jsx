@@ -1,16 +1,16 @@
 import {
   Add,
-  Favorite,
   Home,
   Login,
   Logout,
   Person,
-  PlaylistPlay,
   QueueMusicOutlined,
   Settings,
   NotificationsNone,
+  Language,
 } from '@mui/icons-material';
 import { Link, useLocation } from 'react-router-dom';
+import translate from '../translate';
 
 import React from 'react';
 import { connect } from 'react-redux';
@@ -22,16 +22,21 @@ const LeftSlide = ({
   isAuthenticated,
   logout,
   user,
+  openMenu,
 }) => {
   const location = useLocation().pathname.split('/')[1];
   const activeClass = ' text-blue-600 ';
   const click = () => {
     setOpenLeftMenu(false);
   };
+  const handlelang = () => {
+    setOpenLeftMenu(false);
+    openMenu('lang');
+  };
   return (
     <div
-      className={`absolute -mt-1.5 md:hidden flex flex-col w-2/3 h-screen pt-6 space-y-1 text-lg font-semibold top-14 left-0 bg-white dark:bg-slate-900 text-gray-800 dark:text-gray-200 transition ease-in-out duration-500 ${
-        openLeftMenu ? '' : '-translate-x-full'
+      className={`absolute -mt-1.5 md:hidden flex flex-col w-2/3 h-screen pt-6 space-y-1 text-lg font-semibold top-14 left-0 rtl:right-0 bg-white dark:bg-slate-900 text-gray-800 dark:text-gray-200 transition ease-in-out duration-500 ${
+        openLeftMenu ? '' : '-translate-x-full rtl:translate-x-full'
       }`}>
       <Link
         to="/"
@@ -40,7 +45,7 @@ const LeftSlide = ({
           location === '' && activeClass
         }`}>
         <Home className="mx-4" />
-        Home
+        {translate('Home')}
       </Link>
       <Link
         onClick={click}
@@ -49,7 +54,7 @@ const LeftSlide = ({
           location === 'nowplaying' && activeClass
         }`}>
         <QueueMusicOutlined className="mx-4" />
-        Now playing
+        {translate('Now playing')}
       </Link>
       {isAuthenticated && user ? (
         <>
@@ -60,7 +65,7 @@ const LeftSlide = ({
               location === 'u' && activeClass
             }`}>
             <Person className=" mx-4" />
-            Profile
+            {translate('Profile')}
           </Link>
           {/* <Link
             onClick={click}
@@ -87,7 +92,7 @@ const LeftSlide = ({
               location === 'new' && activeClass
             }`}>
             <Add className=" mx-4" />
-            New Post
+            {translate('New Post')}
           </Link>
           <Link
             onClick={click}
@@ -96,7 +101,7 @@ const LeftSlide = ({
               location === 'notification' && activeClass
             }`}>
             <NotificationsNone className=" mx-4" />
-            Notification
+            {translate('Notification')}
           </Link>
           <Link
             onClick={click}
@@ -105,14 +110,14 @@ const LeftSlide = ({
               location === 'setting' && activeClass
             }`}>
             <Settings className=" mx-4" />
-            Setting
+            {translate('Setting')}
           </Link>
-          <p
+          {/* <p
             onClick={() => logout()}
             className="flex px-1 py-2 hover:cursor-pointer mx-4">
             <Logout className=" mx-4" />
             Log out
-          </p>
+          </p> */}
         </>
       ) : (
         <Link
@@ -122,9 +127,15 @@ const LeftSlide = ({
             location === 'login' && activeClass
           }`}>
           <Login className=" mx-4" />
-          Login
+          {translate('Login')}
         </Link>
       )}
+      <button
+        onClick={handlelang}
+        className="flex px-1 py-2 hover:cursor-pointer mx-4">
+        <Language className=" mx-4" />
+        {translate('Change language')}
+      </button>
     </div>
   );
 };

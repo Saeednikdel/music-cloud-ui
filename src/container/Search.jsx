@@ -9,7 +9,8 @@ import { useNavigate, Link, useLocation } from 'react-router-dom';
 import Popup from '../components/Popup';
 import BtnPrimary from '../components/BtnPrimary';
 import OutsideClickHandler from 'react-outside-click-handler';
-import { SearchSharp, ArrowBack } from '@mui/icons-material';
+import { SearchSharp, ArrowBack, ArrowForward } from '@mui/icons-material';
+import translate from '../translate';
 const Search = ({
   posts,
   load_posts,
@@ -57,27 +58,34 @@ const Search = ({
   return (
     <>
       <div className="bg-white dark:bg-slate-900">
-        <div className="p-3 flex space-x-2 items-center">
+        <div className="p-3 flex items-center">
           <Link to="/" className="hover:cursor-pointer">
-            <ArrowBack />
+            <div className="block rtl:hidden">
+              <ArrowBack />
+            </div>
+            <div className="hidden rtl:block">
+              <ArrowForward />
+            </div>
           </Link>
           <form
-            className="flex-1 flex items-center"
+            className="flex-1 flex items-center mx-2"
             autoComplete="off"
             onSubmit={(e) => submit(e)}>
             <TextField
               autoComplete="off"
               id="search"
-              placeholder="search"
+              placeholder={translate('search')}
               value={search ? search : ''}
               onChange={(e) => setSearch(e.target.value)}
             />
-            <button type="submit" className="-ml-8 hover:cursor-pointer">
+            <button
+              type="submit"
+              className="-ml-8 rtl:-mr-8 hover:cursor-pointer">
               <SearchSharp />
             </button>
           </form>
           <BtnPrimary onClick={() => setOpenPopup(!openPopup)}>
-            filter
+            {translate('filter')}
           </BtnPrimary>
         </div>
         <div className="flex items-center border-t border-gray-300 dark:border-gray-500">
@@ -86,7 +94,7 @@ const Search = ({
             className={`${
               location === 'search' && 'border-b-2 border-blue-600'
             } p-3 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 flex-1 text-center`}>
-            tracks
+            {translate('users')}
           </Link>
 
           <Link
@@ -94,7 +102,7 @@ const Search = ({
             className={`${
               location === 'users' && 'border-b-2 border-blue-600'
             } p-3 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 flex-1  text-center`}>
-            users
+            {translate('users')}
           </Link>
         </div>
       </div>
@@ -125,7 +133,7 @@ const Search = ({
         <Popup title="filter" openPopup={openPopup} setOpenPopup={setOpenPopup}>
           <div className="flex flex-col items-center">
             <label for="genre" class="block mb-2 text-sm font-medium">
-              genre
+              {translate('genre')}
             </label>
             <select
               value={selectedGenre}

@@ -18,6 +18,7 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import Popup from '../components/Popup';
 import VolumePopUp from '../components/VolumePopUp';
 import { connect } from 'react-redux';
+import translate from '../translate';
 
 const PlayerFull = ({
   audioElem,
@@ -291,11 +292,11 @@ const PlayerFull = ({
           openPopup={openPopup}
           setOpenPopup={setOpenPopup}>
           <div>
-            <h1 className=" my-10">Login to your account first.</h1>
+            <h1 className=" my-10">{translate('please log in or sign up')}</h1>
             <Link
               to="/login"
               className="py-2 px-4 text-sm font-medium text-center text-white bg-blue-600 rounded hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">
-              Login
+              {translate('log in')}
             </Link>
           </div>
         </Popup>

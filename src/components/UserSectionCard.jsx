@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const UserSectionCard = ({ item }) => {
   return (
-    <div className="p-3 flex flex-col items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 space-y-3 bg-white dark:bg-slate-900">
+    <div className="mx-2 p-3 flex flex-col items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 space-y-3 bg-white dark:bg-slate-900">
       <Link to={`/u/${item.name}`}>
         <div className="h-16 w-16 rounded-full border-2 relative border-gray-300 dark:border-gray-700 overflow-hidden bg-green-600">
           {item.image ? (

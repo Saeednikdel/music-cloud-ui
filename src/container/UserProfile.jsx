@@ -9,7 +9,7 @@ import UserPosts from '../components/UserPosts';
 import { connect } from 'react-redux';
 import { follow_unfollw } from '../actions/auth';
 import { load_profile } from '../actions/cloud';
-
+import translate from '../translate';
 const UserProfile = ({
   isAuthenticated,
   load_profile,
@@ -71,31 +71,36 @@ const UserProfile = ({
                   @{profile.name}
                 </h1>
                 <h1 className=" text-gray-500 dark:text-gray-400">
-                  joined : {profile && profile.join_date.slice(0, 7)}
+                  {translate('joined')} :{' '}
+                  {profile && profile.join_date.slice(0, 7)}
                 </h1>
               </div>
               <div className="flex flex-1 justify-end">
                 {isAuthenticated && user.id !== profile.id && (
                   <>
                     <BtnPrimary onClick={() => follow_unfollw(userName)}>
-                      {profile.followed === true ? 'unfollow' : 'follow'}
+                      {profile.followed === true
+                        ? translate('unfollow')
+                        : translate('follow')}
                     </BtnPrimary>
                   </>
                 )}
                 {isAuthenticated && user.id === profile.id && (
                   <Link to="/setting">
-                    <BtnSecondary>setting</BtnSecondary>
+                    <BtnSecondary>{translate('Setting')}</BtnSecondary>
                   </Link>
                 )}
               </div>
             </div>
             {profile.bio && <h1 className="mt-4">{profile.bio}</h1>}
-            <div className=" flex items-center space-x-4">
-              <Link to={`/list/follower/${userName}`}>
-                <h1>follower : {profile.followers}</h1>
+            <div className=" flex items-center">
+              <Link className="flex" to={`/list/follower/${userName}`}>
+                <h1>{translate('follower')} : </h1>
+                <h1>{profile.followers}</h1>
               </Link>
-              <Link to={`/list/following/${userName}`}>
-                <h1>following : {profile.followings}</h1>
+              <Link className="mx-4 flex" to={`/list/following/${userName}`}>
+                <h1>{translate('following')} : </h1>
+                <h1>{profile.followings}</h1>
               </Link>
             </div>
           </div>
@@ -105,21 +110,21 @@ const UserProfile = ({
               className={`${
                 tab === 'tracks' && 'border-b-2 border-blue-600'
               } p-4 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 flex-1`}>
-              tracks
+              {translate('tracks')}
             </button>
             <button
               onClick={() => setTab('playlists')}
               className={`${
                 tab === 'playlists' && 'border-b-2 border-blue-600'
               } p-4 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 flex-1`}>
-              playlists
+              {translate('playlists')}
             </button>
             <button
               onClick={() => setTab('favorite')}
               className={`${
                 tab === 'favorite' && 'border-b-2 border-blue-600'
               } p-4 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 flex-1`}>
-              favorite
+              {translate('likes')}
             </button>
           </div>
         </div>

@@ -31,6 +31,7 @@ const SongCard = ({
       </Link>
       <div className="flex justify-between py-1 items-center">
         <Link
+          dir="ltr"
           to={`/u/${post.user_name}`}
           className=" text-sm  px-2 text-gray-500 hover:cursor-pointer">
           @

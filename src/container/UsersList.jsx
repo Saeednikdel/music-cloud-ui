@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { load_users } from '../actions/cloud';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { SearchSharp, ArrowBack } from '@mui/icons-material';
+import { SearchSharp, ArrowBack, ArrowForward } from '@mui/icons-material';
+import translate from '../translate';
 
 const UsersList = ({ users, load_users, count }) => {
   const navigate = useNavigate();
@@ -29,22 +30,29 @@ const UsersList = ({ users, load_users, count }) => {
   return (
     <div>
       <div className="bg-white dark:bg-slate-900">
-        <div className="p-3 flex items-center space-x-2">
+        <div className="p-3 flex items-center">
           <Link to="/" className="hover:cursor-pointer">
-            <ArrowBack />
+            <div className="block rtl:hidden">
+              <ArrowBack />
+            </div>
+            <div className="hidden rtl:block">
+              <ArrowForward />
+            </div>
           </Link>
           <form
-            className="flex-1 flex items-center"
+            className="flex-1 flex items-center ml-2 rtl:mr-2"
             autoComplete="off"
             onSubmit={(e) => submit(e)}>
             <TextField
               autoComplete="off"
               id="search"
-              placeholder="search"
+              placeholder={translate('search')}
               value={search ? search : ''}
               onChange={(e) => setSearch(e.target.value)}
             />
-            <button type="submit" className="-ml-8 hover:cursor-pointer">
+            <button
+              type="submit"
+              className="-ml-8 rtl:-mr-8 hover:cursor-pointer">
               <SearchSharp />
             </button>
           </form>
@@ -55,7 +63,7 @@ const UsersList = ({ users, load_users, count }) => {
             className={`${
               location === 'search' && 'border-b-2 border-blue-600'
             } p-3 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 flex-1 text-center`}>
-            tracks
+            {translate('users')}
           </Link>
 
           <Link
@@ -63,7 +71,7 @@ const UsersList = ({ users, load_users, count }) => {
             className={`${
               location === 'users' && 'border-b-2 border-blue-600'
             } p-3 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 flex-1  text-center`}>
-            users
+            {translate('users')}
           </Link>
         </div>
       </div>
@@ -94,7 +102,9 @@ const UsersList = ({ users, load_users, count }) => {
                     </h1>
                   )}
                 </div>
-                <h1 className=" mx-2">@{item.name}</h1>
+                <h1 dir="ltr" className=" mx-2">
+                  @{item.name}
+                </h1>
                 {item.is_verified && (
                   <img
                     alt="badge"

@@ -6,6 +6,7 @@ import {
   Report,
   Share,
 } from '@mui/icons-material';
+import translate from '../translate';
 
 import { Link } from 'react-router-dom';
 import React from 'react';
@@ -19,12 +20,16 @@ const MoreMenu = ({
   openMenu,
   setShowMore,
 }) => {
+  const direction = localStorage.getItem('direction')
+    ? localStorage.getItem('direction')
+    : 'ltr';
   const handleAddtoplaylist = () => {
     openMenu('player', currentSong.id, currentSong.user_name);
     setShowMore(false);
   };
   return (
     <div
+      dir={direction}
       className={`${
         showMore ? 'block' : 'hidden'
       } absolute bg-white dark:bg-slate-900 border bottom-8 right-0 border-gray-300 dark:border-gray-600 mb-2 p-2 rounded-lg z-10 shadow-lg w-60 space-y-1 translate-x-52`}>
@@ -38,19 +43,19 @@ const MoreMenu = ({
         }
         className="flex px-2 py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
         <Share />
-        <h1 className="text-xl">Share</h1>
+        <h1 className="text-xl">{translate('Share')}</h1>
       </div>
-      <Link to={`/createcard/${index}/`}>
+      {/* <Link to={`/createcard/${index}/`}>
         <div className="flex px-2 py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
           <LibraryMusic />
           <h1 className="text-xl">Lyrics card</h1>
         </div>
-      </Link>
+      </Link> */}
       {user && user.name && user.name === currentSong.user_name && (
         <Link to={`/edit/${index}/`}>
           <div className="flex px-2 py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
             <Edit />
-            <h1 className="text-xl">Edit track</h1>
+            <h1 className="text-xl">{translate('Edit track')}</h1>
           </div>
         </Link>
       )}
@@ -58,7 +63,7 @@ const MoreMenu = ({
       <a href={currentSong.url} download={currentSong.title + '[Music Cloud]'}>
         <div className="flex px-2 py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
           <Download />
-          <h1 className="text-xl">Download</h1>
+          <h1 className="text-xl">{translate('Download')}</h1>
         </div>
       </a>
       {user && (
@@ -66,12 +71,12 @@ const MoreMenu = ({
           onClick={handleAddtoplaylist}
           className="flex px-2 py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
           <Add />
-          <h1 className="text-xl">Add to playlist</h1>
+          <h1 className="text-xl">{translate('Add to playlist')}</h1>
         </div>
       )}
       <div className="flex px-2 py-1 space-x-2 items-center hover:cursor-pointer active:text-blue-600">
         <Report />
-        <h1 className="text-xl">Report</h1>
+        <h1 className="text-xl">{translate('Report')}</h1>
       </div>
     </div>
   );

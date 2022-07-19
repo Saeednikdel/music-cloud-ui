@@ -9,7 +9,7 @@ const UserSection = ({ users, load_users }) => {
     load_users(1, false);
   }, []);
   return (
-    <div className=" flex overflow-x-auto items-center px-4 pt-4 space-x-4">
+    <div className=" flex overflow-x-auto items-center p-4">
       {users && users.map((item, i) => <UserSectionCard key={i} item={item} />)}
       <Link to="/users" className=" text-blue-600">
         More

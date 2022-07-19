@@ -12,7 +12,13 @@ import LeftSlide from './LeftSlide';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { connect } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-const NavBar = ({ setTheme, checked, checkAuthenticated, load_user }) => {
+const NavBar = ({
+  setTheme,
+  checked,
+  checkAuthenticated,
+  load_user,
+  openMenu,
+}) => {
   const location = useLocation().pathname.split('/')[1];
   const navigate = useNavigate();
   const [openLeftMenu, setOpenLeftMenu] = useState(false);
@@ -57,6 +63,7 @@ const NavBar = ({ setTheme, checked, checkAuthenticated, load_user }) => {
               )}
             </button>
             <LeftSlide
+              openMenu={openMenu}
               openLeftMenu={openLeftMenu}
               setOpenLeftMenu={setOpenLeftMenu}
             />

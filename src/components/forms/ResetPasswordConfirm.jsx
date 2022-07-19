@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import BtnPrimary from '../BtnPrimary';
 import TextField from '../TextField';
 import { connect } from 'react-redux';
+import translate from '../../translate';
 
 const ResetPasswordConfirm = ({
   requestSuccess,
@@ -46,17 +47,17 @@ const ResetPasswordConfirm = ({
   return (
     <div className="py-6 px-6 lg:px-8 flex flex-col justify-center items-center">
       <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">
-        Enter New Password
+        {translate('Enter New Password')}
       </h3>
       <form className="space-y-4" onSubmit={onSubmit}>
         <div>
           <TextField
-            label="New Password :"
+            label={translate('new password')}
             type="password"
             name="new_password"
             id="new_password"
             minLength="8"
-            placeholder="at least 8 character"
+            placeholder="********"
             value={new_password}
             onChange={onChange}
             required
@@ -64,19 +65,19 @@ const ResetPasswordConfirm = ({
         </div>
         <div>
           <TextField
-            label="Retype password :"
+            label={translate('retype password')}
             type="password"
             name="re_new_password"
             minLength="8"
             id="re_new_password"
-            placeholder="at least 8 character"
+            placeholder="********"
             value={re_new_password}
             onChange={onChange}
             required
           />
         </div>
         <div className="text-center">
-          <BtnPrimary type="submit">Reset Password</BtnPrimary>
+          <BtnPrimary type="submit">{translate('ok')}</BtnPrimary>
         </div>
       </form>
     </div>

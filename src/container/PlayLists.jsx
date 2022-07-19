@@ -10,6 +10,7 @@ import Popup from '../components/Popup';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { load_user_playlists } from '../actions/cloud';
+import translate from '../translate';
 
 const PlayLists = ({
   isAuthenticated,
@@ -42,7 +43,9 @@ const PlayLists = ({
       case 'Delete':
         return (
           <div className=" space-y-8">
-            <div>Do you want to delete {title}?</div>
+            <div>
+              {translate('Do you want to delete')} {title}?
+            </div>
             <BtnPrimary onClick={() => remove_playlist()}>Delete</BtnPrimary>
           </div>
         );
@@ -63,9 +66,9 @@ const PlayLists = ({
     <div className="mb-24 mt-4">
       <div
         onClick={() => handleDialog('New')}
-        className="flex py-2 px-6 text-xl font-semibold space-x-4 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700">
+        className="flex py-2 px-6 text-lg font-semibold space-x-4 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700">
         <Add fontSize="large" />
-        <h2>Create New PlayList</h2>
+        <h2>{translate('Create New PlayList')}</h2>
       </div>
       {user_playlists && (
         <InfiniteScroll
@@ -77,7 +80,7 @@ const PlayLists = ({
           {user_playlists.map((item, i) => (
             <div
               key={i}
-              className="flex items-center py-2 px-6 text-xl font-semibold space-x-4 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700">
+              className="flex items-center py-2 px-6 text-lg font-semibold space-x-4 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700">
               <PlaylistPlay fontSize="large" />
               <Link to={`/playlist/${item.id}`} className="flex-1">
                 {item.title + '  (' + item.count + '-track)'}
@@ -97,10 +100,7 @@ const PlayLists = ({
       <OutsideClickHandler
         disabled={!openPopup}
         onOutsideClick={() => setOpenPopup(!openPopup)}>
-        <Popup
-          title={childComponent}
-          openPopup={openPopup}
-          setOpenPopup={setOpenPopup}>
+        <Popup openPopup={openPopup} setOpenPopup={setOpenPopup}>
           <ChildrenComponent value={childComponent} />
         </Popup>
       </OutsideClickHandler>

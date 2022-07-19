@@ -21,6 +21,7 @@ import Notification from './container/Notification';
 import PlayerFull from './Player/PlayerFull';
 import PlayerSimple from './Player/PlayerSimple';
 import Popup from './components/Popup';
+import LangPopUp from './components/LangPopUp';
 import ProfileSetting from './container/ProfileSetting';
 import PlayListAddDialog from './components/PlayListAddDialog';
 import ResetPassword from './components/forms/ResetPassword';
@@ -42,8 +43,13 @@ const App = ({
   const [theme, setTheme] = useState(
     localStorage.getItem('theme') ? localStorage.getItem('theme') : ''
   );
+  const direction = localStorage.getItem('direction')
+    ? localStorage.getItem('direction')
+    : 'ltr';
+
   const [openPopup, setOpenPopup] = useState(false);
   const [addToPlayListPopUp, setAddToPlayListPopUp] = useState(false);
+  const [langPopUpOpen, setLangPopUpOpen] = useState(false);
   const [source, setSource] = useState({
     source: null,
     page: null,
@@ -79,6 +85,7 @@ const App = ({
   }, [new_post_id]);
   useEffect(() => {
     !openPopup && setAddToPlayListPopUp(false);
+    !openPopup && setLangPopUpOpen(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openPopup]);
   const updateNotif = () => {
@@ -172,15 +179,21 @@ const App = ({
   const openMenu = (source, id, user_name, playlistid, url) => {
     setMenuItem({ source, id, user_name, playlistid, url });
     if (source === 'player') setAddToPlayListPopUp(true);
+    if (source === 'lang') setLangPopUpOpen(true);
     setOpenPopup(true);
   };
+
   return (
     <BrowserRouter>
       <Helmet>
         <title>{isplaying ? post.title : 'Music Cluod'}</title>
       </Helmet>
-      <div className={`min-h-screen px-auto ${theme}`}>
-        <NavBar setTheme={handleTheme} checked={theme === 'dark'} />
+      <div dir={direction} className={`min-h-screen px-auto ${theme}`}>
+        <NavBar
+          setTheme={handleTheme}
+          checked={theme === 'dark'}
+          openMenu={openMenu}
+        />
         <audio
           preload="auto"
           autoPlay={isplayerOpen && isplaying}
@@ -191,7 +204,7 @@ const App = ({
         />
         <div className="grid grid-cols-4 h-screen bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200">
           <div className="hidden md:block md:col-span-1 bg-white dark:bg-slate-900">
-            <LeftMenu />
+            <LeftMenu openMenu={openMenu} />
           </div>
 
           <div className=" col-span-4 md:col-span-3 pt-12 bg-gray-100 dark:bg-slate-800">
@@ -300,6 +313,8 @@ const App = ({
                 setOpenPopup={setOpenPopup}
                 setAddToPlayListPopUp={setAddToPlayListPopUp}
               />
+            ) : langPopUpOpen ? (
+              <LangPopUp />
             ) : (
               <SongMenu
                 menuItem={menuItem}

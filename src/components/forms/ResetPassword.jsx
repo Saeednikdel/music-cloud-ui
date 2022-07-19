@@ -6,6 +6,7 @@ import BtnPrimary from '../BtnPrimary';
 import TextField from '../TextField';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import translate from '../../translate';
 
 const ResetPassword = ({
   requestSuccess,
@@ -41,33 +42,35 @@ const ResetPassword = ({
     return (
       <div className=" mt-20 mx-10 flex flex-col justify-center items-center space-y-4 text-center">
         <TaskAlt fontSize="large" />
-        <p className=" font-bold">Request Sent.</p>
+        <p className=" font-bold">{translate('Request Sent.')}</p>
         <p>
-          please click on the link sent to you by email, to reset your password.
+          {translate(
+            'please click on the link sent to you by email, to reset your password.'
+          )}
         </p>
-        <p>it may be in the spam folder!!</p>
+        <p>{translate('it may be in the spam folder!!')}</p>
       </div>
     );
   return (
     <div className="py-6 px-6 lg:px-8 flex flex-col justify-center items-center">
       <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">
-        Request reset password
+        {translate('Request reset password')}
       </h3>
       <form className="space-y-4" onSubmit={onSubmit}>
         <div>
           <TextField
-            label="Your email :"
+            label={translate('email')}
             type="email"
             name="email"
             id="email"
             value={email}
             onChange={onChange}
-            placeholder="email"
+            placeholder={translate('email')}
             required
           />
         </div>
         <div className="text-center">
-          <BtnPrimary type="submit">Send</BtnPrimary>
+          <BtnPrimary type="submit">{translate('send')}</BtnPrimary>
         </div>
       </form>
     </div>

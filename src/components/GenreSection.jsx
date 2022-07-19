@@ -8,7 +8,7 @@ const GenreSection = ({ genre, load_genre }) => {
     load_genre();
   }, []);
   return (
-    <div className="overflow-auto whitespace-nowrap p-4 space-x-4">
+    <div className="overflow-auto whitespace-nowrap p-4">
       {genre && genre.map((item, i) => <GenreCard key={i} item={item} />)}
     </div>
   );
