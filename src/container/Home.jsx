@@ -5,8 +5,9 @@ import GenreSection from '../components/GenreSection';
 const Home = ({ skip, openMenu }) => {
   return (
     <>
-      <GenreSection />
-      <UserSection /> <SongSection skip={skip} openMenu={openMenu} />
+      {/* <GenreSection />
+      <UserSection />  */}
+      <SongSection skip={skip} openMenu={openMenu} />
     </>
   );
 };
