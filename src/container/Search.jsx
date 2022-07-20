@@ -130,7 +130,10 @@ const Search = ({
       <OutsideClickHandler
         disabled={!openPopup}
         onOutsideClick={() => setOpenPopup(!openPopup)}>
-        <Popup title="filter" openPopup={openPopup} setOpenPopup={setOpenPopup}>
+        <Popup
+          title={translate('filter')}
+          openPopup={openPopup}
+          setOpenPopup={setOpenPopup}>
           <div className="flex flex-col items-center">
             <label for="genre" class="block mb-2 text-sm font-medium">
               {translate('genre')}
@@ -142,14 +145,14 @@ const Search = ({
               name="genre"
               class="bg-gray-100 dark:bg-slate-800 border mb-3 border-gray-300  text-sm rounded block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 ">
               <option value="" selected>
-                None
+                {translate('none')}
               </option>
               {genre &&
                 genre.map((item) => (
                   <option value={item.id}>{item.title}</option>
                 ))}
             </select>
-            <BtnPrimary onClick={submit}>search</BtnPrimary>
+            <BtnPrimary onClick={submit}>{translate('search')}</BtnPrimary>
           </div>
         </Popup>
       </OutsideClickHandler>
