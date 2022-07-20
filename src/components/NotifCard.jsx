@@ -1,5 +1,5 @@
 import React from 'react';
-import { Favorite, PersonAddRounded } from '@mui/icons-material';
+import { Favorite, PersonAddRounded, Cached } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import translate from '../translate';
 
@@ -14,6 +14,7 @@ export default function NotifCard({ notif }) {
       <div className="flex items-center p-2">
         {notif.kind === 'liked your post' && <Favorite color="error" />}
         {notif.kind === 'followed you' && <PersonAddRounded color="primary" />}
+        {notif.kind === 'reposted your post' && <Cached color="success" />}
         <Link to={`/u/${notif.name}/`}>
           <div className="h-14 w-14 mx-2 rounded-full border-2 relative border-gray-300 dark:border-gray-700 overflow-hidden bg-green-600">
             {notif.image ? (

@@ -5,6 +5,7 @@ from accounts.models import UserAccount
 NOTIF_CHOICES = (
     ("followed you", "followed you"),
     ("liked your post",  "liked your post"),
+    ("reposted your post",  "reposted your post"),
 )
 
 
@@ -28,11 +29,21 @@ class Post(models.Model):
     url = models.FileField(upload_to='uploads/%Y/%m/%d/')
     like = models.IntegerField(default=0)
     view = models.IntegerField(default=0)
+    repost_count = models.IntegerField(default=0)
     genre = models.ForeignKey(
         Genre, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.title
+
+
+class RePost(models.Model):
+    repost_user = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.repost_user.email
 
 
 class Favorite(models.Model):
@@ -63,7 +74,7 @@ class Notification(models.Model):
     receiver = models.ForeignKey(
         UserAccount, related_name="receiver", on_delete=models.CASCADE)
     seen = models.BooleanField(default=False)
-    kind = models.CharField(choices=NOTIF_CHOICES, max_length=15)
+    kind = models.CharField(choices=NOTIF_CHOICES, max_length=20)
     post = models.ForeignKey(
         Post, blank=True, null=True, on_delete=models.CASCADE)
 

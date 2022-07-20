@@ -7,8 +7,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
-from .models import Favorite, Post, PlayList, Notification, Genre
-from .serializers import PostsSerializer, PlayListSerializer, FavoriteSerializer, NotificationSerializer, NewPostSerializer, EditPostSerializer, NewPlayListSerializer, UserDetailSerializer, PostSerializer, LikeSerializer, FollowerSerializer, GenreSerializer
+from .models import Favorite, Post, PlayList, Notification, Genre, RePost
+from .serializers import PostsSerializer, PlayListSerializer, FavoriteSerializer, NotificationSerializer, NewPostSerializer, EditPostSerializer, NewPlayListSerializer, UserDetailSerializer, PostSerializer, LikeSerializer, FollowerSerializer, GenreSerializer, SummarySerializer, RepostListSerializer
 from rest_framework import status
 from itertools import chain
 
@@ -25,6 +25,21 @@ def likeList(request, id, page):
     serializer = LikeSerializer(likes, many=True)
     new_dict = {"count": count}
     new_dict.update({"likes": serializer.data})
+    return Response(new_dict)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def repostList(request, id, page):
+    post = Post.objects.get(id=id)
+    reposts = RePost.objects.filter(post=post)
+    itemperpage = 10
+    paginator = Paginator(reposts, itemperpage)
+    count = len(reposts)
+    reposts = paginator.get_page(page)
+    serializer = RepostListSerializer(reposts, many=True)
+    new_dict = {"count": count}
+    new_dict.update({"reposts": serializer.data})
     return Response(new_dict)
 
 
@@ -88,12 +103,16 @@ def post(request, id):
     post = get_object_or_404(Post, id=id)
     serializer = PostSerializer(post, many=False)
     favorite = False
+    reposted = False
     if request.data.get('user'):
         user = UserAccount.objects.get(id=request.data.get('user'))
         query = Favorite.objects.filter(user=user, post=post)
         if query.exists():
             favorite = True
-    new_dict = {"favorite": favorite}
+        query = RePost.objects.filter(repost_user=user, post=post)
+        if query.exists():
+            reposted = True
+    new_dict = {"favorite": favorite, "reposted": reposted}
     new_dict.update(serializer.data)
     return Response(new_dict)
 
@@ -117,9 +136,11 @@ def postList(request, page):
         posts = Post.objects.filter(genre=gen)
     elif request.data.get('user'):
         user = UserAccount.objects.get(id=request.data.get('user'))
-        posts = Post.objects.filter(
-            user__in=user.following.all()).order_by('-date')
-        if posts.count() == 0:
+        posts = Post.objects.filter(user__in=user.following.all())
+        repost = RePost.objects.filter(repost_user__in=user.following.all())
+        posts = sorted(list(chain(posts, repost)),
+                       key=lambda instance: instance.date, reverse=True)
+        if len(posts) == 0:
             posts = Post.objects.all().order_by('-date')
     else:
         posts = Post.objects.all().order_by('-date')
@@ -127,7 +148,7 @@ def postList(request, page):
     paginator = Paginator(posts, itemperpage)
     count = len(posts)
     posts = paginator.get_page(page)
-    serializer = PostsSerializer(posts, many=True)
+    serializer = SummarySerializer(posts, many=True)
     new_dict = {"count": count}
     new_dict.update({"posts": serializer.data})
     return Response(new_dict)
@@ -137,12 +158,15 @@ def postList(request, page):
 @permission_classes([AllowAny])
 def userPostList(request, name, page):
     user = get_object_or_404(UserAccount, name=name)
-    posts = Post.objects.filter(user=user).order_by('-date')
-    itemperpage = 10
+    posts = Post.objects.filter(user=user)
+    repost = RePost.objects.filter(repost_user=user)
+    itemperpage = 5
+    count = len(posts)+len(repost)
+    posts = sorted(list(chain(posts, repost)),
+                   key=lambda instance: instance.date, reverse=True)
     paginator = Paginator(posts, itemperpage)
-    count = len(posts)
     posts = paginator.get_page(page)
-    serializer = PostsSerializer(posts, many=True)
+    serializer = SummarySerializer(posts, many=True)
     new_dict = {"count": count}
     new_dict.update({"posts": serializer.data})
     return Response(new_dict)
@@ -274,6 +298,33 @@ def favorite(request):
         post.like += 1
         post.save()
         return Response({"added to Favorites"})
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def repost(request):
+    user = get_object_or_404(UserAccount, id=request.data.get('user'))
+    post = get_object_or_404(Post, id=request.data.get('id'))
+    query = RePost.objects.filter(repost_user=user, post=post)
+    if query.exists():
+        rep = RePost.objects.get(repost_user=user, post=post)
+        rep.delete()
+        notif = get_object_or_404(
+            Notification, sender=user, post=post, receiver=post.user, kind="reposted your post")
+        notif.delete()
+        post.repost_count -= 1
+        post.save()
+        return Response({"removed"})
+    else:
+        rep, created = RePost.objects.get_or_create(
+            repost_user=user, post=post)
+        rep.save()
+        notif, created = Notification.objects.get_or_create(
+            sender=user, post=post, receiver=post.user, kind="reposted your post")
+        notif.save()
+        post.repost_count += 1
+        post.save()
+        return Response({"added"})
 
 
 @api_view(['GET'])

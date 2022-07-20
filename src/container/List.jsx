@@ -1,6 +1,11 @@
 import { Link, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import { load_follower, load_following, load_likes } from '../actions/cloud';
+import {
+  load_follower,
+  load_following,
+  load_likes,
+  load_reposts,
+} from '../actions/cloud';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { connect } from 'react-redux';
@@ -15,6 +20,9 @@ const List = ({
   following_count,
   load_follower,
   load_following,
+  load_reposts,
+  reposts,
+  repost_count,
 }) => {
   const [page, setPage] = useState(2);
   let { type } = useParams();
@@ -30,6 +38,9 @@ const List = ({
     if (type === 'following') {
       load_following(id, 1);
     }
+    if (type === 'reposts') {
+      load_reposts(id, 1);
+    }
     setPage(2);
   }, []);
   const fetchData = async () => {
@@ -41,6 +52,9 @@ const List = ({
     }
     if (type === 'following') {
       await load_following(id, page);
+    }
+    if (type === 'reposts') {
+      await load_reposts(id, page);
     }
     setPage(page + 1);
   };
@@ -94,12 +108,18 @@ const List = ({
       return (
         <>{likes && <Component list={following} count={following_count} />}</>
       );
+    case 'reposts':
+      return (
+        <>{reposts && <Component list={reposts} count={repost_count} />}</>
+      );
     default:
       return <h1>Not found!</h1>;
   }
 };
 
 const mapStateToProps = (state) => ({
+  reposts: state.cloud.reposts,
+  repost_count: state.cloud.repost_count,
   likes: state.cloud.likes,
   like_count: state.cloud.like_count,
   follower: state.cloud.follower,
@@ -111,4 +131,5 @@ export default connect(mapStateToProps, {
   load_likes,
   load_follower,
   load_following,
+  load_reposts,
 })(List);

@@ -2,8 +2,8 @@ import {
   FAVE_FAIL,
   FAVE_SUCCESS,
   LOAD_CARD_POST_SUCCESS,
-  LOAD_FAVE_FAIL,
-  LOAD_FAVE_SUCCESS,
+  LOAD_LIKES_FAIL,
+  LOAD_LIKES_SUCCESS,
   LOAD_FOLLOWER_FAIL,
   LOAD_FOLLOWER_SUCCESS,
   LOAD_FOLLOWING_FAIL,
@@ -34,6 +34,10 @@ import {
   REMOVE_FROM_PLAYLIST_FAIL,
   LOAD_GENRE_SUCCESS,
   LOAD_GENRE_FAIL,
+  REPOST_SUCCESS,
+  REPOST_FAIL,
+  LOAD_REPOSTS_SUCCESS,
+  LOAD_REPOSTS_FAIL,
 } from './types';
 
 import axios from 'axios';
@@ -446,17 +450,42 @@ export const load_likes =
         config
       );
       dispatch({
-        type: LOAD_FAVE_SUCCESS,
+        type: LOAD_LIKES_SUCCESS,
         payload: res.data,
         page: page,
       });
     } catch (err) {
       dispatch({
-        type: LOAD_FAVE_FAIL,
+        type: LOAD_LIKES_FAIL,
       });
     }
   };
 
+export const load_reposts =
+  (postId, page = 1) =>
+  async (dispatch) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    };
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/cloud/repost-list/${postId}/${page}/`,
+        config
+      );
+      dispatch({
+        type: LOAD_REPOSTS_SUCCESS,
+        payload: res.data,
+        page: page,
+      });
+    } catch (err) {
+      dispatch({
+        type: LOAD_REPOSTS_FAIL,
+      });
+    }
+  };
 export const load_follower =
   (postId, page = 1) =>
   async (dispatch) => {
@@ -540,6 +569,40 @@ export const favorite = (id) => async (dispatch) => {
   } else {
     dispatch({
       type: FAVE_FAIL,
+    });
+  }
+};
+
+export const repost = (id) => async (dispatch) => {
+  if (localStorage.getItem('access')) {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `JWT ${localStorage.getItem('access')}`,
+        Accept: 'application/json',
+      },
+    };
+    const user = localStorage.getItem('id');
+    const body = JSON.stringify({ user, id });
+
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/cloud/repost/`,
+        body,
+        config
+      );
+      dispatch({
+        type: REPOST_SUCCESS,
+        payload: res.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: REPOST_FAIL,
+      });
+    }
+  } else {
+    dispatch({
+      type: REPOST_FAIL,
     });
   }
 };

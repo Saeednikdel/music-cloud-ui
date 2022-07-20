@@ -2,8 +2,8 @@ import {
   FAVE_FAIL,
   FAVE_SUCCESS,
   LOAD_CARD_POST_SUCCESS,
-  LOAD_FAVE_FAIL,
-  LOAD_FAVE_SUCCESS,
+  LOAD_LIKES_FAIL,
+  LOAD_LIKES_SUCCESS,
   LOAD_FOLLOWER_FAIL,
   LOAD_FOLLOWER_SUCCESS,
   LOAD_FOLLOWING_FAIL,
@@ -33,6 +33,10 @@ import {
   REMOVE_FROM_PLAYLIST_FAIL,
   LOAD_GENRE_SUCCESS,
   LOAD_GENRE_FAIL,
+  REPOST_SUCCESS,
+  REPOST_FAIL,
+  LOAD_REPOSTS_SUCCESS,
+  LOAD_REPOSTS_FAIL,
 } from '../actions/types';
 
 const initialState = {
@@ -51,6 +55,8 @@ const initialState = {
   user_playlists: [],
   playlist: [],
   playlist_count: null,
+  reposts: [],
+  repost_count: 0,
 };
 
 export default function (state = initialState, action) {
@@ -246,12 +252,23 @@ export default function (state = initialState, action) {
           like: state.post.favorite ? state.post.like - 1 : state.post.like + 1,
         },
       };
+    case REPOST_SUCCESS:
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          reposted: !state.post.reposted,
+          repost_count: state.post.reposted
+            ? state.post.repost_count - 1
+            : state.post.repost_count + 1,
+        },
+      };
     case LOAD_PROFILE_SUCCESS:
       return {
         ...state,
         profile: payload,
       };
-    case LOAD_FAVE_SUCCESS:
+    case LOAD_LIKES_SUCCESS:
       if (page === 1) {
         return {
           ...state,
@@ -263,6 +280,20 @@ export default function (state = initialState, action) {
           ...state,
           likes: state.likes.concat(payload.likes),
           like_count: payload.count,
+        };
+      }
+    case LOAD_REPOSTS_SUCCESS:
+      if (page === 1) {
+        return {
+          ...state,
+          reposts: payload.reposts,
+          repost_count: payload.count,
+        };
+      } else {
+        return {
+          ...state,
+          reposts: state.reposts.concat(payload.reposts),
+          repost_count: payload.count,
         };
       }
     case LOAD_FOLLOWER_SUCCESS:
@@ -296,7 +327,7 @@ export default function (state = initialState, action) {
     case LOAD_POSTS_FAIL:
     case LOAD_USERS_FAIL:
     case LOAD_POST_FAIL:
-    case LOAD_FAVE_FAIL:
+    case LOAD_LIKES_FAIL:
     case LOAD_FOLLOWER_FAIL:
     case LOAD_FOLLOWING_FAIL:
     case LOAD_PROFILE_FAIL:

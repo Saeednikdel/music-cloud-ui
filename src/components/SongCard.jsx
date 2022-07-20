@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { MoreVert } from '@mui/icons-material';
+import { MoreVert, Cached } from '@mui/icons-material';
 import React from 'react';
 
 const SongCard = ({
@@ -30,15 +30,29 @@ const SongCard = ({
         />
       </Link>
       <div className="flex justify-between py-1 items-center">
-        <Link
-          dir="ltr"
-          to={`/u/${post.user_name}`}
-          className=" text-sm  px-2 text-gray-500 hover:cursor-pointer">
-          @
-          {post.user_name.length > 10
-            ? post.user_name.slice(0, 10) + '...'
-            : post.user_name}
-        </Link>
+        {post.repost_user_name ? (
+          <div className="flex">
+            <Link
+              dir="ltr"
+              to={`/u/${post.repost_user_name}`}
+              className=" text-sm  px-2 text-gray-500 hover:cursor-pointer">
+              <Cached fontSize="small" />@
+              {post.repost_user_name.length > 10
+                ? post.repost_user_name.slice(0, 10) + '...'
+                : post.repost_user_name}
+            </Link>
+          </div>
+        ) : (
+          <Link
+            dir="ltr"
+            to={`/u/${post.user_name}`}
+            className=" text-sm  px-2 text-gray-500 hover:cursor-pointer">
+            @
+            {post.user_name.length > 10
+              ? post.user_name.slice(0, 10) + '...'
+              : post.user_name}
+          </Link>
+        )}
         <MoreVert
           onClick={() =>
             openMenu(source, post.id, post.user_name, playlistid, post.url)
@@ -46,6 +60,7 @@ const SongCard = ({
           className="  hover:cursor-pointer"
         />
       </div>
+
       <div className=" py-1 px-2 h-20">
         <h1 className=" font-bold">
           {post.title.length > 15

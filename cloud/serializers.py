@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .models import Favorite, Post, PlayList, Notification, Genre
+from .models import Favorite, Post, PlayList, Notification, Genre, RePost
 from accounts.models import UserAccount
 
 
@@ -12,8 +12,43 @@ class PostsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'artist', 'album',
-                  'date', 'artwork', 'url', 'user_name', 'profile_name', 'user_image', 'user_verified', 'view', 'like')
+        fields = ('id', 'title', 'artist', 'artwork', 'url', 'date',
+                  'user_name', 'profile_name', 'user_image', 'user_verified')
+
+
+class RePostsSerializer(serializers.ModelSerializer):
+    user_name = serializers.ReadOnlyField(source='post.user.name')
+    profile_name = serializers.ReadOnlyField(
+        source='post.user.profile_name')
+    user_image = serializers.ImageField(source='post.user.image')
+    user_verified = serializers.BooleanField(
+        source='post.user.is_verified')
+    id = serializers.IntegerField(source='post.id')
+    title = serializers.ReadOnlyField(source='post.title')
+    artist = serializers.ReadOnlyField(source='post.artist')
+    artwork = serializers.ImageField(source='post.artwork')
+    url = serializers.FileField(source='post.url')
+    repost_user_name = serializers.ReadOnlyField(source='repost_user.name')
+
+    class Meta:
+        model = RePost
+        fields = ('id', 'title', 'artist', 'artwork', 'url', 'date',
+                  'user_name', 'profile_name', 'user_image', 'user_verified', 'repost_user_name')
+
+
+class SummarySerializer(serializers.Serializer):
+    """ Serializer that renders each instance with its own specific serializer """
+
+    @classmethod
+    def get_serializer(cls, model):
+        if model == Post:
+            return PostsSerializer
+        elif model == RePost:
+            return RePostsSerializer
+
+    def to_representation(self, instance):
+        serializer = self.get_serializer(instance.__class__)
+        return serializer(instance, context=self.context).data
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -24,7 +59,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'artist', 'album', 'genre',
+        fields = ('id', 'title', 'artist', 'album', 'genre', 'repost_count',
                   'lyrics', 'date', 'artwork', 'url', 'user_name', 'profile_name', 'user_image', 'user_verified', 'view', 'like')
 
 
@@ -38,7 +73,8 @@ class NewPostSerializer(serializers.ModelSerializer):
 class EditPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ('id', 'title', 'artist', 'genre', 'album', 'lyrics', 'artwork')
+        fields = ('id', 'title', 'artist', 'genre',
+                  'album', 'lyrics', 'artwork')
 
 
 class PlayListSerializer(serializers.ModelSerializer):
@@ -89,6 +125,18 @@ class UserDetailSerializer(serializers.ModelSerializer):
         model = UserAccount
         fields = ('id', 'profile_name', 'followers', 'header', 'is_verified',
                   'followings', 'email', 'name', 'image', 'join_date', 'bio')
+
+
+class RepostListSerializer(serializers.ModelSerializer):
+    name = serializers.ReadOnlyField(source='repost_user.name')
+    image = serializers.ImageField(source='repost_user.image')
+    profile_name = serializers.CharField(source='repost_user.profile_name')
+    is_verified = serializers.BooleanField(source='repost_user.is_verified')
+
+    class Meta:
+        model = RePost
+        fields = ('repost_user', 'name', 'image',
+                  'profile_name', 'is_verified')
 
 
 class LikeSerializer(serializers.ModelSerializer):

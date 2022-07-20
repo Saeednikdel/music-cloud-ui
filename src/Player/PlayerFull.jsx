@@ -8,10 +8,11 @@ import {
   SkipPrevious,
   VolumeOff,
   VolumeUp,
+  Cached,
 } from '@mui/icons-material';
 import { Link, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import { favorite, load_likes, load_post } from '../actions/cloud';
+import { favorite, load_likes, load_post, repost } from '../actions/cloud';
 
 import MoreMenu from '../components/MoreMenu';
 import OutsideClickHandler from 'react-outside-click-handler';
@@ -36,6 +37,7 @@ const PlayerFull = ({
   isAuthenticated,
   post,
   openMenu,
+  repost,
 }) => {
   const { id } = useParams();
   const [openPopup, setOpenPopup] = useState(false);
@@ -101,6 +103,13 @@ const PlayerFull = ({
       setOpenPopup(true);
     } else {
       favorite(currentSong.id);
+    }
+  };
+  const handleRepost = () => {
+    if (!isAuthenticated) {
+      setOpenPopup(true);
+    } else {
+      repost(currentSong.id);
     }
   };
   return (
@@ -170,9 +179,8 @@ const PlayerFull = ({
             <div className="flex justify-center">
               <SkipPrevious
                 fontSize="large"
-                className={`hover:cursor-pointer ${
-                  now_playing_count < 1 && 'text-gray-500'
-                }`}
+                color={now_playing_count < 1 ? 'disabled' : 'inherit'}
+                className="hover:cursor-pointer"
                 onClick={skipBack}
               />
               {isplaying ? (
@@ -189,10 +197,9 @@ const PlayerFull = ({
                 />
               )}
               <SkipNext
+                color={now_playing_count < 1 ? 'disabled' : 'inherit'}
                 fontSize="large"
-                className={`hover:cursor-pointer ${
-                  now_playing_count < 1 && 'text-gray-500'
-                }`}
+                className="hover:cursor-pointer"
                 onClick={skiptoNext}
               />
             </div>
@@ -219,6 +226,7 @@ const PlayerFull = ({
                 </div>
                 {post && post.favorite ? (
                   <Favorite
+                    color="error"
                     onClick={handleLike}
                     style={{ fontSize: 28 }}
                     className=" hover:cursor-pointer"
@@ -249,8 +257,26 @@ const PlayerFull = ({
                       ))}
                 </Link>
                 {post && (
-                  <Link to={`/list/like/${post.id}`} className=" text-xl mx-1">
+                  <Link
+                    to={`/list/like/${post.id}`}
+                    className={`text-xl mx-1 ${
+                      post.favorite && 'text-red-600'
+                    }`}>
                     {post.like}
+                  </Link>
+                )}
+                <Cached
+                  onClick={handleRepost}
+                  className="mx-2 hover:cursor-pointer"
+                  color={post.reposted ? 'success' : 'inherit'}
+                />
+                {post && (
+                  <Link
+                    to={`/list/reposts/${post.id}`}
+                    className={`text-xl mx-1 ${
+                      post.reposted && 'text-green-700'
+                    }`}>
+                    {post.repost_count}
                   </Link>
                 )}
               </div>
@@ -316,4 +342,5 @@ export default connect(mapStateToProps, {
   load_post,
   load_likes,
   favorite,
+  repost,
 })(PlayerFull);
