@@ -9,7 +9,14 @@ import { useNavigate, Link, useLocation } from 'react-router-dom';
 import Popup from '../components/Popup';
 import BtnPrimary from '../components/BtnPrimary';
 import OutsideClickHandler from 'react-outside-click-handler';
-import { SearchSharp, ArrowBack, ArrowForward } from '@mui/icons-material';
+import {
+  SearchSharp,
+  ArrowBack,
+  ArrowForward,
+  Person,
+  MusicNote,
+  FilterList,
+} from '@mui/icons-material';
 import translate from '../translate';
 const Search = ({
   posts,
@@ -85,7 +92,7 @@ const Search = ({
             </button>
           </form>
           <BtnPrimary onClick={() => setOpenPopup(!openPopup)}>
-            {translate('filter')}
+            <FilterList />
           </BtnPrimary>
         </div>
         <div className="flex items-center border-t border-gray-300 dark:border-gray-500">
@@ -94,7 +101,7 @@ const Search = ({
             className={`${
               location === 'search' && 'border-b-2 border-blue-600'
             } p-3 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 flex-1 text-center`}>
-            {translate('tracks')}
+            <MusicNote color={location === 'search' ? 'primary' : 'inherit'} />
           </Link>
 
           <Link
@@ -102,7 +109,7 @@ const Search = ({
             className={`${
               location === 'users' && 'border-b-2 border-blue-600'
             } p-3 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 flex-1  text-center`}>
-            {translate('users')}
+            <Person color={location === 'users' ? 'primary' : 'inherit'} />
           </Link>
         </div>
       </div>

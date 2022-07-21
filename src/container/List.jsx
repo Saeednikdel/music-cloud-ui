@@ -9,6 +9,7 @@ import {
 
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { connect } from 'react-redux';
+import { Verified } from '@mui/icons-material';
 
 const List = ({
   likes,
@@ -85,10 +86,7 @@ const List = ({
                 </div>
                 <h1 className=" mx-2">@{item.name}</h1>
                 {item.is_verified && (
-                  <img
-                    src={`${process.env.REACT_APP_API_URL}/media/verified.png`}
-                    className="w-4 h-4"
-                  />
+                  <Verified style={{ fontSize: 15 }} color="primary" />
                 )}
               </div>
             </Link>

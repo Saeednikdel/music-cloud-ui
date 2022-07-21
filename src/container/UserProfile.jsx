@@ -1,6 +1,12 @@
 import { Link, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-
+import {
+  MusicNote,
+  PlaylistPlay,
+  Favorite,
+  CalendarMonth,
+  Verified,
+} from '@mui/icons-material';
 import BtnPrimary from '../components/BtnPrimary';
 import BtnSecondary from '../components/BtnSecondary';
 import UserFavorite from '../components/UserFavorite';
@@ -60,10 +66,10 @@ const UserProfile = ({
                 <div className=" flex items-center">
                   <h1 className=" text-lg font-bold">{profile.profile_name}</h1>
                   {profile.is_verified && (
-                    <img
-                      alt="verify"
-                      src={`${process.env.REACT_APP_API_URL}/media/verified.png`}
-                      className="h-4 w-4 mx-4"
+                    <Verified
+                      className="mx-2"
+                      fontSize="small"
+                      color="primary"
                     />
                   )}
                 </div>
@@ -71,8 +77,8 @@ const UserProfile = ({
                   @{profile.name}
                 </h1>
                 <h1 className=" text-gray-500 dark:text-gray-400">
-                  {translate('joined')} :{' '}
-                  {profile && profile.join_date.slice(0, 7)}
+                  <CalendarMonth fontSize="small" />
+                  {'  '} {profile && profile.join_date.slice(0, 7)}
                 </h1>
               </div>
               <div className="flex flex-1 justify-end">
@@ -110,21 +116,23 @@ const UserProfile = ({
               className={`${
                 tab === 'tracks' && 'border-b-2 border-blue-600'
               } p-4 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 flex-1`}>
-              {translate('tracks')}
+              <MusicNote color={tab === 'tracks' ? 'primary' : 'inherit'} />
             </button>
             <button
               onClick={() => setTab('playlists')}
               className={`${
                 tab === 'playlists' && 'border-b-2 border-blue-600'
               } p-4 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 flex-1`}>
-              {translate('playlists')}
+              <PlaylistPlay
+                color={tab === 'playlists' ? 'primary' : 'inherit'}
+              />
             </button>
             <button
               onClick={() => setTab('favorite')}
               className={`${
                 tab === 'favorite' && 'border-b-2 border-blue-600'
               } p-4 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 flex-1`}>
-              {translate('likes')}
+              <Favorite color={tab === 'favorite' ? 'primary' : 'inherit'} />
             </button>
           </div>
         </div>

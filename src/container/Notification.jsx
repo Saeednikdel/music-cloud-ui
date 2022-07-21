@@ -22,7 +22,7 @@ const Notification = ({
   };
   if (isAuthenticated === false) navigate('/login');
   return (
-    <>
+    <div className="pb-24">
       {notification && (
         <InfiniteScroll
           dataLength={notification.length}
@@ -39,7 +39,7 @@ const Notification = ({
           ))}
         </InfiniteScroll>
       )}
-    </>
+    </div>
   );
 };
 

@@ -4,7 +4,14 @@ import { connect } from 'react-redux';
 import { load_users } from '../actions/cloud';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { SearchSharp, ArrowBack, ArrowForward } from '@mui/icons-material';
+import {
+  SearchSharp,
+  ArrowBack,
+  ArrowForward,
+  Person,
+  MusicNote,
+  Verified,
+} from '@mui/icons-material';
 import translate from '../translate';
 
 const UsersList = ({ users, load_users, count }) => {
@@ -63,14 +70,14 @@ const UsersList = ({ users, load_users, count }) => {
             className={`${
               location === 'search' && 'border-b-2 border-blue-600'
             } p-3 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 flex-1 text-center`}>
-            {translate('tracks')}
+            <MusicNote color={location === 'search' ? 'primary' : 'inherit'} />
           </Link>
           <Link
             to="/users"
             className={`${
               location === 'users' && 'border-b-2 border-blue-600'
             } p-3 hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 flex-1  text-center`}>
-            {translate('users')}
+            <Person color={location === 'users' ? 'primary' : 'inherit'} />
           </Link>
         </div>
       </div>
@@ -105,11 +112,7 @@ const UsersList = ({ users, load_users, count }) => {
                   @{item.name}
                 </h1>
                 {item.is_verified && (
-                  <img
-                    alt="badge"
-                    src={`${process.env.REACT_APP_API_URL}/media/verified.png`}
-                    className="w-4 h-4"
-                  />
+                  <Verified style={{ fontSize: 15 }} color="primary" />
                 )}
               </div>
             </Link>

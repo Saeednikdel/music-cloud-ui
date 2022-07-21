@@ -1,5 +1,10 @@
 import React from 'react';
-import { Favorite, PersonAddRounded, Cached } from '@mui/icons-material';
+import {
+  Favorite,
+  PersonAddRounded,
+  Cached,
+  Verified,
+} from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import translate from '../translate';
 
@@ -11,7 +16,7 @@ export default function NotifCard({ notif }) {
           ? `/u/${notif.name}/`
           : `/p/${notif.post}/`
       }>
-      <div className="flex items-center p-2">
+      <div className="flex items-center p-2 border-b border-gray-300 dark:border-gray-700">
         {notif.kind === 'liked your post' && <Favorite color="error" />}
         {notif.kind === 'followed you' && <PersonAddRounded color="primary" />}
         {notif.kind === 'reposted your post' && <Cached color="success" />}
@@ -37,10 +42,7 @@ export default function NotifCard({ notif }) {
                 @{notif.name}
               </p>
               {notif.is_verified && (
-                <img
-                  src={`${process.env.REACT_APP_API_URL}/media/verified.png`}
-                  className="w-3 h-3"
-                />
+                <Verified style={{ fontSize: 15 }} color="primary" />
               )}
               <p className="mx-1">{translate(notif.kind)}</p>
             </div>
